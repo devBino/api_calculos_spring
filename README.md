@@ -11,5 +11,5 @@
   <li>Atender ao modelo de maturidade de Richardson em Apis Rest</li>
   <li>Manter um versionamento da Api em v1, v2, v3 e etc...</li>
   <li>Simular um processamento dos cálculos após os métodos de Post e Update</li>
-  <li>Automatizar o principal fluxo no Postman para testes da Api</li>
+  <li>Automatizar o principal fluxo no Postman para testes da Api</li> 
 </ul>
