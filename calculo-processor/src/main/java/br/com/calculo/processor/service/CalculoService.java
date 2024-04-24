@@ -86,6 +86,9 @@ public class CalculoService {
 
         }
 
+        anexo.setStatus('F');
+        anexoRepository.save(anexo);
+
         System.out.println("Iniciando processamento de " + anexo.getName() + " " + LocalDateTime.now());
 
     }
