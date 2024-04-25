@@ -1,4 +1,4 @@
-package br.com.calculo.processor.model;
+package br.com.api.calculos.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Entidade do banco de dados representando anexos
+ */
 @Entity
 @Table(name = "tb_anexos")
 public class MAnexo implements Serializable {
@@ -48,7 +51,7 @@ public class MAnexo implements Serializable {
     public String getContentType() {
         return contentType;
     }
-
+    
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
@@ -77,5 +80,4 @@ public class MAnexo implements Serializable {
         this.status = status;
     }
     
-
 }

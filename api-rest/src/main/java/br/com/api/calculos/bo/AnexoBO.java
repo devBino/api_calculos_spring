@@ -1,33 +1,23 @@
-package br.com.calculo.processor.model;
+package br.com.api.calculos.bo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "tb_anexos")
-public class MAnexo implements Serializable {
+/**
+ * BO para encapsular dados da entidade anexo
+ */
+public class AnexoBO implements Serializable {
     
     public static final Long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "name", unique = true, length = 100)
     private String name;
     private String contentType;
     private byte[] data;
     private LocalDateTime createdAt;
     private Character status;
 
-    public MAnexo(){}
+    public AnexoBO(){}
 
     public Long getId() {
         return id;
@@ -76,6 +66,5 @@ public class MAnexo implements Serializable {
     public void setStatus(Character status) {
         this.status = status;
     }
-    
 
 }
