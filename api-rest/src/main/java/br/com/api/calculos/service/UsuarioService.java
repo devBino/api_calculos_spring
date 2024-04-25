@@ -19,6 +19,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository repository;
+
+    @Autowired
+    private UsuarioConverter converter;
     
     public TokenBO generateToken(final String user, final String password){
 
@@ -40,7 +43,7 @@ public class UsuarioService {
             return new UsuarioBO();
         }
 
-        return UsuarioConverter.toBo(mUsuario);
+        return converter.toBo(mUsuario);
 
     }
 

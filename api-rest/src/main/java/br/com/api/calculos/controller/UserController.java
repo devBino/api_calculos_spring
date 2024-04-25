@@ -13,7 +13,7 @@ import br.com.api.calculos.service.UsuarioService;
 
 /**
  * Camada de controller da entidade usuario, recebe as requisições 
- * e enviar para camada de service do usuario
+ * e envia para camada de service do usuario
  */
 @RestController
 @RequestMapping("/usuarios")

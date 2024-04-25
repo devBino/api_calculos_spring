@@ -28,6 +28,9 @@ public class MUsuario implements Serializable {
     @Column(name = "user", unique = true, length = 30)
     private String user;
 
+    /**
+     * Coluna com tamanho 150 por conta armazenar uma hash da senha
+     */
     @Column(name = "password", unique = true, length = 150)
     private String password;
 

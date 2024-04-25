@@ -3,7 +3,7 @@ package br.com.api.calculos.bo;
 import java.io.Serializable;
 
 /**
- * BO para encapsular atributos do Token gerado
+ * BO para encapsular dados do Token gerado
  * que será devolvido nas rotinas de autenticação
  */
 public class TokenBO implements Serializable {
