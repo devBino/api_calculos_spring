@@ -2,6 +2,9 @@ package br.com.api.calculos.bo;
 
 import java.io.Serializable;
 
+/**
+ * BO para encapsular dados da entidade calculo historico
+ */
 public class CalculoHistoricoBO implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -44,7 +47,5 @@ public class CalculoHistoricoBO implements Serializable {
     public void setTipo(Byte tipo) {
         this.tipo = tipo;
     }
-
     
-
 }

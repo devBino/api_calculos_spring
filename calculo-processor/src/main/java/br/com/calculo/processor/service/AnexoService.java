@@ -8,34 +8,34 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import br.com.calculo.processor.bo.MensagemProcessBO;
+import br.com.calculo.processor.model.MAnexo;
 import br.com.calculo.processor.model.MCalculo;
 import br.com.calculo.processor.model.MCalculoHistorico;
-import br.com.calculo.processor.repository.CalculoHistReporitory;
+import br.com.calculo.processor.repository.AnexoRepository;
 import br.com.calculo.processor.repository.CalculoRepository;
 import br.com.calculo.processor.type.MensagemHistoricoType;
 
 /**
  * Serviço agendado para processar calculos 
- * de maneira individual, recuperando pelo estado 
- * 'A' - Aguardando Processamento
+ * através de arquivos anexos recebidos pela api
  */
 @Service
-public class CalculoService implements RegistroService {
+public class AnexoService implements RegistroService {
     
-    private MCalculo calculo;
+    private MAnexo anexo;
+
+    @Autowired
+    private AnexoRepository anexoRepository;
 
     @Autowired
     private CalculoRepository calculoRepository;
 
-    @Autowired
-    private CalculoHistReporitory histRepository;
-
     private List<MensagemProcessBO> mensagens;
 
     @Scheduled(fixedRate = 30000)
-    public void processarCalculo(){
+    public void processarAnexo(){
         
-        calculo = null;
+        anexo = null;
         mensagens = new ArrayList<>();
 
         if(!getRegistro()){
@@ -43,41 +43,68 @@ public class CalculoService implements RegistroService {
         }
 
         mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
-            "Calculo " + calculo.getId() + " identificado", calculo.getId()));
+            "Anexo " + anexo.getId() + " identificado, iniciando processo", anexo.getId()));
 
         prepararRegistro();
         processarRegistro();
-        gerarHistoricos();
 
     }
 
     @Override
-    public boolean getRegistro(){
-        calculo = calculoRepository.findByEstado('A');
-        return calculo != null;
-
+    public boolean getRegistro() {
+        anexo = anexoRepository.getLastFileWaitingProcess('A');
+        return anexo != null;
     }
 
     @Override
     public void prepararRegistro(){
-        calculo.setEstado('P');
-        calculoRepository.save(calculo);
+        anexo.setStatus('P');
+        anexoRepository.save(anexo);
         mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
-            "Calculo em Processamento", calculo.getId()));
+            "Anexo em Processamento", anexo.getId()));
     }
 
     @Override
     public void processarRegistro(){
-        aplicarCalculo(calculo);
-        calculoRepository.save(calculo);
+        
+        final String dadosCsv = new String(anexo.getData());
+        final String[] linhasCsv = dadosCsv.split("\n");
+
         mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
-            "Finalizado Processo", calculo.getId()));
+            "Processando " + linhasCsv.length + " Linha(s) do anexo", anexo.getId()));
+
+        for(String lin : linhasCsv){
+            
+            if( lin.toLowerCase().startsWith("n1") ){
+                continue;
+            }
+            
+            String[] valoresCamposCsv = lin.split(";");
+
+            MCalculo mCalc = new MCalculo();
+            
+            mCalc.setNumero1(Double.valueOf(valoresCamposCsv[0]));
+            mCalc.setNumero2(Double.valueOf(valoresCamposCsv[1]));
+            mCalc.setSinal(valoresCamposCsv[2].charAt(0));
+
+            aplicarCalculo(mCalc);
+
+            MCalculo calculoSalvo = calculoRepository.save(mCalc);
+
+            mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+                "Calculo ID = " + calculoSalvo.getId() + " Finalizado", anexo.getId()));
+
+        }
+
+        anexo.setStatus('F');
+        anexoRepository.save(anexo);
+
+        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+            "Linhas do Anexo Processadas Com Sucesso", anexo.getId()));
+
     }
 
     private void aplicarCalculo(final MCalculo pMCalculo){
-
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
-            "Calculando parametros", calculo.getId()));
 
         if( pMCalculo.getSinal() == '+' ){
             pMCalculo.setResultado( pMCalculo.getNumero1() + pMCalculo.getNumero2() );
@@ -101,27 +128,15 @@ public class CalculoService implements RegistroService {
                 
         pMCalculo.setDescricao(sb.toString());
         
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
-            "Calculo [" + calculo.getDescricao() + "] bem sucedido", calculo.getId()));
-
         pMCalculo.setEstado('F');
 
     }
 
     private void gerarHistoricos(){
-
         for(MensagemProcessBO bo : mensagens){
-
             MCalculoHistorico hist = new MCalculoHistorico();
-
-            hist.setDescricao(bo.getMensagem());
-            hist.setTipo(bo.getCodigoTipo());
-            hist.setCalculo(calculo);
-
-            histRepository.save(hist);
-            
         }
-
     }
 
 }
+
