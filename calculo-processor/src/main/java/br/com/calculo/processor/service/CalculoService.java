@@ -1,16 +1,26 @@
 package br.com.calculo.processor.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import br.com.calculo.processor.bo.MensagemProcessBO;
 import br.com.calculo.processor.model.MAnexo;
 import br.com.calculo.processor.model.MCalculo;
+import br.com.calculo.processor.model.MCalculoHistorico;
 import br.com.calculo.processor.repository.AnexoRepository;
+import br.com.calculo.processor.repository.CalculoHistReporitory;
 import br.com.calculo.processor.repository.CalculoRepository;
+import br.com.calculo.processor.type.MensagemHistoricoType;
 
+/**
+ * Serviço agendado para processar calculos 
+ * através de arquivos anexos recebidos pela api
+ */
 @Service
 public class CalculoService {
     
@@ -22,10 +32,16 @@ public class CalculoService {
     @Autowired
     private CalculoRepository calculoRepository;
 
-    @Scheduled(fixedRate = 15000)
+    @Autowired
+    private CalculoHistReporitory histRepository;
+
+    private List<MensagemProcessBO> mensagens;
+
+    @Scheduled(fixedRate = 30000)
     public void processarCalculos(){
         
         anexo = null;
+        mensagens = new ArrayList<>();
 
         if(!getRegistro()){
             System.out.println("Aguardando Novo Anexo " + LocalDateTime.now());
@@ -33,7 +49,8 @@ public class CalculoService {
         }
 
         System.out.println("Novo Anexo Identificado [" + anexo.getName() + "]"  + LocalDateTime.now());
-        
+        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, "Anexo identificado, iniciando processo"));
+
         prepararCalculo();
 
         processarCalculosAnexo();
@@ -52,6 +69,7 @@ public class CalculoService {
         anexo.setStatus('P');
         anexoRepository.save(anexo);
         System.out.println("Calculo Estado mudado para \"P\"");
+        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, "Estado do anexo alterado para P - Em Processamento"));
     }
 
     private void processarCalculosAnexo(){
@@ -60,6 +78,8 @@ public class CalculoService {
 
         final String dadosCsv = new String(anexo.getData());
         final String[] linhasCsv = dadosCsv.split("\n");
+
+        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, "Processando " + linhasCsv.length + " Linha(s) do anexo"));
 
         for(String lin : linhasCsv){
             
@@ -79,17 +99,21 @@ public class CalculoService {
 
             aplicarCalculo(mCalc);
 
-            calculoRepository.save(mCalc);
+            MCalculo calculoSalvo = calculoRepository.save(mCalc);
 
             System.out.println("Calculo Realizado => " + mCalc.getDescricao());
             System.out.println("Linha Salva com sucesso");
+
+            mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, "Calculo Processado com sucesso ID = " + calculoSalvo.getId()));
 
         }
 
         anexo.setStatus('F');
         anexoRepository.save(anexo);
 
-        System.out.println("Iniciando processamento de " + anexo.getName() + " " + LocalDateTime.now());
+        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, "Linhas processadas e estado do anexo alterado para F - Finalizado"));
+
+        System.out.println("Finalizando processamento de " + anexo.getName() + " " + LocalDateTime.now());
 
     }
 
@@ -119,6 +143,12 @@ public class CalculoService {
         
         pMCalculo.setEstado('F');
 
+    }
+
+    private void gerarHistoricos(){
+        for(MensagemProcessBO bo : mensagens){
+            MCalculoHistorico hist = new MCalculoHistorico();
+        }
     }
 
 }

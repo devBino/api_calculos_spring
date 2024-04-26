@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.api.calculos.bo.CalculoHistoricoBO;
@@ -32,8 +34,10 @@ public class CalculoHistoricoService {
     @Autowired
     private CalculoHistoricoConverter converter;
 
-    public List<CalculoHistoricoBO> listar(){
-        return repositoryCalcHist.findAll().stream().map(converter::toBo).collect(Collectors.toList());
+    public Page<CalculoHistoricoBO> listar(final Pageable paginacao){
+        return repositoryCalcHist
+            .findAll(paginacao)
+            .map(converter::toBo);
     }
 
     public List<CalculoHistoricoBO> listarPorCalculoId(final Long id){
