@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.calculos.bo.CalculoBO;
 import br.com.api.calculos.service.CalculoService;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 /**
  * Camada de controller da entidade calculo, recebe as requisições 
@@ -27,9 +29,22 @@ public class CalculoController {
     @Autowired
     private CalculoService service;
 
-    @PostMapping(value = "/criar", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(
+        value = "/criar", 
+        consumes = MediaType.APPLICATION_JSON_VALUE, 
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public CalculoBO criar(@RequestBody CalculoBO body){
         return service.criar(body);
+    }
+
+    @PutMapping(
+        value = "/atualizar", 
+        consumes = MediaType.APPLICATION_JSON_VALUE, 
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public CalculoBO atualizar(@RequestBody CalculoBO body){
+        return service.atualizar(body);
     }
 
     @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)

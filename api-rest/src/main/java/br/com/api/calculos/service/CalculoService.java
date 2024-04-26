@@ -38,6 +38,28 @@ public class CalculoService {
 
     }
 
+    public CalculoBO atualizar(CalculoBO body){
+
+        final Optional<MCalculo> mdCandidato = repository.findById(body.getId());
+
+        if( !mdCandidato.isPresent() ){
+            return new CalculoBO();
+        }
+
+        final MCalculo mCalculo = mdCandidato.get();
+
+        mCalculo.setNumero1( !Objects.isNull(body.getNumero1()) ? body.getNumero1() : mCalculo.getNumero1() );
+        mCalculo.setNumero2( !Objects.isNull(body.getNumero2()) ? body.getNumero2() : mCalculo.getNumero2() );
+        mCalculo.setSinal( !Objects.isNull(body.getSinal()) ? body.getSinal() : mCalculo.getSinal() );
+
+        mCalculo.setDescricao("Aguardando Processamento");
+        mCalculo.setResultado(0.0);
+        mCalculo.setEstado('A');
+
+        return converter.toBo((MCalculo) repository.save(mCalculo));
+
+    }
+
     public List<CalculoBO> listar(){
         
         return repository
