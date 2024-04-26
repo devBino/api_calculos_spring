@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.api.calculos.bo.TokenBO;
 import br.com.api.calculos.service.AuthService;
 
+/**
+ * Controller para autenticar usuario e gerar token
+ */
 @RestController
 @RequestMapping("/auth")
 public class Auth {

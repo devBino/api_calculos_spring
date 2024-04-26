@@ -15,7 +15,7 @@ import java.util.Base64;
 import java.util.Objects;
 
 /**
- * Serviço que response a camada de controller
+ * Serviço que responde a camada de controller
  * para autenticar usuário e gerar um token
  */
 @Service
