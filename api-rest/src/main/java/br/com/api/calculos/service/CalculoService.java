@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import br.com.api.calculos.bo.CalculoBO;
 import br.com.api.calculos.converter.CalculoConverter;
@@ -60,13 +62,13 @@ public class CalculoService {
 
     }
 
-    public List<CalculoBO> listar(){
+    public Page<CalculoBO> listar(final Pageable paginacao){
         
-        return repository
-            .findAll()
-            .stream()
-            .map(converter::toBo)
-            .collect(Collectors.toList());
+        final Page<CalculoBO> calculos = repository
+            .findAll(paginacao)
+            .map(converter::toBo);
+
+        return calculos;
 
     }
 
@@ -75,7 +77,7 @@ public class CalculoService {
         SinalCalculoType sinalCalcType = SinalCalculoType.fromIndice(sinal);
 
         if(Objects.isNull(sinalCalcType)){
-            return List.of();
+            sinalCalcType = SinalCalculoType.ADICAO;
         }
 
         return repository
