@@ -17,6 +17,6 @@ public interface UsuarioRepository extends JpaRepository<MUsuario, Long> {
     MUsuario findUserByCredentials(@Param("user") String user, @Param("password") String password);
 
     @Query("from MUsuario where user = :user")
-    MUsuario findUserByUserName(@Param("user") String user);
+    MUsuario findUserByDescUser(@Param("user") String user);
     
 }
