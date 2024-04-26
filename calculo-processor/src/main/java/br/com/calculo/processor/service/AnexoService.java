@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import br.com.calculo.processor.bo.MensagemProcessBO;
 import br.com.calculo.processor.model.MAnexo;
 import br.com.calculo.processor.model.MCalculo;
-import br.com.calculo.processor.model.MCalculoHistorico;
 import br.com.calculo.processor.repository.AnexoRepository;
 import br.com.calculo.processor.repository.CalculoRepository;
 import br.com.calculo.processor.type.MensagemHistoricoType;
@@ -130,12 +129,6 @@ public class AnexoService implements RegistroService {
         
         pMCalculo.setEstado('F');
 
-    }
-
-    private void gerarHistoricos(){
-        for(MensagemProcessBO bo : mensagens){
-            MCalculoHistorico hist = new MCalculoHistorico();
-        }
     }
 
 }
