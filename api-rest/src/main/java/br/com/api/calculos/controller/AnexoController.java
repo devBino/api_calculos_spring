@@ -1,5 +1,8 @@
 package br.com.api.calculos.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -25,6 +28,17 @@ public class AnexoController {
     
     @Autowired
     private AnexoService service;
+
+    @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<AnexoBO>> listar(
+        @RequestParam(value = "page", defaultValue = "1") Integer page,
+        @RequestParam(value = "limit", defaultValue = "10") Integer limit
+    ){
+
+        final Pageable paginacao = PageRequest.of(--page, limit);
+        return ResponseEntity.ok(service.listar(paginacao));
+
+    }
 
     @PostMapping(
         value = "/upload/csv",

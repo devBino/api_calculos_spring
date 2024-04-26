@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,16 @@ public class AnexoService {
 
     @Autowired
     private AnexoConverter converter;
+
+    public Page<AnexoBO> listar(final Pageable paginacao){
+
+        final Page<AnexoBO> anexos = repository
+            .findAll(paginacao)
+            .map(converter::toBO);
+
+        return anexos;
+
+    }
 
     public AnexoBO uploadCsv(final MultipartFile file){
         
