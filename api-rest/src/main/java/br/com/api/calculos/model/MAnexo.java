@@ -2,12 +2,15 @@ package br.com.api.calculos.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -29,6 +32,9 @@ public class MAnexo implements Serializable {
     private byte[] data;
     private LocalDateTime createdAt;
     private Character status;
+
+    @OneToMany(mappedBy = "anexo", cascade = CascadeType.ALL)
+    private List<MAnexoHistorico> historicos;
 
     public MAnexo(){}
 
@@ -80,4 +86,8 @@ public class MAnexo implements Serializable {
         this.status = status;
     }
     
+    public List<MAnexoHistorico> getHistoricos() {
+        return historicos;
+    }
+
 }
