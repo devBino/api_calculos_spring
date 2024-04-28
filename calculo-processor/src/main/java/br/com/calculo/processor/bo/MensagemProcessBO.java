@@ -3,18 +3,21 @@ package br.com.calculo.processor.bo;
 import br.com.calculo.processor.type.MensagemHistoricoType;
 
 /**
- * Encapsula dados da mensagem que deve 
- * ser criada em {@code MCalculoHistorico} e
- * vinculada em {@code MCalculo}
+ * Encapsula dados das mensagem que devem 
+ * ser criadas durante processamento de calculos individuais
+ * ou anexos recebidos pela api
  */
 public class MensagemProcessBO {
     
     private byte codigoTipo;
     private String mensagem;
+    private long registroId;
 
-    public MensagemProcessBO(final MensagemHistoricoType histType, final String mensagem){
+    public MensagemProcessBO(final MensagemHistoricoType histType, 
+        final String mensagem, final long registroId){
         this.codigoTipo = histType.getCodigoTipoMensagem();
         this.mensagem = mensagem;
+        this.registroId = registroId;
     }
 
     public byte getCodigoTipo() {
@@ -31,6 +34,14 @@ public class MensagemProcessBO {
     
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
+    }
+
+    public long getRegistroId() {
+        return registroId;
+    }
+    
+    public void setRegistroId(int registroId) {
+        this.registroId = registroId;
     }
 
 }

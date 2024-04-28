@@ -18,8 +18,8 @@ import br.com.api.calculos.bo.CalculoHistoricoBO;
 import br.com.api.calculos.service.CalculoHistoricoService;
 
 /**
- * Camada de controller da entidade calculo, recebe as requisições 
- * e envia para camada de service de calculo.
+ * Camada de controller da entidade calculo hisotirico, recebe as requisições 
+ * e envia para camada de service de calculo historico.
  * 
  * Na API essa entidade é apenas lida, a inserção e updates 
  * serão realizadas por outro processo, durante processamento dos calculos.
@@ -31,13 +31,13 @@ public class CalculoHistoricoController {
     @Autowired
     private CalculoHistoricoService service;
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<CalculoHistoricoBO>> listar(
         @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "limit", defaultValue = "10") Integer limit
     ){
         
-        final Pageable paginacao = PageRequest.of(page, limit);
+        final Pageable paginacao = PageRequest.of(--page, limit);
         return ResponseEntity.ok(service.listar(paginacao));
 
     }

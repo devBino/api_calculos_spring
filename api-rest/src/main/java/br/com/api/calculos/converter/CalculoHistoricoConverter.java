@@ -6,8 +6,8 @@ import br.com.api.calculos.bo.CalculoHistoricoBO;
 import br.com.api.calculos.model.MCalculoHistorico;
 
 /**
- * Converte entidade CalculoHistorico para CalculoHistoricoBO
- * para leitura na API
+ * Converte BO para Model e Model para BO
+ * em representações de objetos da entidade calculo historico
  */
 @Component
 public class CalculoHistoricoConverter {
