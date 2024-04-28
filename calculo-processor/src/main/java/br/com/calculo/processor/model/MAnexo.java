@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Entidade do banco de dados representando anexos
+ */
 @Entity
 @Table(name = "tb_anexos")
 public class MAnexo implements Serializable {

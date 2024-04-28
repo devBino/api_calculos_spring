@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import br.com.calculo.processor.model.MAnexo;
 
+/**
+ * Repositorio para manipular entidade anexo
+ */
 @Repository
 public interface AnexoRepository extends JpaRepository<MAnexo, Long> {
 
