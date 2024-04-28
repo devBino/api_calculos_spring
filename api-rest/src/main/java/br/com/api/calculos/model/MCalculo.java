@@ -2,11 +2,15 @@ package br.com.api.calculos.model;
 
 import java.io.Serializable;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -39,6 +43,9 @@ public class MCalculo implements Serializable {
 
     @Column(name = "estado", nullable = false)
     private Character estado;
+
+    @OneToMany(mappedBy = "calculo", cascade = CascadeType.ALL)
+    private List<MCalculoHistorico> historicos;
 
     public MCalculo(){}
 
@@ -96,6 +103,10 @@ public class MCalculo implements Serializable {
 
     public void setEstado(Character estado) {
         this.estado = estado;
+    }
+
+    public List<MCalculoHistorico> getHistoricos() {
+        return historicos;
     }
 
 }
