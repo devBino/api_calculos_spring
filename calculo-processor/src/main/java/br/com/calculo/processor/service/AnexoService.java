@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.calculo.processor.bo.MensagemProcessBO;
 import br.com.calculo.processor.model.MAnexo;
+import br.com.calculo.processor.model.MAnexoHistorico;
 import br.com.calculo.processor.model.MCalculo;
+import br.com.calculo.processor.repository.AnexoHistRepository;
 import br.com.calculo.processor.repository.AnexoRepository;
 import br.com.calculo.processor.repository.CalculoRepository;
 import br.com.calculo.processor.type.MensagemHistoricoType;
@@ -27,6 +29,9 @@ public class AnexoService implements RegistroService {
     private AnexoRepository anexoRepository;
 
     @Autowired
+    private AnexoHistRepository histRepository;
+
+    @Autowired
     private CalculoRepository calculoRepository;
 
     private List<MensagemProcessBO> mensagens;
@@ -42,10 +47,11 @@ public class AnexoService implements RegistroService {
         }
 
         mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
-            "Anexo " + anexo.getId() + " identificado, iniciando processo", anexo.getId()));
+            "Anexo " + anexo.getId() + " identificado", anexo.getId()));
 
         prepararRegistro();
         processarRegistro();
+        gerarHistoricos();
 
     }
 
@@ -69,8 +75,11 @@ public class AnexoService implements RegistroService {
         final String dadosCsv = new String(anexo.getData());
         final String[] linhasCsv = dadosCsv.split("\n");
 
+        int totalLinhas = linhasCsv[0].toLowerCase().contains("n1")
+            ? linhasCsv.length - 1 : linhasCsv.length;
+
         mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
-            "Processando " + linhasCsv.length + " Linha(s) do anexo", anexo.getId()));
+            "Processando " + totalLinhas + " Linha(s) do anexo", anexo.getId()));
 
         for(String lin : linhasCsv){
             
@@ -128,6 +137,22 @@ public class AnexoService implements RegistroService {
         pMCalculo.setDescricao(sb.toString());
         
         pMCalculo.setEstado('F');
+
+    }
+
+    private void gerarHistoricos(){
+
+        for(MensagemProcessBO bo : mensagens){
+
+            MAnexoHistorico hist = new MAnexoHistorico();
+
+            hist.setDescricao(bo.getMensagem());
+            hist.setTipo(bo.getCodigoTipo());
+            hist.setAnexo(anexo);
+
+            histRepository.save(hist);
+
+        }
 
     }
 

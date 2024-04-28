@@ -3,9 +3,9 @@ package br.com.api.calculos.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,40 +14,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.calculos.bo.CalculoHistoricoBO;
-import br.com.api.calculos.service.CalculoHistoricoService;
+import br.com.api.calculos.bo.AnexoHistoricoBO;
+import br.com.api.calculos.service.AnexoHistoricoService;
 
 /**
- * Camada de controller da entidade calculo historico, recebe as requisições 
- * e envia para camada de service de calculo historico.
+ * Camada de controller da entidade anexo historico, recebe as requisições 
+ * e envia para camada de service de anexo historico.
  * 
  * Na API essa entidade é apenas lida, a inserção e updates 
- * serão realizadas por outro processo, durante processamento dos calculos.
+ * serão realizadas por outro processo, durante processamento
+ * dos anexos enviados via API.
  */
 @RestController
-@RequestMapping("/calculo-historico")
-public class CalculoHistoricoController {
+@RequestMapping("/anexo-historico")
+public class AnexoHistoricoController {
     
     @Autowired
-    private CalculoHistoricoService service;
+    private AnexoHistoricoService service;
 
     @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<CalculoHistoricoBO>> listar(
+    public ResponseEntity<Page<AnexoHistoricoBO>> listar(
         @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "limit", defaultValue = "10") Integer limit
     ){
-        
+
         final Pageable paginacao = PageRequest.of(--page, limit);
         return ResponseEntity.ok(service.listar(paginacao));
 
     }
 
     @GetMapping(
-        value = "/{idCalculo}",
+        value = "/{idAnexo}", 
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<CalculoHistoricoBO> listarPorCalculoId(@PathVariable(value = "idCalculo") String idCalculo){
-        return service.listarPorCalculoId(Long.valueOf(idCalculo));
+    public List<AnexoHistoricoBO> listarPorAnexoId(@PathVariable(value = "idAnexo") String idAnexo){
+        return service.listarPorAnexoId(Long.valueOf(idAnexo));
     }
 
 }
