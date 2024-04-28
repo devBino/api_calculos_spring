@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import br.com.api.calculos.service.CalculoHistoricoService;
  * Na API essa entidade é apenas lida, a inserção e updates 
  * serão realizadas por outro processo, durante processamento dos calculos.
  */
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8000","http://localhost:8080","http://localhost:8090"})
 @RestController
 @RequestMapping("/calculo-historico")
 public class CalculoHistoricoController {
