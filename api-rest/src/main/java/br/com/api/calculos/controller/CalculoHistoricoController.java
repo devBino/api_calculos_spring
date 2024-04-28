@@ -18,7 +18,7 @@ import br.com.api.calculos.bo.CalculoHistoricoBO;
 import br.com.api.calculos.service.CalculoHistoricoService;
 
 /**
- * Camada de controller da entidade calculo hisotirico, recebe as requisições 
+ * Camada de controller da entidade calculo historico, recebe as requisições 
  * e envia para camada de service de calculo historico.
  * 
  * Na API essa entidade é apenas lida, a inserção e updates 

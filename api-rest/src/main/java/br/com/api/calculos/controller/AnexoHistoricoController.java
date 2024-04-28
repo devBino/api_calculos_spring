@@ -18,7 +18,7 @@ import br.com.api.calculos.bo.AnexoHistoricoBO;
 import br.com.api.calculos.service.AnexoHistoricoService;
 
 /**
- * Camada de controller da entidade anexo hisotirico, recebe as requisições 
+ * Camada de controller da entidade anexo historico, recebe as requisições 
  * e envia para camada de service de anexo historico.
  * 
  * Na API essa entidade é apenas lida, a inserção e updates 
