@@ -42,6 +42,11 @@ public class AnexoController {
 
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public AnexoBO listarPorId(@PathVariable(value = "id") String id){
+        return service.listarPorId(Long.valueOf(id));
+    }
+
     @PostMapping(
         value = "/upload/csv",
         produces = MediaType.APPLICATION_JSON_VALUE
