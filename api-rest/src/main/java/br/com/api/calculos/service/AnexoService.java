@@ -40,6 +40,20 @@ public class AnexoService {
 
     }
 
+    public AnexoBO listarPorId(final Long id){
+        
+        AnexoBO anexoBO = new AnexoBO();
+
+        Optional<MAnexo> anexCandidato =  repository.findById(id);
+
+        if( anexCandidato.isPresent() ){
+            anexoBO = converter.toBO(anexCandidato.get());
+        }
+
+        return anexoBO;
+
+    }
+
     public AnexoBO uploadCsv(final MultipartFile file){
         
         final MAnexo mAnexo = new MAnexo();
