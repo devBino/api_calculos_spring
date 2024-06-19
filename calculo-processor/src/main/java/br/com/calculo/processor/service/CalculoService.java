@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.calculo.processor.model.MCalculo;
 import br.com.calculo.processor.model.MCalculoHistorico;
@@ -31,6 +32,7 @@ public class CalculoService implements RegistroService {
 
     private List<MensagemProcessVO> mensagens;
 
+    @Transactional
     public void processarCalculo(){
         
         calculo = null;
@@ -58,6 +60,7 @@ public class CalculoService implements RegistroService {
 
     @Override
     public void prepararRegistro(){
+        System.out.println(Thread.currentThread().getName() + " " + calculo.getId());
         calculo.setEstado('P');
         calculoRepository.save(calculo);
         mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
