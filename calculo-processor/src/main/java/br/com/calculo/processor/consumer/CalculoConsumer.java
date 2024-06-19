@@ -22,8 +22,8 @@ public class CalculoConsumer {
     public void listen(Map<String, Object> params){
         
         //recupera a mensagem representando um cálculo a ser realizado,
-        //salva na tabela de calculos, para que o serviço de processo possa 
-        //recuperá-la pelo estado 'A'
+        //salva na tabela de calculos, para que o processo agendado possa
+        //recuperá-la pelo estado 'A', e aplique o processamento
         MCalculo mCalculo = new MCalculo( params.get("calculoUU").toString() );
 
         mCalculo.setDescricao("Aguardando Processamento");
