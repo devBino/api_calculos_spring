@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.calculos.bo.TokenBO;
 import br.com.api.calculos.service.AuthService;
+import br.com.api.calculos.vo.TokenVO;
 
 /**
  * Controller para autenticar usuario e gerar token
@@ -27,7 +27,7 @@ public class Auth {
         value = "/token/{user}/{password}",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public TokenBO gerarToken(
+    public TokenVO gerarToken(
         @PathVariable(value = "user") String user,
         @PathVariable(value = "password") String password
     ){

@@ -2,19 +2,19 @@ package br.com.api.calculos.converter;
 
 import org.springframework.stereotype.Component;
 
-import br.com.api.calculos.bo.AnexoHistoricoBO;
 import br.com.api.calculos.model.MAnexoHistorico;
+import br.com.api.calculos.vo.AnexoHistoricoVO;
 
 /**
- * Converte BO para Model e Model para BO
+ * Converte VO para Model e Model para VO
  * em representações de objetos da entidade anexo historico
  */
 @Component
 public class AnexoHistoricoConverter {
     
-    public AnexoHistoricoBO toBo(final MAnexoHistorico origin){
+    public AnexoHistoricoVO toBo(final MAnexoHistorico origin){
         
-        final AnexoHistoricoBO dest = new AnexoHistoricoBO();
+        final AnexoHistoricoVO dest = new AnexoHistoricoVO();
 
         dest.setId( origin.getId() );
         dest.setAnexoId( origin.getAnexo().getId() );

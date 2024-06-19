@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import br.com.calculo.processor.bo.MensagemProcessBO;
 import br.com.calculo.processor.model.MCalculo;
 import br.com.calculo.processor.model.MCalculoHistorico;
-import br.com.calculo.processor.repository.CalculoHistReporitory;
-import br.com.calculo.processor.repository.CalculoRepository;
+import br.com.calculo.processor.model.ifacejpa.CalculoHistReporitory;
+import br.com.calculo.processor.model.ifacejpa.CalculoRepository;
 import br.com.calculo.processor.type.MensagemHistoricoType;
+import br.com.calculo.processor.vo.MensagemProcessVO;
 
 /**
- * Serviço agendado para processar calculos 
+ * Serviço para processar calculos 
  * de maneira individual, recuperando pelo estado 
  * 'A' - Aguardando Processamento
  */
@@ -30,9 +29,8 @@ public class CalculoService implements RegistroService {
     @Autowired
     private CalculoHistReporitory histRepository;
 
-    private List<MensagemProcessBO> mensagens;
+    private List<MensagemProcessVO> mensagens;
 
-    @Scheduled(fixedRate = 30000)
     public void processarCalculo(){
         
         calculo = null;
@@ -42,7 +40,7 @@ public class CalculoService implements RegistroService {
             return;
         }
 
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Calculo " + calculo.getId() + " identificado", calculo.getId()));
 
         prepararRegistro();
@@ -62,7 +60,7 @@ public class CalculoService implements RegistroService {
     public void prepararRegistro(){
         calculo.setEstado('P');
         calculoRepository.save(calculo);
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Calculo em Processamento", calculo.getId()));
     }
 
@@ -70,13 +68,13 @@ public class CalculoService implements RegistroService {
     public void processarRegistro(){
         aplicarCalculo(calculo);
         calculoRepository.save(calculo);
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Finalizado Processo", calculo.getId()));
     }
 
     private void aplicarCalculo(final MCalculo pMCalculo){
 
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Calculando parametros", calculo.getId()));
 
         if( pMCalculo.getSinal() == '+' ){
@@ -101,7 +99,7 @@ public class CalculoService implements RegistroService {
                 
         pMCalculo.setDescricao(sb.toString());
         
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Calculo [" + calculo.getDescricao() + "] bem sucedido", calculo.getId()));
 
         pMCalculo.setEstado('F');
@@ -110,7 +108,7 @@ public class CalculoService implements RegistroService {
 
     private void gerarHistoricos(){
 
-        for(MensagemProcessBO bo : mensagens){
+        for(MensagemProcessVO bo : mensagens){
 
             MCalculoHistorico hist = new MCalculoHistorico();
 

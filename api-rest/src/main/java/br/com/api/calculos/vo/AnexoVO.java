@@ -1,12 +1,12 @@
-package br.com.api.calculos.bo;
+package br.com.api.calculos.vo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * BO para encapsular dados da entidade anexo
+ * VO para encapsular dados da entidade anexo
  */
-public class AnexoBO implements Serializable {
+public class AnexoVO implements Serializable {
     
     public static final Long serialVersionUID = 1L;
 
@@ -17,7 +17,7 @@ public class AnexoBO implements Serializable {
     private LocalDateTime createdAt;
     private Character status;
 
-    public AnexoBO(){}
+    public AnexoVO(){}
 
     public Long getId() {
         return id;

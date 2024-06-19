@@ -2,21 +2,22 @@ package br.com.api.calculos.converter;
 
 import org.springframework.stereotype.Component;
 
-import br.com.api.calculos.bo.CalculoBO;
 import br.com.api.calculos.model.MCalculo;
+import br.com.api.calculos.vo.CalculoVO;
 
 /**
- * Converte BO para Model e Model para BO
+ * Converte VO para Model e Model para VO
  * em representações de objetos da entidade calculo
  */
 @Component
 public class CalculoConverter {
  
-    public CalculoBO toBo(final MCalculo origin){
+    public CalculoVO toBo(final MCalculo origin){
 
-        final CalculoBO dest = new CalculoBO();
+        final CalculoVO dest = new CalculoVO();
 
         dest.setId( origin.getId() );
+        dest.setCalculoUU( origin.getCalculoUU() );
         dest.setDescricao( origin.getDescricao() );
         dest.setNumero1( origin.getNumero1() );
         dest.setNumero2( origin.getNumero2() );
@@ -28,11 +29,12 @@ public class CalculoConverter {
 
     }
 
-    public MCalculo toModel(final CalculoBO origin){
+    public MCalculo toModel(final CalculoVO origin){
 
         final MCalculo dest = new MCalculo();
 
         dest.setId( origin.getId() );
+        dest.setCalculoUU( origin.getCalculoUU() );
         dest.setDescricao( origin.getDescricao() );
         dest.setNumero1( origin.getNumero1() );
         dest.setNumero2( origin.getNumero2() );

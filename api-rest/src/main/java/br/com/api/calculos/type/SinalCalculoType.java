@@ -1,5 +1,8 @@
 package br.com.api.calculos.type;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 /**
  * Define os tipos de calculos suportados
  * pelos sinais das operações matemáticas
@@ -46,16 +49,15 @@ public enum SinalCalculoType {
 
     public static SinalCalculoType fromIndice(byte indiceSinal){
 
-        SinalCalculoType sinalCalculoType = null;
+        final Optional<SinalCalculoType> sinalCandidato = Arrays.stream(SinalCalculoType.values())
+            .filter(s -> s.getIndiceSinal() == indiceSinal)
+            .findFirst();
 
-        for(SinalCalculoType sinCalc : SinalCalculoType.values()){
-            if( sinCalc.getIndiceSinal() == indiceSinal ){
-                sinalCalculoType = sinCalc;
-                break;
-            }
+        if( sinalCandidato.isPresent() ){
+            return sinalCandidato.get();
         }
 
-        return sinalCalculoType;
+        return null;
 
     }
 

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.calculos.bo.AnexoHistoricoBO;
 import br.com.api.calculos.service.AnexoHistoricoService;
+import br.com.api.calculos.vo.AnexoHistoricoVO;
 
 /**
  * Camada de controller da entidade anexo historico, recebe as requisições 
@@ -35,7 +35,7 @@ public class AnexoHistoricoController {
     private AnexoHistoricoService service;
 
     @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<AnexoHistoricoBO>> listar(
+    public ResponseEntity<Page<AnexoHistoricoVO>> listar(
         @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "limit", defaultValue = "10") Integer limit
     ){
@@ -49,7 +49,7 @@ public class AnexoHistoricoController {
         value = "/{idAnexo}", 
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<AnexoHistoricoBO> listarPorAnexoId(@PathVariable(value = "idAnexo") String idAnexo){
+    public List<AnexoHistoricoVO> listarPorAnexoId(@PathVariable(value = "idAnexo") String idAnexo){
         return service.listarPorAnexoId(Long.valueOf(idAnexo));
     }
 

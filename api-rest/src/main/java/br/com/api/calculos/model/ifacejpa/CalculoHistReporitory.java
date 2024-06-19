@@ -1,4 +1,4 @@
-package br.com.api.calculos.repository;
+package br.com.api.calculos.model.ifacejpa;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import br.com.api.calculos.model.MCalculoHistorico;
 
 /**
- * Repositorio para manipular entidade calculo historico
+ * JPA para manipular entidade calculo historico
  */
 @Repository
 public interface CalculoHistReporitory extends JpaRepository<MCalculoHistorico, Long> {

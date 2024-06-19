@@ -3,6 +3,7 @@ package br.com.calculo.processor.model;
 import java.io.Serializable;
 
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -26,6 +27,9 @@ public class MCalculo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
     private Long id;
     
+    @Column(name = "calculoUU", length = 255, unique = true)
+    private String calculoUU;
+
     @Column(name = "descricao", length = 100)
     private String descricao;
 
@@ -47,7 +51,15 @@ public class MCalculo implements Serializable {
     @OneToMany(mappedBy = "calculo", cascade = CascadeType.ALL)
     private List<MCalculoHistorico> hisoricos;
 
-    public MCalculo(){}
+    public MCalculo(){
+        if( calculoUU == null ){
+            calculoUU = UUID.randomUUID().toString();
+        }
+    }
+
+    public MCalculo(String calculoUU){
+        this.calculoUU = calculoUU;
+    }
 
     public Long getId() {
         return id;
@@ -55,6 +67,14 @@ public class MCalculo implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCalculoUU() {
+        return calculoUU;
+    }
+
+    public void setCalculoUU(String calculoUU) {
+        this.calculoUU = calculoUU;
     }
 
     public String getDescricao() {
