@@ -2,19 +2,19 @@ package br.com.api.calculos.converter;
 
 import org.springframework.stereotype.Component;
 
-import br.com.api.calculos.bo.UsuarioBO;
 import br.com.api.calculos.model.MUsuario;
+import br.com.api.calculos.vo.UsuarioVO;
 
 /**
- * Converte BO para Model e Model para BO
+ * Converte VO para Model e Model para VO
  * em representações de objetos da entidade usuario
  */
 @Component
 public class UsuarioConverter {
     
-    public UsuarioBO toBo(final MUsuario origin){
+    public UsuarioVO toBo(final MUsuario origin){
 
-        final UsuarioBO dest = new UsuarioBO();
+        final UsuarioVO dest = new UsuarioVO();
 
         dest.setId( origin.getId() );
         dest.setNome( origin.getNome() );
@@ -26,7 +26,7 @@ public class UsuarioConverter {
 
     }
 
-    public MUsuario toModel(final UsuarioBO origin){
+    public MUsuario toModel(final UsuarioVO origin){
 
         final MUsuario dest = new MUsuario();
 

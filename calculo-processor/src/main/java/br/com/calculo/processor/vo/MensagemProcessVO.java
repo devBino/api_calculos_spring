@@ -1,4 +1,4 @@
-package br.com.calculo.processor.bo;
+package br.com.calculo.processor.vo;
 
 import br.com.calculo.processor.type.MensagemHistoricoType;
 
@@ -7,13 +7,13 @@ import br.com.calculo.processor.type.MensagemHistoricoType;
  * ser criadas durante processamento de calculos individuais
  * ou anexos recebidos pela api
  */
-public class MensagemProcessBO {
+public class MensagemProcessVO {
     
     private byte codigoTipo;
     private String mensagem;
     private long registroId;
 
-    public MensagemProcessBO(final MensagemHistoricoType histType, 
+    public MensagemProcessVO(final MensagemHistoricoType histType, 
         final String mensagem, final long registroId){
         this.codigoTipo = histType.getCodigoTipoMensagem();
         this.mensagem = mensagem;

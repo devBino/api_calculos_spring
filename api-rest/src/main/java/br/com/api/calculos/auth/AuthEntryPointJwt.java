@@ -15,6 +15,10 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Sobrescreve método commence de {{@link AuthenticationEntryPoint#commence(HttpServletRequest, HttpServletResponse, AuthenticationException)}}
+ * para devolver erros de autenticação no response das requisições
+ */
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 

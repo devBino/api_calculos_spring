@@ -14,7 +14,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
- * Provê implementação para geração do token
+ * Provê implementação para geração do token de autenticação
  */
 @Component
 public class TokenProvider implements Serializable {

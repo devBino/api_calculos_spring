@@ -1,19 +1,24 @@
 package br.com.api.calculos.service;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import br.com.api.calculos.bo.CalculoBO;
+
 import br.com.api.calculos.converter.CalculoConverter;
 import br.com.api.calculos.model.MCalculo;
-import br.com.api.calculos.repository.CalculoRepository;
+import br.com.api.calculos.model.ifacejpa.CalculoRepository;
 import br.com.api.calculos.type.SinalCalculoType;
+import br.com.api.calculos.vo.CalculoVO;
+import io.awspring.cloud.sqs.operations.SqsTemplate;
 
 /**
  * Serve o consumidor da API respondendo as requisições da camada 
@@ -28,7 +33,10 @@ public class CalculoService {
     @Autowired
     private CalculoConverter converter;
 
-    public CalculoBO criar(CalculoBO body){
+    @Autowired
+    private SqsTemplate sqsTemplate;
+
+    public CalculoVO criar(CalculoVO body){
 
         MCalculo mCalculo = converter.toModel(body);
 
@@ -40,12 +48,33 @@ public class CalculoService {
 
     }
 
-    public CalculoBO atualizar(CalculoBO body){
+    public CalculoVO criarCalculoAws(CalculoVO body){
+        
+        final String calculoUU = UUID.randomUUID().toString();
+        
+        body.setCalculoUU(calculoUU);
+
+        final Map<String, Object> params = new HashMap<>();
+
+        params.put("sinal", body.getSinal());
+        params.put("numero1", body.getNumero1());
+        params.put("numero2", body.getNumero2());
+        params.put("calculoUU", calculoUU);
+        
+        String SQS = "https://localhost.localstack.cloud:4566/000000000000/queue-calculos";
+        
+        sqsTemplate.send(SQS, params);
+
+        return body;
+
+    }
+
+    public CalculoVO atualizar(CalculoVO body){
 
         final Optional<MCalculo> mdCandidato = repository.findById(body.getId());
 
         if( !mdCandidato.isPresent() ){
-            return new CalculoBO();
+            return new CalculoVO();
         }
 
         final MCalculo mCalculo = mdCandidato.get();
@@ -62,9 +91,9 @@ public class CalculoService {
 
     }
 
-    public Page<CalculoBO> listar(final Pageable paginacao){
+    public Page<CalculoVO> listar(final Pageable paginacao){
         
-        final Page<CalculoBO> calculos = repository
+        final Page<CalculoVO> calculos = repository
             .findAll(paginacao)
             .map(converter::toBo);
 
@@ -72,7 +101,7 @@ public class CalculoService {
 
     }
 
-    public List<CalculoBO> listarPorSinal(final Byte sinal){
+    public List<CalculoVO> listarPorSinal(final Byte sinal){
 
         SinalCalculoType sinalCalcType = SinalCalculoType.fromIndice(sinal);
 
@@ -88,15 +117,27 @@ public class CalculoService {
 
     }
 
-    public CalculoBO detalhar(final Long id){
+    public CalculoVO detalhar(final Long id){
         
         final Optional<MCalculo> mdCandidato = repository.findById(id);
 
         if( !mdCandidato.isPresent() ){
-            return new CalculoBO();
+            return new CalculoVO();
         }
 
         return converter.toBo(mdCandidato.get());
+
+    }
+
+    public CalculoVO detalharCalculoAws(final String calculoUU){
+        
+        final Optional<MCalculo> calculoCandidato = repository.findByCalculoUU(calculoUU);
+
+        if( !calculoCandidato.isPresent() ){
+            return new CalculoVO();
+        }
+
+        return converter.toBo(calculoCandidato.get());
 
     }
 

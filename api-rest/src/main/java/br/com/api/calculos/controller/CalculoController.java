@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.calculos.bo.CalculoBO;
 import br.com.api.calculos.service.CalculoService;
+import br.com.api.calculos.vo.CalculoVO;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -40,8 +41,17 @@ public class CalculoController {
         consumes = MediaType.APPLICATION_JSON_VALUE, 
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public CalculoBO criar(@RequestBody CalculoBO body){
+    public CalculoVO criar(@RequestBody CalculoVO body){
         return service.criar(body);
+    }
+
+    @PostMapping(
+        value = "/criar-aws",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public CalculoVO criarCalculoFilaAws(@RequestBody CalculoVO body){
+        return service.criarCalculoAws(body);
     }
 
     @PutMapping(
@@ -49,7 +59,7 @@ public class CalculoController {
         consumes = MediaType.APPLICATION_JSON_VALUE, 
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public CalculoBO atualizar(@RequestBody CalculoBO body){
+    public CalculoVO atualizar(@RequestBody CalculoVO body){
         return service.atualizar(body);
     }
 
@@ -57,7 +67,7 @@ public class CalculoController {
         value = "/listar", 
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Page<CalculoBO>> listar(
+    public ResponseEntity<Page<CalculoVO>> listar(
         @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "limit", defaultValue = "10") Integer limit
     ){
@@ -68,13 +78,18 @@ public class CalculoController {
     }
 
     @GetMapping(value = "/listar-por-sinal/{sinal}")
-    public List<CalculoBO> listarPorSinal(@PathVariable(value = "sinal") Byte sinal){
+    public List<CalculoVO> listarPorSinal(@PathVariable(value = "sinal") Byte sinal){
         return service.listarPorSinal(sinal);
     }
 
     @GetMapping(value = "/detalhar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public CalculoBO detalhar(@PathVariable(value = "id") String id){
+    public CalculoVO detalhar(@PathVariable(value = "id") String id){
         return service.detalhar(Long.valueOf(id));
+    }
+
+    @GetMapping(value = "/detalhar-calculo-aws/{calculoUU}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CalculoVO detalharCalculoAWS(@PathVariable(value = "calculoUU") String calculoUU){
+        return service.detalharCalculoAws(calculoUU);
     }
 
     @DeleteMapping(value = "/deletar/{id}")

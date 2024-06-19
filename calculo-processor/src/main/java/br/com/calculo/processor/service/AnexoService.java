@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import br.com.calculo.processor.bo.MensagemProcessBO;
 import br.com.calculo.processor.model.MAnexo;
 import br.com.calculo.processor.model.MAnexoHistorico;
 import br.com.calculo.processor.model.MCalculo;
-import br.com.calculo.processor.repository.AnexoHistRepository;
-import br.com.calculo.processor.repository.AnexoRepository;
-import br.com.calculo.processor.repository.CalculoRepository;
+import br.com.calculo.processor.model.ifacejpa.AnexoHistRepository;
+import br.com.calculo.processor.model.ifacejpa.AnexoRepository;
+import br.com.calculo.processor.model.ifacejpa.CalculoRepository;
 import br.com.calculo.processor.type.MensagemHistoricoType;
+import br.com.calculo.processor.vo.MensagemProcessVO;
 
 /**
  * Serviço agendado para processar calculos 
@@ -34,9 +34,9 @@ public class AnexoService implements RegistroService {
     @Autowired
     private CalculoRepository calculoRepository;
 
-    private List<MensagemProcessBO> mensagens;
+    private List<MensagemProcessVO> mensagens;
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = 10000)
     public void processarAnexo(){
         
         anexo = null;
@@ -46,7 +46,7 @@ public class AnexoService implements RegistroService {
             return;
         }
 
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Anexo " + anexo.getId() + " identificado", anexo.getId()));
 
         prepararRegistro();
@@ -65,7 +65,7 @@ public class AnexoService implements RegistroService {
     public void prepararRegistro(){
         anexo.setStatus('P');
         anexoRepository.save(anexo);
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Anexo em Processamento", anexo.getId()));
     }
 
@@ -78,7 +78,7 @@ public class AnexoService implements RegistroService {
         int totalLinhas = linhasCsv[0].toLowerCase().contains("n1")
             ? linhasCsv.length - 1 : linhasCsv.length;
 
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Processando " + totalLinhas + " Linha(s) do anexo", anexo.getId()));
 
         for(String lin : linhasCsv){
@@ -99,7 +99,7 @@ public class AnexoService implements RegistroService {
 
             MCalculo calculoSalvo = calculoRepository.save(mCalc);
 
-            mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+            mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
                 "Calculo ID = " + calculoSalvo.getId() + " Finalizado", anexo.getId()));
 
         }
@@ -107,7 +107,7 @@ public class AnexoService implements RegistroService {
         anexo.setStatus('F');
         anexoRepository.save(anexo);
 
-        mensagens.add(new MensagemProcessBO(MensagemHistoricoType.INFO, 
+        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Linhas do Anexo Processadas Com Sucesso", anexo.getId()));
 
     }
@@ -142,7 +142,7 @@ public class AnexoService implements RegistroService {
 
     private void gerarHistoricos(){
 
-        for(MensagemProcessBO bo : mensagens){
+        for(MensagemProcessVO bo : mensagens){
 
             MAnexoHistorico hist = new MAnexoHistorico();
 
