@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.api.calculos.bo.ApiInfoBO;
+
+import br.com.api.calculos.vo.ApiInfoVO;
 
 /**
  * Controller para responder requisições sobre
@@ -17,8 +18,8 @@ import br.com.api.calculos.bo.ApiInfoBO;
 public class ApiInfoController {
     
     @GetMapping(value = "/sobre", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ApiInfoBO sobre(){
-        return new ApiInfoBO();
+    public ApiInfoVO sobre(){
+        return new ApiInfoVO();
     }
 
 }

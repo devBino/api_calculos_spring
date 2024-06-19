@@ -1,4 +1,4 @@
-package br.com.api.calculos.repository;
+package br.com.api.calculos.model.ifacejpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import br.com.api.calculos.model.MUsuario;
 
 /**
- * Repositorio para manipular entidade usuario
+ * JPA para manipular entidade usuario
  */
 @Repository
 public interface UsuarioRepository extends JpaRepository<MUsuario, Long> {

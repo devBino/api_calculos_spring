@@ -1,11 +1,11 @@
-package br.com.api.calculos.bo;
+package br.com.api.calculos.vo;
 
 import java.io.Serializable;
 
 /**
- * BO para encapsular dados da entidade usuario
+ * VO para encapsular dados da entidade usuario
  */
-public class UsuarioBO implements Serializable {
+public class UsuarioVO implements Serializable {
     
     public static final Long serialVersionUID = 1L;
 
@@ -16,7 +16,7 @@ public class UsuarioBO implements Serializable {
     private String password;
     private int ativo;
 
-    public UsuarioBO(){}
+    public UsuarioVO(){}
 
     public Long getId() {
         return id;

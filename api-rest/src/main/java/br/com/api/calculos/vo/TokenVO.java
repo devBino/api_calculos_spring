@@ -1,12 +1,12 @@
-package br.com.api.calculos.bo;
+package br.com.api.calculos.vo;
 
 import java.io.Serializable;
 
 /**
- * BO para encapsular dados do Token gerado
+ * VO para encapsular dados do Token gerado
  * que será devolvido nas rotinas de autenticação
  */
-public class TokenBO implements Serializable {
+public class TokenVO implements Serializable {
     
     public static final Long serialVersionUID = 1L;
 
@@ -14,7 +14,7 @@ public class TokenBO implements Serializable {
     private String mensagem;
     private boolean sucesso;
 
-    public TokenBO(){}
+    public TokenVO(){}
 
     public String getToken() {
         return token;

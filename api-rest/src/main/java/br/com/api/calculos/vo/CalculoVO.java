@@ -1,11 +1,11 @@
-package br.com.api.calculos.bo;
+package br.com.api.calculos.vo;
 
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * BO para encapsular dados da entidade calculo
+ * VO para encapsular dados da entidade calculo
  */
 @JsonPropertyOrder({
     "id",
@@ -16,11 +16,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "descricao",
     "estado"
 })
-public class CalculoBO implements Serializable {
+public class CalculoVO implements Serializable {
     
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    private String calculoUU;
     private String descricao;
     private Double numero1;
     private Double numero2;
@@ -28,7 +29,7 @@ public class CalculoBO implements Serializable {
     private Character sinal;
     private Character estado;
 
-    public CalculoBO(){}
+    public CalculoVO(){}
 
     public Long getId() {
         return id;
@@ -36,6 +37,14 @@ public class CalculoBO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCalculoUU() {
+        return calculoUU;
+    }
+
+    public void setCalculoUU(String calculoUU) {
+        this.calculoUU = calculoUU;
     }
 
     public String getDescricao() {

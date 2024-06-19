@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.api.calculos.model.MUsuario;
-import br.com.api.calculos.repository.UsuarioRepository;
+import br.com.api.calculos.model.ifacejpa.UsuarioRepository;
 
 /**
  * Permite carregar um {@code UserDetails} pelo campo

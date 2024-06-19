@@ -23,6 +23,11 @@
 									"",
 									"pm.collectionVariables.set('MAX_TENTATIVAS_DETALHAR', 20);",
 									"",
+									"pm.collectionVariables.set('CONTADOR_SQS', 0);",
+									"pm.collectionVariables.set('MAX_CALCULOS_SQS_AWS', 50);",
+									"pm.collectionVariables.set('DETALHANDO', false);",
+									"pm.collectionVariables.set('UUS', []);",
+									"",
 									"function criarFuncoes(){",
 									"",
 									"    let utils = {};",
@@ -32,8 +37,8 @@
 									"        postman.setNextRequest('clear');",
 									"    }",
 									"",
-									"    utils.pausarCodigo = function pausarCodigo(){",
-									"        setTimeout(()=>{}, 5000)",
+									"    utils.pausarCodigo = function pausarCodigo(segundos=5){",
+									"        setTimeout(()=>{}, (segundos * 1000))",
 									"    }",
 									"",
 									"    utils.checarNextRequest = function checarNextRequest(){",
@@ -250,7 +255,7 @@
 					"name": "principal",
 					"item": [
 						{
-							"name": "Criar Unico",
+							"name": "Criar Calculo",
 							"event": [
 								{
 									"listen": "test",
@@ -361,7 +366,7 @@
 											"        return;",
 											"    }",
 											"",
-											"    let keys = ['id','numero1','numero2','sinal','resultado','descricao','estado']",
+											"    let keys = ['id','calculoUU','numero1','numero2','sinal','resultado','descricao','estado']",
 											"",
 											"    keys.forEach((k)=>{",
 											"        let valor = json[k];",
@@ -613,7 +618,7 @@
 											"    });",
 											"",
 											"    pm.collectionVariables.set('CONTADOR', 0);",
-											"    pm.collectionVariables.set('NEXT', 'clear');",
+											"    pm.collectionVariables.set('NEXT', 'Criar Anexo');",
 											"    pm.collectionVariables.set('PREV', 'Deletar Calculo');",
 											"    pm.collectionVariables.set('ACTION_COMPLETED', false);",
 											"    postman.setNextRequest('Detalhar Calculo');",
@@ -1014,6 +1019,239 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "fluxo-sqs-aws",
+					"item": [
+						{
+							"name": "Criar Calculo AWS",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+											"",
+											"try{",
+											"    validarRetornoPost();",
+											"}catch(err){",
+											"    pm.test(err.message, utils.encerrar)",
+											"}",
+											"",
+											"function validarRetornoPost(){",
+											"    ",
+											"    let json = pm.response.json();",
+											"",
+											"    let calculoUU = json.calculoUU;",
+											"",
+											"    if( calculoUU === undefined || calculoUU === null ){",
+											"        throw Error('Atributo calculoUU não retornado')",
+											"    }",
+											"",
+											"    pm.collectionVariables.set('CALCULO_UU', calculoUU);",
+											"    pm.collectionVariables.set('CONTADOR', 0);",
+											"    pm.test('Atributo calculoUU retornado')",
+											"",
+											"    let contadorSqs = pm.collectionVariables.get('CONTADOR_SQS');",
+											"    let limiteCalculosSqs = pm.collectionVariables.get('MAX_CALCULOS_SQS_AWS');",
+											"",
+											"    let arrUUs = pm.collectionVariables.get('UUS');",
+											"    arrUUs.push(calculoUU);",
+											"    pm.collectionVariables.set('UUS', arrUUs);",
+											"",
+											"    if( contadorSqs < limiteCalculosSqs ){",
+											"        pm.collectionVariables.set('CONTADOR_SQS', ++contadorSqs);",
+											"        postman.setNextRequest('Criar Calculo AWS');",
+											"    }else{",
+											"        pm.collectionVariables.set('CONTADOR_SQS', 0);",
+											"    }",
+											"    ",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('numero1', (Math.random() * 10).toFixed(2));",
+											"pm.collectionVariables.set('numero2', (Math.random() * 10).toFixed(2));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"numero1\":{{numero1}},\n    \"numero2\":{{numero2}},\n    \"sinal\":\"+\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/calculos/criar-aws",
+									"protocol": "{{HTTP}}",
+									"host": [
+										"{{HOST}}"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"calculos",
+										"criar-aws"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Detalhar Calculos Fila AWS",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+											"",
+											"if( pm.collectionVariables.get('DETALHANDO') === false ){",
+											"    let uus = pm.collectionVariables.get('UUS');",
+											"    let calculoUU = uus.shift()",
+											"    pm.collectionVariables.set('UUS', uus);",
+											"    pm.collectionVariables.set('CALCULO_UU', calculoUU);",
+											"    pm.collectionVariables.set('DETALHANDO', true);",
+											"}",
+											"",
+											"utils.pausarCodigo(1);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+											"",
+											"try{",
+											"    validarRetornoDetalhar();",
+											"}catch(err){",
+											"    pm.test(err.message, utils.encerrar)",
+											"}",
+											"",
+											"function validarRetornoDetalhar(){",
+											"",
+											"    if( pm.collectionVariables.get('CALCULO_UU') === undefined || pm.collectionVariables.get('CALCULO_UU') === null ){",
+											"        pm.test('Processamento da Fila Encerrado');",
+											"        return;",
+											"    }",
+											"",
+											"    let contador = pm.collectionVariables.get('CONTADOR');",
+											"    let max_contador = pm.collectionVariables.get('MAX_TENTATIVAS_DETALHAR');",
+											"",
+											"    let json = pm.response.json();",
+											"",
+											"    let estado = json.estado;",
+											"",
+											"    if( estado !== undefined && estado !== null && estado !== 'F' && contador < max_contador ){",
+											"        pm.test(`Tentativa ${contador} executada...`)",
+											"        pm.collectionVariables.set('CONTADOR', ++contador);",
+											"        postman.setNextRequest('Detalhar Calculos Fila AWS');",
+											"        return;",
+											"    }",
+											"",
+											"    let keys = ['id','calculoUU','numero1','numero2','sinal','resultado','descricao','estado']",
+											"",
+											"    keys.forEach((k)=>{",
+											"        let valor = json[k];",
+											"        let valorRetornado = valor !== undefined && valor !== null && valor !== ''",
+											"        pm.test(`Campo ${k} retornado valor ${valor}`, ()=>{",
+											"            pm.expect(valorRetornado).to.be.true;",
+											"        });",
+											"    })",
+											"",
+											"    pm.test(`Calculo Id ${json.id} processado com sucesso`, ()=>{",
+											"        pm.expect(json.estado).to.be.eq('F')",
+											"    });",
+											"",
+											"    let calculoUU = json.calculoUU;",
+											"",
+											"    pm.test(`CalculoUU ${pm.collectionVariables.get('CALCULO_UU')} validado Por Igualdade?!`, ()=>{",
+											"        pm.expect(calculoUU).to.be.eq(pm.collectionVariables.get('CALCULO_UU'));",
+											"    });",
+											"",
+											"    if(json.id !== undefined && json.id !== null &&",
+											"        calculoUU !== undefined && calculoUU != null &&",
+											"        json.estado === 'F'){",
+											"            pm.collectionVariables.set('DETALHANDO', false);",
+											"    }",
+											"",
+											"    let contadorSqs = pm.collectionVariables.get('CONTADOR_SQS');",
+											"    let limiteCalculosSqs = pm.collectionVariables.get('MAX_CALCULOS_SQS_AWS');",
+											"",
+											"    if( contadorSqs < limiteCalculosSqs ){",
+											"        pm.collectionVariables.set('CONTADOR', 0);",
+											"        pm.collectionVariables.set('CONTADOR_SQS', ++contadorSqs);",
+											"        postman.setNextRequest('Detalhar Calculos Fila AWS');",
+											"        return;",
+											"    }",
+											"",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/calculos/detalhar-calculo-aws/{{CALCULO_UU}}",
+									"protocol": "{{HTTP}}",
+									"host": [
+										"{{HOST}}"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"calculos",
+										"detalhar-calculo-aws",
+										"{{CALCULO_UU}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
 						}
 					]
 				}

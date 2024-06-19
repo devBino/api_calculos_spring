@@ -1,20 +1,20 @@
-package br.com.api.calculos.bo;
+package br.com.api.calculos.vo;
 
 import java.io.Serializable;
 
 /**
- * BO para encapsular dados da entidade calculo historico
+ * VO para encapsular dados da entidade anexo historico
  */
-public class CalculoHistoricoBO implements Serializable {
+public class AnexoHistoricoVO implements Serializable {
     
     private static final long serialVersionUID = 1L;
-    
+
     private Long id;
-    private Long calculoId;
+    private Long anexoId;
     private String descricao;
     private Byte tipo;
 
-    public CalculoHistoricoBO(){}
+    public AnexoHistoricoVO(){}
 
     public Long getId() {
         return id;
@@ -24,12 +24,12 @@ public class CalculoHistoricoBO implements Serializable {
         this.id = id;
     }
 
-    public Long getCalculoId() {
-        return calculoId;
+    public Long getAnexoId() {
+        return anexoId;
     }
 
-    public void setCalculoId(Long calculoId) {
-        this.calculoId = calculoId;
+    public void setAnexoId(Long anexoId) {
+        this.anexoId = anexoId;
     }
 
     public String getDescricao() {
@@ -47,5 +47,5 @@ public class CalculoHistoricoBO implements Serializable {
     public void setTipo(Byte tipo) {
         this.tipo = tipo;
     }
-    
+
 }

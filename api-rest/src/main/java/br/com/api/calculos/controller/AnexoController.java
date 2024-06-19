@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.api.calculos.bo.AnexoBO;
 import br.com.api.calculos.service.AnexoService;
+import br.com.api.calculos.vo.AnexoVO;
 
 /**
  * Camada de controller da entidade usuario, recebe as requisições 
@@ -32,7 +32,7 @@ public class AnexoController {
     private AnexoService service;
 
     @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<AnexoBO>> listar(
+    public ResponseEntity<Page<AnexoVO>> listar(
         @RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(value = "limit", defaultValue = "10") Integer limit
     ){
@@ -43,7 +43,7 @@ public class AnexoController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public AnexoBO listarPorId(@PathVariable(value = "id") String id){
+    public AnexoVO listarPorId(@PathVariable(value = "id") String id){
         return service.listarPorId(Long.valueOf(id));
     }
 
@@ -51,7 +51,7 @@ public class AnexoController {
         value = "/upload/csv",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public AnexoBO uploadCsv(@RequestParam(value = "file") MultipartFile file){
+    public AnexoVO uploadCsv(@RequestParam(value = "file") MultipartFile file){
         return service.uploadCsv(file);
     }
 

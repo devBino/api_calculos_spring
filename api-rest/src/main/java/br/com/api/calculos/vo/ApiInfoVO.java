@@ -1,11 +1,11 @@
-package br.com.api.calculos.bo;
+package br.com.api.calculos.vo;
 
 import java.io.Serializable;
 
 /**
- * BO para encapsular propriedades da entidade ApiInfo
+ * VO para encapsular propriedades da entidade ApiInfo
  */
-public class ApiInfoBO implements Serializable {
+public class ApiInfoVO implements Serializable {
     
     public static final Long serialVersionUID = 1L;
 
@@ -13,7 +13,7 @@ public class ApiInfoBO implements Serializable {
     private String repositorio;
     private String versao;
 
-    public ApiInfoBO(){
+    public ApiInfoVO(){
         autor = "Fernando Bino Machado";
         repositorio = "https://github.com/devBino";
         versao = "1";
