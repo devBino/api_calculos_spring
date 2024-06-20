@@ -14,9 +14,9 @@ jobs:
       - name: "Enviar Arquivos para VPS"
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{secrets.HOST_CALCULOS}}
+          host: ${{secrets.HOST}}
           username: "root"
-          key: ${{secrets.SSH_PRIVATE_KEY_CALCULOS}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
           source: "."
           target: "/sistema"
           
