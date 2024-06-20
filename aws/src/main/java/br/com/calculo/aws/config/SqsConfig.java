@@ -1,4 +1,6 @@
-package br.com.calculo.processor.config;
+package br.com.calculo.aws.config;
+
+import static br.com.calculo.aws.constants.SqsConstants.*;
 
 import java.net.URI;
 
@@ -20,7 +22,7 @@ public class SqsConfig {
     public SqsAsyncClient sqsAsyncClient(){
         return SqsAsyncClient
             .builder()
-            .endpointOverride(URI.create("https://localhost.localstack.cloud:4566"))
+            .endpointOverride(URI.create(END_POINT_LC_STACK))
             .region(Region.SA_EAST_1)
             .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create("test","test")))
             .build();
