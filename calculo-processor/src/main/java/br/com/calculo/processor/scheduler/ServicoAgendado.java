@@ -1,5 +1,7 @@
 package br.com.calculo.processor.scheduler;
 
+import static br.com.calculo.processor.constants.ProcessoConstants.*;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,12 +17,12 @@ public class ServicoAgendado {
     @Autowired
     private CalculoService service;
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = INTERVALO_SERVICO)
     public void executarProcesso(){
         
-        final ExecutorService exec = Executors.newFixedThreadPool(10);
+        final ExecutorService exec = Executors.newFixedThreadPool(QTDE_THREADS);
 
-        for(int i=0; i<10; i++){
+        for(int i=0; i<QTDE_THREADS; i++){
             exec.submit( () -> service.processarCalculo() );
         }
 

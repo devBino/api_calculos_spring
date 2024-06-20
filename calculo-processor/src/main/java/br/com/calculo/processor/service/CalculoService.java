@@ -60,11 +60,12 @@ public class CalculoService implements RegistroService {
 
     @Override
     public void prepararRegistro(){
-        System.out.println(Thread.currentThread().getName() + " " + calculo.getId());
+        
         calculo.setEstado('P');
         calculoRepository.save(calculo);
         mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Calculo em Processamento", calculo.getId()));
+            
     }
 
     @Override
