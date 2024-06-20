@@ -1,0 +1,22 @@
+name: "Deploy Microsservicos Calculadora"
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build_deploy:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: "Baixar o código"
+        uses: actions/checkout@v4
+        
+      - name: "Enviar Arquivos para VPS"
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{secrets.HOST}}
+          username: "root"
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          source: "."
+          target: "/sistema"
+          
