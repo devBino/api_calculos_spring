@@ -33,6 +33,13 @@ jobs:
                      rm ../sistema/calculos-0.0.1-SNAPSHOT.jar || true
                      rm ../sistema/processor-0.0.1-SNAPSHOT.jar || true
 
+            - name: Adicionar chave SSH ao ssh-agent
+              run: |
+                mkdir -p ~/.ssh
+                echo "${{ secrets.SSH_KEY_LOCAL }}" > ~/.ssh/id_rsa
+                chmod 600 ~/.ssh/id_rsa
+                ssh-add ~/.ssh/id_rsa
+
             - name: Enviando JARs para a VPS
               run: |
                  scp -o StrictHostKeyChecking=no -P 22 api-rest/target/calculos-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/
