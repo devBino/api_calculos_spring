@@ -23,15 +23,6 @@ jobs:
             - name: Acessando sub projeto Calculo-Processor e Gerando Build
               run: cd calculo-processor && mvn clean install -DskipTests
 
-            - name: Setup SSH Key and SSH Agent
-              run: |
-                mkdir -p ~/.ssh
-                echo "${{ secrets.SSH_KEY_LOCAL }}" > ~/.ssh/id_rsa
-                chmod 600 ~/.ssh/id_rsa
-                eval "$(ssh-agent -s)"
-                ssh-add ~/.ssh/id_rsa
-                ssh-keyscan -H 195.200.6.22 >> ~/.ssh/known_hosts
-
             - name: Remover Jar Files
               uses: appleboy/ssh-action@master
               with:
