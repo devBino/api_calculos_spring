@@ -54,13 +54,16 @@ public class CalculoService implements RegistroService {
         if(!getRegistro()){
             return;
         }
+
         System.out.println( Thread.currentThread().getName() + " iniciou id " + calculo.getId() );
+
         mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Calculo " + calculo.getId() + " identificado", calculo.getId()));
 
         prepararRegistro();
         processarRegistro();
         gerarHistoricos();
+        
         System.out.println( Thread.currentThread().getName() + " finalizou id " + calculo.getId() );
         System.out.println("*************************************************************************************");
 
