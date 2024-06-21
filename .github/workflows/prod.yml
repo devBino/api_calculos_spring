@@ -17,7 +17,18 @@ jobs:
                 distribution: 'temurin'
                 java-version: '17'
 
-            - name: Build Project
+            - name: Acessando sub projeto Api-Rest
+              run: cd api-rest
+            - name: Build Project Api-Rest
               run: mvn clean install -DskipTests
+            
+            - name: Acessando sub projeto Calculo-Processor
+              run: cd ../calculo-processor/
+            - name: Build Project Calculo-Processor
+              run: mvn clean install -DskipTests
+
+            - name: Retornando para Raiz
+              run: cd ..
+
             - name: Exibindo diretorios
               run: ls la
