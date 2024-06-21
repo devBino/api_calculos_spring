@@ -21,13 +21,14 @@ jobs:
               run: cd api-rest
 
             - name: Listando diretórios
-              run: ls la
+              run: ls
               
             - name: Build Project Api-Rest
               run: mvn clean install -DskipTests
             
             - name: Acessando sub projeto Calculo-Processor
               run: cd ../calculo-processor/
+              
             - name: Build Project Calculo-Processor
               run: mvn clean install -DskipTests
 
@@ -35,4 +36,4 @@ jobs:
               run: cd ..
 
             - name: Exibindo diretorios
-              run: ls la
+              run: ls
