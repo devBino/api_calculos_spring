@@ -32,10 +32,11 @@ jobs:
                 script: |
                      rm ../sistema/calculos-0.0.1-SNAPSHOT.jar || true
                      rm ../sistema/processor-0.0.1-SNAPSHOT.jar || true
-                     
+
             - name: Enviando JARs para a VPS
               run: |
                  scp -o StrictHostKeyChecking=no -P 22 api-rest/target/calculos-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/
                  scp -o StrictHostKeyChecking=no -P 22 calculo-processor/target/processor-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/                 
               env:
                 SSH_KEY: ${{ secrets.SSH_KEY_LOCAL }}
+                
