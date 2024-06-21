@@ -19,6 +19,10 @@ jobs:
 
             - name: Acessando sub projeto Api-Rest
               run: cd api-rest
+
+            - name: Listando diretórios
+              run: ls la
+              
             - name: Build Project Api-Rest
               run: mvn clean install -DskipTests
             
