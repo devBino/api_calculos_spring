@@ -22,4 +22,14 @@ jobs:
 
             - name: Acessando sub projeto Calculo-Processor e Gerando Build
               run: cd calculo-processor && mvn clean install -DskipTests
+
+            - name: Remover Jar Files
+              uses: appleboy/ssh-action@master
+              with:
+                host: ${{ secrets.VPS_HOST }}
+                username: ${{ secrets.VPS_USERNAME }}
+                password: ${{ secrets.VPS_PASSWORD }}
+                script: |
+                     rm ../sistema/calculos-0.0.1-SNAPSHOT.jar || true
+                     rm ../sistema/processor-0.0.1-SNAPSHOT.jar || true
             
