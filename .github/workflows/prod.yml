@@ -35,7 +35,7 @@ jobs:
 
             - name: Enviando JARs para a VPS
               run: |
-                 scp -P 22 api-rest/target/calculos-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/
-                 scp -P 22 calculo-processor/target/processor-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/                 
+                 scp -o StrictHostKeyChecking=no -P 22 api-rest/target/calculos-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/
+                 scp -o StrictHostKeyChecking=no -P 22 calculo-processor/target/processor-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/                 
               env:
                 SSH_KEY: ${{ secrets.SSH_KEY_LOCAL }}
