@@ -2,19 +2,19 @@ package br.com.api.calculos.converter;
 
 import org.springframework.stereotype.Component;
 
-import br.com.api.calculos.bo.AnexoBO;
 import br.com.api.calculos.model.MAnexo;
+import br.com.api.calculos.vo.AnexoVO;
 
 /**
- * Converte BO para Model e Model para BO
+ * Converte VO para Model e Model para VO
  * em representações de objetos da entidade anexo
  */
 @Component
 public class AnexoConverter {
  
-    public AnexoBO toBO(final MAnexo origin){
+    public AnexoVO toVO(final MAnexo origin){
 
-        final AnexoBO dest = new AnexoBO();
+        final AnexoVO dest = new AnexoVO();
 
         dest.setId( origin.getId() );
         dest.setName( origin.getName() );
@@ -27,7 +27,7 @@ public class AnexoConverter {
 
     }
 
-    public MAnexo toModel(final AnexoBO origin){
+    public MAnexo toModel(final AnexoVO origin){
 
         final MAnexo dest = new MAnexo();
 

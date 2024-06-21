@@ -9,11 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.api.calculos.bo.AnexoHistoricoBO;
 import br.com.api.calculos.converter.AnexoHistoricoConverter;
 import br.com.api.calculos.model.MAnexo;
-import br.com.api.calculos.repository.AnexoHistRepository;
-import br.com.api.calculos.repository.AnexoRepository;
+import br.com.api.calculos.model.ifacejpa.AnexoHistRepository;
+import br.com.api.calculos.model.ifacejpa.AnexoRepository;
+import br.com.api.calculos.vo.AnexoHistoricoVO;
 
 /**
  * Serve o consumidor da API respondendo as requisições da camada 
@@ -35,13 +35,13 @@ public class AnexoHistoricoService {
     @Autowired
     private AnexoHistoricoConverter converter;
 
-    public Page<AnexoHistoricoBO> listar(final Pageable paginacao){
+    public Page<AnexoHistoricoVO> listar(final Pageable paginacao){
         return anexoHistRepository
             .findAll(paginacao)
             .map(converter::toBo);
     }
 
-    public List<AnexoHistoricoBO> listarPorAnexoId(final Long id){
+    public List<AnexoHistoricoVO> listarPorAnexoId(final Long id){
 
         final Optional<MAnexo> anexoCandidato = anexoRepository.findById(id);
 

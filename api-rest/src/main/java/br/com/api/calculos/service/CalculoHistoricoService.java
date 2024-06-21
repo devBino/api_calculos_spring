@@ -9,11 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.api.calculos.bo.CalculoHistoricoBO;
 import br.com.api.calculos.converter.CalculoHistoricoConverter;
 import br.com.api.calculos.model.MCalculo;
-import br.com.api.calculos.repository.CalculoHistReporitory;
-import br.com.api.calculos.repository.CalculoRepository;
+import br.com.api.calculos.model.ifacejpa.CalculoHistReporitory;
+import br.com.api.calculos.model.ifacejpa.CalculoRepository;
+import br.com.api.calculos.vo.CalculoHistoricoVO;
 
 /**
  * Serve o consumidor da API respondendo as requisições da camada 
@@ -34,13 +34,13 @@ public class CalculoHistoricoService {
     @Autowired
     private CalculoHistoricoConverter converter;
 
-    public Page<CalculoHistoricoBO> listar(final Pageable paginacao){
+    public Page<CalculoHistoricoVO> listar(final Pageable paginacao){
         return repositoryCalcHist
             .findAll(paginacao)
             .map(converter::toBo);
     }
 
-    public List<CalculoHistoricoBO> listarPorCalculoId(final Long id){
+    public List<CalculoHistoricoVO> listarPorCalculoId(final Long id){
 
         final Optional<MCalculo> calcCandidato = repositoryCalc.findById(id);
 

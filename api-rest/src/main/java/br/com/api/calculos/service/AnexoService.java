@@ -12,10 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.api.calculos.bo.AnexoBO;
 import br.com.api.calculos.converter.AnexoConverter;
 import br.com.api.calculos.model.MAnexo;
-import br.com.api.calculos.repository.AnexoRepository;
+import br.com.api.calculos.model.ifacejpa.AnexoRepository;
+import br.com.api.calculos.vo.AnexoVO;
 
 /**
  * Serve o consumidor da API respondendo as requisições da camada 
@@ -30,31 +30,31 @@ public class AnexoService {
     @Autowired
     private AnexoConverter converter;
 
-    public Page<AnexoBO> listar(final Pageable paginacao){
+    public Page<AnexoVO> listar(final Pageable paginacao){
 
-        final Page<AnexoBO> anexos = repository
+        final Page<AnexoVO> anexos = repository
             .findAll(paginacao)
-            .map(converter::toBO);
+            .map(converter::toVO);
 
         return anexos;
 
     }
 
-    public AnexoBO listarPorId(final Long id){
+    public AnexoVO listarPorId(final Long id){
         
-        AnexoBO anexoBO = new AnexoBO();
+        AnexoVO anexoVO = new AnexoVO();
 
         Optional<MAnexo> anexCandidato =  repository.findById(id);
 
         if( anexCandidato.isPresent() ){
-            anexoBO = converter.toBO(anexCandidato.get());
+            anexoVO = converter.toVO(anexCandidato.get());
         }
 
-        return anexoBO;
+        return anexoVO;
 
     }
 
-    public AnexoBO uploadCsv(final MultipartFile file){
+    public AnexoVO uploadCsv(final MultipartFile file){
         
         final MAnexo mAnexo = new MAnexo();
 
@@ -68,10 +68,10 @@ public class AnexoService {
 
             repository.save(mAnexo);
 
-            return converter.toBO(mAnexo);
+            return converter.toVO(mAnexo);
 
         }catch(final Exception exception){
-            return new AnexoBO();
+            return new AnexoVO();
         }
 
     }

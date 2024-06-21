@@ -18,6 +18,10 @@ import br.com.api.calculos.provider.TokenProvider;
 import br.com.api.calculos.service.TokenUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 
+/**
+ * Sobreescreve método doFilterInternal de {{@link OncePerRequestFilter#doFilter(jakarta.servlet.ServletRequest, jakarta.servlet.ServletResponse, FilterChain)}}
+ * e verifica a presença do token de autenticação em cada requisição
+ */
 @Component
 public class RequestAuthFilter extends OncePerRequestFilter {
 
