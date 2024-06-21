@@ -34,13 +34,7 @@ jobs:
                      rm ../sistema/processor-0.0.1-SNAPSHOT.jar || true
 
             - name: Enviando JARs para a VPS
-              uses: appleboy/scp-action@master
-              with:
-                host: ${{ secrets.VPS_HOST }}
-                username: ${{ secrets.VPS_USERNAME }}
-                password: ${{ secrets.VPS_PASSWORD }}
-                local_file: |
-                     api-rest/target/calculos-0.0.1-SNAPSHOT.jar
-                     calculo-processor/target/processor-0.0.1-SNAPSHOT.jar
-                remote_path: "../sistema/"
+              run: |
+                 scp -o StrictHostKeyChecking=no -r api-rest/target/calculos-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/
+                 scp -o StrictHostKeyChecking=no -r calculo-processor/target/processor-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/
                 
