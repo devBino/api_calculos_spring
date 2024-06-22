@@ -37,7 +37,7 @@ jobs:
               uses: easingthemes/ssh-deploy@main
               env:
                 SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY_LOCAL }}
-                ARGS: "-rltgoDzvO --delete"
+                ARGS: "--delete"
                 SOURCE: "api-rest/target/calculos-0.0.1-SNAPSHOT.jar"
                 REMOTE_HOST: ${{ secrets.VPS_HOST }}
                 REMOTE_USER: ${{ secrets.VPS_USERNAME }}
