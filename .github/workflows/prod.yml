@@ -1,4 +1,4 @@
-name: Deploy Microsserviços Calculos
+name: Deploy Microsserviços - Calculos
 
 on:
     push:
