@@ -23,20 +23,23 @@ jobs:
             - name: Acessando Projeto Calculo-Processor e Gerando Build
               run: cd calculo-processor && mvn clean install -DskipTests
 
-            - name: Remover JARs da VPS
+            - name: Remover JARs antigos da VPS
               uses: appleboy/ssh-action@master
               with:
                 host: ${{ secrets.VPS_HOST }}
                 username: ${{ secrets.VPS_USERNAME }}
-                password: ${{ secrets.VPS_PASSWORD }}
+                key: ${{ secrets.VPS_SSH_KEY }}
+                port: 22
                 script: |
-                     rm ../sistema/calculos-0.0.1-SNAPSHOT.jar || true
-                     rm ../sistema/processor-0.0.1-SNAPSHOT.jar || true
+                  rm -f /sistema/*.jar
 
-            - name: Enviando JARs para a VPS
-              run: |
-                 scp -o StrictHostKeyChecking=no -P 22 api-rest/target/calculos-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/
-                 scp -o StrictHostKeyChecking=no -P 22 calculo-processor/target/processor-0.0.1-SNAPSHOT.jar ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/sistema/                 
-              env:
-                SSH_KEY: ${{ secrets.SSH_KEY_LOCAL }}
+            - name: Deploy JARs to VPS
+              uses: appleboy/scp-action@master
+              with:
+                host: ${{ secrets.VPS_HOST }}
+                username: ${{ secrets.VPS_USERNAME }}
+                key: ${{ secrets.VPS_SSH_KEY }}
+                port: 22
+                source: "api-rest/target/calculos-0.0.1-SNAPSHOT.jar,calculo-processor/target/processor-0.0.1-SNAPSHOT.jar"
+                target: "/sistema/"
                 
