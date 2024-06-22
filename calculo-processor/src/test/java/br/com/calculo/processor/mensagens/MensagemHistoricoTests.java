@@ -18,7 +18,7 @@ public class MensagemHistoricoTests {
     public void recuperandoTipoMensagemSucesso(){
         
         MensagemHistoricoType msgType = MensagemHistoricoType.fromValue((byte)1);
-        assertTrue( Objects.isNull( msgType ) );
+        assertTrue( !Objects.isNull( msgType ) );
 
     }
 
@@ -26,7 +26,7 @@ public class MensagemHistoricoTests {
     public void recuperandoTipoMensagemInfo(){
         
         MensagemHistoricoType msgType = MensagemHistoricoType.fromValue((byte)2);
-        assertTrue( Objects.isNull( msgType ) );
+        assertTrue( !Objects.isNull( msgType ) );
 
     }
 
@@ -34,7 +34,7 @@ public class MensagemHistoricoTests {
     public void recuperandoTipoMensagemAviso(){
         
         MensagemHistoricoType msgType = MensagemHistoricoType.fromValue((byte)3);
-        assertTrue( Objects.isNull( msgType ) );
+        assertTrue( !Objects.isNull( msgType ) );
 
     }
 
@@ -42,7 +42,7 @@ public class MensagemHistoricoTests {
     public void recuperandoTipoMensagemErro(){
         
         MensagemHistoricoType msgType = MensagemHistoricoType.fromValue((byte)4);
-        assertTrue( Objects.isNull( msgType ) );
+        assertTrue( !Objects.isNull( msgType ) );
 
     }
 

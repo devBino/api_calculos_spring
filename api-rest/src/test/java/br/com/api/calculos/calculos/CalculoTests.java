@@ -12,12 +12,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 import br.com.api.calculos.converter.CalculoConverter;
 import br.com.api.calculos.model.MCalculo;
-import br.com.api.calculos.model.ifacejpa.CalculoRepository;
 import br.com.api.calculos.vo.CalculoVO;
 
 @SpringBootTest
 @ActiveProfiles("development")
-public class CalculoTest {
+public class CalculoTests {
     
     @Autowired
     private CalculoConverter converter;
@@ -28,7 +27,7 @@ public class CalculoTest {
     }
 
     @Test
-    public void criandoCalculo(){
+    public void convertendoCalculoEntidadeParaVO(){
         
         final MCalculo mCalculo = new MCalculo();
 
