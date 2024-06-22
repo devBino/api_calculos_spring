@@ -19,5 +19,7 @@ jobs:
 
             - name: Gerando Build do Projeto Api-Rest e Rodando Tests de Integração
               run: cd api-rest && mvn package -Pdevelopment
-              
 
+            - name: Gerando Build do Projeto Calculo-Processor e Rodando Tests de Integração
+              run: cd calculo-processor && mvn package -Pdevelopment
+              
