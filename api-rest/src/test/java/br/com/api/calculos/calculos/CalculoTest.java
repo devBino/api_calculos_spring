@@ -10,15 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import br.com.api.calculos.converter.CalculoConverter;
 import br.com.api.calculos.model.MCalculo;
 import br.com.api.calculos.model.ifacejpa.CalculoRepository;
+import br.com.api.calculos.vo.CalculoVO;
 
 @SpringBootTest
 @ActiveProfiles("development")
 public class CalculoTest {
     
     @Autowired
-    private CalculoRepository repository;
+    private CalculoConverter converter;
 
     @Test
     public void testeDeH2IdenficadoComSucesso(){
@@ -38,9 +40,15 @@ public class CalculoTest {
         mCalculo.setResultado(0.0);
         mCalculo.setEstado('A');
 
-        final MCalculo saved = repository.save(mCalculo);
+        final CalculoVO vo = converter.toBo(mCalculo);
 
-        assertTrue( Objects.isNull(saved.getId())  );
+        assertTrue( !Objects.isNull(vo.getCalculoUU())  );
+        assertTrue( !Objects.isNull(vo.getNumero1())  );
+        assertTrue( !Objects.isNull(vo.getNumero2())  );
+        assertTrue( !Objects.isNull(vo.getSinal())  );
+        assertTrue( !Objects.isNull(vo.getDescricao())  );
+        assertTrue( !Objects.isNull(vo.getResultado()) );
+        assertTrue( !Objects.isNull(vo.getEstado()) );
         
     }
 
