@@ -17,14 +17,9 @@ jobs:
                 distribution: 'temurin'
                 java-version: '17'
 
-            - name: Gerando Build do Projeto Api-Rest
-              run: cd api-rest && mvn clean install && mvn clean package
+            - name: Gerando Build do Projeto Api-Rest e Rodando Tests de Integração
+              run: cd api-rest && mvn package
 
-            - name: Executando Testes Unitários do Projeto Api-Rest
-              run: cd api-rest && mvn test --file pom.xml
-
-            - name: Gerando Build do Projeto Calculo-Processor
-              run: cd calculo-processor && mvn clean install && mvn clean package
-
-            - name: Executando Testes Unitários do Projeto Calculo-Processor
-              run: cd calculo-processor && mvn test --file pom.xml
+            - name: Gerando Build do Projeto Calculo-Processor e Rodando Tests de Integração
+              run: cd calculo-processor && mvn package
+              
