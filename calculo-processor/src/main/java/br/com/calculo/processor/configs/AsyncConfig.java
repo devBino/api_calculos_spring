@@ -10,7 +10,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 /**
  * Configuração asyncrona para métodos
  * que podem ser invocados ao mesmo tempo
- * em multithreading
+ * em multithreading 
  */
 @Configuration
 @EnableAsync
