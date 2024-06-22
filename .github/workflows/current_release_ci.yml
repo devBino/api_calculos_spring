@@ -1,0 +1,30 @@
+name: CI Microsserviços Calculos para Release Corrente
+
+on:
+    push:
+        branches: [release/24.07]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Setupe Java
+              uses: actions/setup-java@v3
+              with:
+                distribution: 'temurin'
+                java-version: '17'
+
+            - name: Gerando Build do Projeto Api-Rest
+              run: cd api-rest && mvn clean install && mvn clean package
+
+            - name: Executando Testes Unitários do Projeto Api-Rest
+              run: cd api-rest && mvn test --file pom.xml
+
+            - name: Gerando Build do Projeto Calculo-Processor
+              run: cd calculo-processor && mvn clean install && mvn clean package
+
+            - name: Executando Testes Unitários do Projeto Calculo-Processor
+              run: cd calculo-processor && mvn test --file pom.xml
