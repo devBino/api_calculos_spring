@@ -2,7 +2,7 @@ name: CI Microsserviços Calculos para Release Corrente
 
 on:
     push:
-        branches: [develop, release/24.07]
+        branches: [release/24.07]
 
 jobs:
     build:
