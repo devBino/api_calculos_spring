@@ -1,4 +1,4 @@
-name: Deploy Microsserviços Calculos
+name: Deploy Microsserviços - Calculos
 
 on:
     push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
     build:
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-latest
         steps:
             - name: Checkout code
               uses: actions/checkout@v3
@@ -17,13 +17,13 @@ jobs:
                 distribution: 'temurin'
                 java-version: '17'
 
-            - name: Acessando sub projeto Api-Rest e Fazendo Build
+            - name: Acessando Projeto Api-Rest e Gerando Build
               run: cd api-rest && mvn clean install -DskipTests
 
-            - name: Acessando sub projeto Calculo-Processor e Gerando Build
+            - name: Acessando Projeto Calculo-Processor e Gerando Build
               run: cd calculo-processor && mvn clean install -DskipTests
 
-            - name: Remover Jar Files
+            - name: Remover JARs da VPS
               uses: appleboy/ssh-action@master
               with:
                 host: ${{ secrets.VPS_HOST }}
