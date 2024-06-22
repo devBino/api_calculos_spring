@@ -17,10 +17,10 @@ jobs:
                 distribution: 'temurin'
                 java-version: '17'
 
-            - name: Acessando sub projeto Api-Rest e Fazendo Build
+            - name: Acessando Projeto Api-Rest e Gerando Build
               run: cd api-rest && mvn clean install -DskipTests
 
-            - name: Acessando sub projeto Calculo-Processor e Gerando Build
+            - name: Acessando Projeto Calculo-Processor e Gerando Build
               run: cd calculo-processor && mvn clean install -DskipTests
 
             - name: Remover Jar Files
