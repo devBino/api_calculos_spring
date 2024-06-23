@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.calculo.processor.business.CalculoBusiness;
 import br.com.calculo.processor.model.MCalculo;
 import br.com.calculo.processor.model.MCalculoHistorico;
 import br.com.calculo.processor.model.ifacejpa.CalculoHistReporitory;
@@ -36,6 +37,9 @@ public class CalculoService implements RegistroService {
 
     @Autowired
     private CalculoHistReporitory histRepository;
+
+    @Autowired
+    private CalculoBusiness business;
 
     private List<MensagemProcessVO> mensagens;
 
@@ -86,45 +90,16 @@ public class CalculoService implements RegistroService {
 
     @Override
     public void processarRegistro(){
-        aplicarCalculo();
+
+        business.aplicarCalculo(calculo, mensagens);
+
         calculoRepository.save(calculo);
+
         mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Finalizado Processo", calculo.getId()));
-    }
-
-    private void aplicarCalculo(){
-
-        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
-            "Calculando parametros", calculo.getId()));
-
-        if( calculo.getSinal() == '+' ){
-            calculo.setResultado( calculo.getNumero1() + calculo.getNumero2() );
-        }else if( calculo.getSinal() == '-' ){
-            calculo.setResultado( calculo.getNumero1() - calculo.getNumero2() );
-        }else if( calculo.getSinal() == '*' ){
-            calculo.setResultado( calculo.getNumero1() * calculo.getNumero2() );
-        }else if( calculo.getSinal() == '/' ){
-            calculo.setResultado( calculo.getNumero1() / calculo.getNumero2() );
-        }
-
-        final StringBuilder sb = new StringBuilder()
-                .append(calculo.getNumero1())
-                .append(" ")
-                .append(calculo.getSinal())
-                .append(" ")
-                .append(calculo.getNumero2())
-                .append(" = ")
-                .append(calculo.getResultado());
-
-        calculo.setDescricao(sb.toString());
-        
-        mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
-            "Calculo [" + calculo.getDescricao() + "] bem sucedido", calculo.getId()));
-
-        calculo.setEstado('F');
 
     }
-
+    
     private void gerarHistoricos(){
 
         for(MensagemProcessVO bo : mensagens){
