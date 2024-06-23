@@ -17,6 +17,12 @@ import jakarta.validation.ConstraintViolation;
 @Component
 public class CalculoResponse extends BaseResponse {
     
+    /**
+     * Recebe os erros da validação de CalculoBO
+     * e os retornam no response
+     * @param erros
+     * @return
+     */
     public ResponseEntity<?> buildResponseErros(Set<ConstraintViolation<CalculoVO>> erros){
         
         Map<String, String> mapErros = new HashMap<>();

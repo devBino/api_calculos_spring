@@ -18,6 +18,13 @@ import jakarta.validation.ConstraintViolation;
 @Component
 public class BaseResponse {
     
+    /**
+     * Recebe os erros de validação de um campo id
+     * encapsulado para validação em GenericParamIDVO,
+     * e devolve os erros no response
+     * @param erros
+     * @return
+     */
     public ResponseEntity<?> buildResponseErrosParamId(Set<ConstraintViolation<GenericParamIDVO>> erros){
         
         Map<String, String> mapErros = new HashMap<>();
@@ -30,6 +37,13 @@ public class BaseResponse {
 
     }
 
+    /**
+     * Recebe os erros de validação dos campos de paginação
+     * encapsulados para validação em PaginateParansVO
+     * e devolve os erros no response
+     * @param erros
+     * @return
+     */
     public ResponseEntity<?> buildResponseErrosPaginacao(Set<ConstraintViolation<PaginateParansVO>> erros){
         
         Map<String, String> mapErros = new HashMap<>();
@@ -42,6 +56,11 @@ public class BaseResponse {
 
     }
 
+    /**
+     * Recebe um Map<String, String> erros e devolve no response
+     * @param erros
+     * @return
+     */
     public ResponseEntity<?> buildResponseErros(Map<String, String> erros){
         
         Map<String, String> mapErros = new HashMap<>();
