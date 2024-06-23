@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  * VO para encapsular dados da entidade calculo
  */
@@ -23,10 +25,18 @@ public class CalculoVO implements Serializable {
     private Long id;
     private String calculoUU;
     private String descricao;
+
+    @NotNull
     private Double numero1;
+    
+    @NotNull
     private Double numero2;
+
     private Double resultado;
+
+    @NotNull
     private Character sinal;
+
     private Character estado;
 
     public CalculoVO(){}
