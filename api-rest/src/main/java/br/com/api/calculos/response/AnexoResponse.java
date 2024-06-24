@@ -7,23 +7,23 @@ import java.util.Set;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import br.com.api.calculos.vo.CalculoVO;
+import br.com.api.calculos.vo.AnexoVO;
 import jakarta.validation.ConstraintViolation;
 
 /**
  * Responde a cenários de erro durante requisições
- * recebidas e processadas em CalculoController
+ * recebidas e processadas em AnexoController
  */
 @Component
-public class CalculoResponse extends BaseResponse {
+public class AnexoResponse extends BaseResponse {
     
     /**
-     * Recebe os erros da validação de CalculoVO
+     * Recebe os erros da validação de AnexoVO
      * e os retornam no response
      * @param erros
      * @return
      */
-    public ResponseEntity<?> buildResponseErros(Set<ConstraintViolation<CalculoVO>> erros){
+    public ResponseEntity<?> buildResponseErros(Set<ConstraintViolation<AnexoVO>> erros){
         
         Map<String, String> mapErros = new HashMap<>();
 

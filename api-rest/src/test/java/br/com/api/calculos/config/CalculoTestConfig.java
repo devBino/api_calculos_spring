@@ -3,7 +3,6 @@ package br.com.api.calculos.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import br.com.api.calculos.converter.CalculoConverter;
 import br.com.api.calculos.vo.CalculoVO;

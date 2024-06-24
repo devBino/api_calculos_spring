@@ -12,7 +12,7 @@ import br.com.api.calculos.vo.CalculoVO;
 @Component
 public class CalculoConverter {
  
-    public CalculoVO toBo(final MCalculo origin){
+    public CalculoVO toVo(final MCalculo origin){
 
         final CalculoVO dest = new CalculoVO();
 
