@@ -5,13 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import br.com.api.calculos.config.CalculoTestConfig;
 import br.com.api.calculos.config.TestConfig;
@@ -21,18 +20,21 @@ import br.com.api.calculos.vo.CalculoVO;
 
 @SpringBootTest
 @ActiveProfiles("development")
-@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestConfig.class, CalculoTestConfig.class})
 public class CalculoTests {
     
     @Autowired
     private CalculoConverter converter;
 
-    @Test
-    public void convertendoCalculoEntidadeParaVO(){
-        
-        final MCalculo model = new MCalculo();
+    private MCalculo model, mdConverted;
+    private CalculoVO vo, voConverted;
 
+    @BeforeEach
+    public void preTests(){
+
+        model = new MCalculo();
+
+        model.setId(123L);
         model.setCalculoUU(UUID.randomUUID().toString());
         model.setNumero1(10.11);
         model.setNumero2(23.33);
@@ -41,23 +43,9 @@ public class CalculoTests {
         model.setResultado(0.0);
         model.setEstado('A');
 
-        final CalculoVO vo = converter.toBo(model);
+        vo = new CalculoVO();
 
-        assertTrue( !Objects.isNull(vo.getCalculoUU())  );
-        assertTrue( !Objects.isNull(vo.getNumero1())  );
-        assertTrue( !Objects.isNull(vo.getNumero2())  );
-        assertTrue( !Objects.isNull(vo.getSinal())  );
-        assertTrue( !Objects.isNull(vo.getDescricao())  );
-        assertTrue( !Objects.isNull(vo.getResultado()) );
-        assertTrue( !Objects.isNull(vo.getEstado()) );
-        
-    }
-
-    @Test
-    public void convertendoCalculoVOParaEntidade(){
-        
-        final CalculoVO vo = new CalculoVO();
-
+        vo.setId(123L);
         vo.setCalculoUU(UUID.randomUUID().toString());
         vo.setNumero1(10.11);
         vo.setNumero2(23.33);
@@ -66,16 +54,73 @@ public class CalculoTests {
         vo.setResultado(0.0);
         vo.setEstado('A');
 
-        final MCalculo model = converter.toModel(vo);
+        mdConverted = converter.toModel(vo);
+        voConverted = converter.toVo(mdConverted);
 
-        assertTrue( !Objects.isNull(model.getCalculoUU())  );
-        assertTrue( !Objects.isNull(model.getNumero1())  );
-        assertTrue( !Objects.isNull(model.getNumero2())  );
-        assertTrue( !Objects.isNull(model.getSinal())  );
-        assertTrue( !Objects.isNull(model.getDescricao())  );
-        assertTrue( !Objects.isNull(model.getResultado()) );
-        assertTrue( !Objects.isNull(model.getEstado()) );
+    }
 
+    @Test
+    public void checkIdConvertido(){
+        assertTrue( 
+            !Objects.isNull(mdConverted.getId()) &&
+            !Objects.isNull(voConverted.getId())
+        );
+    }
+
+    @Test
+    public void checkCalculoUUConvertido(){
+        assertTrue( 
+            !Objects.isNull(mdConverted.getCalculoUU()) &&
+            !Objects.isNull(voConverted.getCalculoUU())
+        );
+    }
+
+    @Test
+    public void checkNumero1Convertido(){
+        assertTrue( 
+            !Objects.isNull(mdConverted.getNumero1()) &&
+            !Objects.isNull(voConverted.getNumero1())
+        );
+    }
+
+    @Test
+    public void checkNumero2Convertido(){
+        assertTrue( 
+            !Objects.isNull(mdConverted.getNumero2()) &&
+            !Objects.isNull(voConverted.getNumero2())
+        );
+    }
+
+    @Test
+    public void checkSinalConvertido(){
+        assertTrue( 
+            !Objects.isNull(mdConverted.getSinal()) &&
+            !Objects.isNull(voConverted.getSinal())
+        );
+    }
+
+    @Test
+    public void checkResultadoConvertido(){
+        assertTrue( 
+            !Objects.isNull(mdConverted.getResultado()) &&
+            !Objects.isNull(voConverted.getResultado())
+        );
+    }
+
+    @Test
+    public void checkDescricaoConvertido(){
+        assertTrue( 
+            !Objects.isNull(mdConverted.getDescricao()) &&
+            !Objects.isNull(voConverted.getDescricao())
+        );
+    }
+
+    @Test
+    public void checkEstadoConvertido(){
+        assertTrue( 
+            !Objects.isNull(mdConverted.getEstado()) &&
+            !Objects.isNull(voConverted.getEstado())
+        );
     }
 
 }

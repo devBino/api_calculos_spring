@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import br.com.calculo.processor.business.AnexoBusiness;
 import br.com.calculo.processor.business.CalculoBusiness;
 
 /**
@@ -16,6 +17,12 @@ public class TestConfigs {
     @Primary
     public CalculoBusiness calculoBusiness(){
         return new CalculoBusiness();
+    }
+
+    @Bean
+    @Primary
+    public AnexoBusiness anexoBusiness(){
+        return new AnexoBusiness();
     }
 
 }

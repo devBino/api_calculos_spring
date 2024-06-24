@@ -1299,13 +1299,13 @@
 											"listen": "prerequest",
 											"script": {
 												"exec": [
-													"let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+													"let pm_valores = pm.collectionVariables.get('VALORES_ERROS_CALCULOS');",
 													"",
 													"let valorAtual = pm_valores.shift();",
 													"",
 													"pm.collectionVariables.set('VALOR_TESTE', valorAtual);",
 													"",
-													"pm.collectionVariables.set('VALORES_ERROS', pm_valores);",
+													"pm.collectionVariables.set('VALORES_ERROS_CALCULOS', pm_valores);",
 													"",
 													"if( valorAtual == 'na' ){",
 													"    pm.collectionVariables.set('JSON_ENVIO', JSON.stringify({}))",
@@ -1530,7 +1530,7 @@
 													"    ",
 													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
 													"",
-													"    let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+													"    let pm_valores = pm.collectionVariables.get('VALORES_ERROS_CALCULOS');",
 													"",
 													"    if( Array.isArray(pm_valores) && pm_valores.length > 0 ){",
 													"        postman.setNextRequest('Criar Calculo Erro');",
@@ -1574,10 +1574,10 @@
 										"exec": [
 											"let valores = ['', 'abc', 'na']",
 											"",
-											"let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+											"let pm_valores = pm.collectionVariables.get('VALORES_ERROS_CALCULOS');",
 											"",
 											"if( pm_valores === undefined ){",
-											"    pm.collectionVariables.set('VALORES_ERROS', valores);",
+											"    pm.collectionVariables.set('VALORES_ERROS_CALCULOS', valores);",
 											"}"
 										]
 									}
@@ -1621,12 +1621,13 @@
 											"listen": "prerequest",
 											"script": {
 												"exec": [
-													"let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+													"let pm_valores = pm.collectionVariables.get('VALORES_ERROS_ANEXOS');",
 													"",
 													"let valorAtual = pm_valores.shift();",
 													"",
 													"pm.collectionVariables.set('VALOR_TESTE', valorAtual);",
-													""
+													"",
+													"pm.collectionVariables.set('VALORES_ERROS_ANEXOS', pm_valores);"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -1837,10 +1838,13 @@
 													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
 													"",
 													"try{",
+													"",
 													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
 													"",
+													"    let pm_valores = pm.collectionVariables.get('VALORES_ERROS_ANEXOS');",
+													"",
 													"    if( Array.isArray(pm_valores) && pm_valores.length > 0 ){",
-													"        postman.setNextRequest('Criar Calculo Erro');",
+													"        postman.setNextRequest('Criar Anexo Erro');",
 													"    }",
 													"    ",
 													"}catch(err){",
@@ -1897,10 +1901,10 @@
 										"exec": [
 											"let valores = ['', 'abc', 'na']",
 											"",
-											"let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+											"let pm_valores = pm.collectionVariables.get('VALORES_ERROS_ANEXOS');",
 											"",
 											"if( pm_valores === undefined ){",
-											"    pm.collectionVariables.set('VALORES_ERROS', valores);",
+											"    pm.collectionVariables.set('VALORES_ERROS_ANEXOS', valores);",
 											"}"
 										]
 									}
@@ -2013,6 +2017,60 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "PREV",
+			"value": ""
+		},
+		{
+			"key": "NEXT",
+			"value": ""
+		},
+		{
+			"key": "ACTION_COMPLETED",
+			"value": ""
+		},
+		{
+			"key": "MAX_TENTATIVAS_DETALHAR",
+			"value": ""
+		},
+		{
+			"key": "CONTADOR_SQS",
+			"value": ""
+		},
+		{
+			"key": "MAX_CALCULOS_SQS_AWS",
+			"value": ""
+		},
+		{
+			"key": "DETALHANDO",
+			"value": ""
+		},
+		{
+			"key": "UUS",
+			"value": ""
+		},
+		{
+			"key": "API_UTILS",
+			"value": ""
+		},
+		{
+			"key": "VALORES_ERROS_CALCULOS",
+			"value": ""
+		},
+		{
+			"key": "VALOR_TESTE",
+			"value": ""
+		},
+		{
+			"key": "JSON_ENVIO",
+			"value": ""
+		},
+		{
+			"key": "VALORES_ERROS_ANEXOS",
+			"value": ""
 		}
 	]
 }

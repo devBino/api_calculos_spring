@@ -131,8 +131,8 @@ public class CalculoController {
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<?> listar(
-        @RequestParam(value = "page", defaultValue = "1") String page,
-        @RequestParam(value = "limit", defaultValue = "10") String limit
+        @RequestParam(value = "page") String page,
+        @RequestParam(value = "limit") String limit
     ){
         
         PaginateParansVO pagVO = new PaginateParansVO(page, limit);
