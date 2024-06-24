@@ -18,7 +18,7 @@ import jakarta.validation.ConstraintViolation;
 public class CalculoResponse extends BaseResponse {
     
     /**
-     * Recebe os erros da validação de CalculoBO
+     * Recebe os erros da validação de CalculoVO
      * e os retornam no response
      * @param erros
      * @return

@@ -18,7 +18,7 @@ import jakarta.validation.ConstraintViolation;
 public class AnexoResponse extends BaseResponse {
     
     /**
-     * Recebe os erros da validação de AnexoBO
+     * Recebe os erros da validação de AnexoVO
      * e os retornam no response
      * @param erros
      * @return
