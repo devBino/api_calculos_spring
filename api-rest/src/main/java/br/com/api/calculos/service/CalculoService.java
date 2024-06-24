@@ -44,7 +44,7 @@ public class CalculoService {
         mCalculo.setResultado(0.0);
         mCalculo.setEstado('A');
 
-        return converter.toBo((MCalculo) repository.save(mCalculo));
+        return converter.toVo((MCalculo) repository.save(mCalculo));
 
     }
 
@@ -87,7 +87,7 @@ public class CalculoService {
         mCalculo.setResultado(0.0);
         mCalculo.setEstado('A');
 
-        return converter.toBo((MCalculo) repository.save(mCalculo));
+        return converter.toVo((MCalculo) repository.save(mCalculo));
 
     }
 
@@ -95,7 +95,7 @@ public class CalculoService {
         
         final Page<CalculoVO> calculos = repository
             .findAll(paginacao)
-            .map(converter::toBo);
+            .map(converter::toVo);
 
         return calculos;
 
@@ -112,7 +112,7 @@ public class CalculoService {
         return repository
             .findBySinal(sinalCalcType.getSinal())
             .stream()
-            .map(converter::toBo)
+            .map(converter::toVo)
             .collect(Collectors.toList());
 
     }
@@ -125,7 +125,7 @@ public class CalculoService {
             return new CalculoVO();
         }
 
-        return converter.toBo(mdCandidato.get());
+        return converter.toVo(mdCandidato.get());
 
     }
 
@@ -137,7 +137,7 @@ public class CalculoService {
             return new CalculoVO();
         }
 
-        return converter.toBo(calculoCandidato.get());
+        return converter.toVo(calculoCandidato.get());
 
     }
 

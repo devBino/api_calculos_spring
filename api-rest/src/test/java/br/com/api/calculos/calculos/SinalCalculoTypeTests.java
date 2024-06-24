@@ -3,11 +3,9 @@ package br.com.api.calculos.calculos;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import br.com.api.calculos.config.CalculoTestConfig;
 import br.com.api.calculos.config.TestConfig;
@@ -15,7 +13,6 @@ import br.com.api.calculos.type.SinalCalculoType;
 
 @SpringBootTest
 @ActiveProfiles("development")
-@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {TestConfig.class, CalculoTestConfig.class})
 public class SinalCalculoTypeTests {
     
