@@ -145,6 +145,20 @@
 									"",
 									"    }",
 									"",
+									"    utils.validarBadRequest = function validarBadRequest(json, code){",
+									"    ",
+									"        pm.test('Http Bad Resquest esperado', ()=>{",
+									"            pm.expect(code).to.be.eq(400)",
+									"        });",
+									"",
+									"        let erros = json.erros;",
+									"",
+									"        pm.test('Erros retornados', ()=>{",
+									"            pm.expect(erros).to.be.not.undefined;",
+									"        });",
+									"        ",
+									"    }",
+									"",
 									"    return utils;",
 									"",
 									"}",
@@ -523,7 +537,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/calculos/listar?page=1&limit=100",
+									"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/calculos/listar?page=1&limit=1000",
 									"protocol": "{{HTTP}}",
 									"host": [
 										"{{HOST}}"
@@ -540,7 +554,7 @@
 										},
 										{
 											"key": "limit",
-											"value": "100"
+											"value": "1000"
 										}
 									]
 								}
@@ -694,7 +708,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/C:/Users/User/Downloads/teste.csv"
+											"src": "/home/fernando/Documentos/notas/bkps/teste.csv"
 										}
 									]
 								},
@@ -868,7 +882,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/anexos/listar?page=1&limit=100",
+									"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/anexos/listar?page=1&limit=1000",
 									"protocol": "{{HTTP}}",
 									"host": [
 										"{{HOST}}"
@@ -885,7 +899,7 @@
 										},
 										{
 											"key": "limit",
-											"value": "100"
+											"value": "1000"
 										}
 									]
 								}
@@ -1252,6 +1266,656 @@
 									""
 								]
 							}
+						}
+					]
+				},
+				{
+					"name": "Erros",
+					"item": [
+						{
+							"name": "calculos",
+							"item": [
+								{
+									"name": "Criar Calculo Erro",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+													"",
+													"let valorAtual = pm_valores.shift();",
+													"",
+													"pm.collectionVariables.set('VALOR_TESTE', valorAtual);",
+													"",
+													"pm.collectionVariables.set('VALORES_ERROS', pm_valores);",
+													"",
+													"if( valorAtual == 'na' ){",
+													"    pm.collectionVariables.set('JSON_ENVIO', JSON.stringify({}))",
+													"}else{",
+													"    pm.collectionVariables.set('JSON_ENVIO', JSON.stringify({",
+													"        \"numero1\" : valorAtual,",
+													"        \"numero2\" : valorAtual,",
+													"        \"sinal\": valorAtual",
+													"    }));",
+													"}"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{{JSON_ENVIO}}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/calculos/criar",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"calculos",
+												"criar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Detalhar Calculo Erro",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/calculos/detalhar/{{VALOR_TESTE}}",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"calculos",
+												"detalhar",
+												"{{VALOR_TESTE}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Atualizar Calculo Erro",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"let valorAtual = pm.collectionVariables.get('VALOR_TESTE');",
+													"",
+													"if( valorAtual == 'na' ){",
+													"    pm.collectionVariables.set('JSON_ENVIO', JSON.stringify({}))",
+													"}else{",
+													"    pm.collectionVariables.set('JSON_ENVIO', JSON.stringify({",
+													"        \"id\": valorAtual,",
+													"        \"numero1\": valorAtual,",
+													"        \"numero2\": valorAtual,",
+													"        \"sinal\": valorAtual",
+													"    }));",
+													"}"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{{JSON_ENVIO}}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/calculos/atualizar",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"calculos",
+												"atualizar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Listar Calculos Erro",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/calculos/listar?page={{VALOR_TESTE}}&limit={{VALOR_TESTE}}",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"calculos",
+												"listar"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "{{VALOR_TESTE}}"
+												},
+												{
+													"key": "limit",
+													"value": "{{VALOR_TESTE}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Listar Calculos Historicos Erro",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    ",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"",
+													"    let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+													"",
+													"    if( Array.isArray(pm_valores) && pm_valores.length > 0 ){",
+													"        postman.setNextRequest('Criar Calculo Erro');",
+													"    }",
+													"",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/calculo-historico/{{VALOR_TESTE}}",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"calculo-historico",
+												"{{VALOR_TESTE}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											"let valores = ['', 'abc', 'na']",
+											"",
+											"let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+											"",
+											"if( pm_valores === undefined ){",
+											"    pm.collectionVariables.set('VALORES_ERROS', valores);",
+											"}"
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "anexos",
+							"item": [
+								{
+									"name": "Criar Anexo Erro",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+													"",
+													"let valorAtual = pm_valores.shift();",
+													"",
+													"pm.collectionVariables.set('VALOR_TESTE', valorAtual);",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "file",
+													"type": "file",
+													"src": "/home/fernando/Documentos/notas/bkps/teste.txt"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/anexos/upload/csv",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"anexos",
+												"upload",
+												"csv"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Detalhar Anexo Erro",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "",
+													"value": "",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/anexos/{{VALOR_TESTE}}",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"anexos",
+												"{{VALOR_TESTE}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Listar Anexos Erro",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "",
+													"value": "",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/anexos/listar?page={{VALOR_TESTE}}&limit={{VALOR_TESTE}}",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"anexos",
+												"listar"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "{{VALOR_TESTE}}"
+												},
+												{
+													"key": "limit",
+													"value": "{{VALOR_TESTE}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Listar Anexos Historicos Erro",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/anexo-historico/{{VALOR_TESTE}}",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"anexo-historico",
+												"{{VALOR_TESTE}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Download Anexo Erro",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"let utils = eval( pm.collectionVariables.get('API_UTILS') )",
+													"",
+													"try{",
+													"    utils.validarBadRequest(pm.response.json(), pm.response.code);",
+													"",
+													"    if( Array.isArray(pm_valores) && pm_valores.length > 0 ){",
+													"        postman.setNextRequest('Criar Calculo Erro');",
+													"    }",
+													"    ",
+													"}catch(err){",
+													"    pm.test(err.message, utils.encerrar)",
+													"}",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "",
+													"value": "",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{HTTP}}://{{HOST}}:{{PORT}}/anexos/download/csv/{{VALOR_TESTE}}",
+											"protocol": "{{HTTP}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"port": "{{PORT}}",
+											"path": [
+												"anexos",
+												"download",
+												"csv",
+												"{{VALOR_TESTE}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											"let valores = ['', 'abc', 'na']",
+											"",
+											"let pm_valores = pm.collectionVariables.get('VALORES_ERROS');",
+											"",
+											"if( pm_valores === undefined ){",
+											"    pm.collectionVariables.set('VALORES_ERROS', valores);",
+											"}"
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											""
+										]
+									}
+								}
+							]
 						}
 					]
 				}
