@@ -11,6 +11,9 @@ import br.com.api.calculos.config.CalculoTestConfig;
 import br.com.api.calculos.config.TestConfig;
 import br.com.api.calculos.type.SinalCalculoType;
 
+/**
+ * Provê testes dos sinais dos calculos
+ */
 @SpringBootTest
 @ActiveProfiles("development")
 @ContextConfiguration(classes = {TestConfig.class, CalculoTestConfig.class})

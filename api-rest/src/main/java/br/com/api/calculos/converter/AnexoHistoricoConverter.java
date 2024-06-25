@@ -12,7 +12,7 @@ import br.com.api.calculos.vo.AnexoHistoricoVO;
 @Component
 public class AnexoHistoricoConverter {
     
-    public AnexoHistoricoVO toBo(final MAnexoHistorico origin){
+    public AnexoHistoricoVO toVo(final MAnexoHistorico origin){
         
         final AnexoHistoricoVO dest = new AnexoHistoricoVO();
 
