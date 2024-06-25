@@ -5,6 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import br.com.api.calculos.converter.AnexoConverter;
+import br.com.api.calculos.converter.AnexoHistoricoConverter;
+import br.com.api.calculos.converter.CalculoConverter;
+import br.com.api.calculos.converter.CalculoHistoricoConverter;
+
 /**
  * Configurações gerais dos testes
  */
@@ -15,6 +20,30 @@ public class TestConfig {
     @Primary
     public LocalValidatorFactoryBean validator(){
         return new LocalValidatorFactoryBean();
+    }
+
+    @Bean
+    @Primary
+    public CalculoConverter calculoConverter(){
+        return new CalculoConverter();
+    }
+
+    @Bean
+    @Primary
+    public AnexoConverter anexoConverter(){
+        return new AnexoConverter();
+    }
+
+    @Bean
+    @Primary
+    public CalculoHistoricoConverter calculoHistoricoConverter(){
+        return new CalculoHistoricoConverter();
+    }
+
+    @Bean
+    @Primary
+    public AnexoHistoricoConverter anexoHistoricoConverter(){
+        return new AnexoHistoricoConverter();
     }
 
 }

@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import br.com.api.calculos.converter.CalculoConverter;
 import br.com.api.calculos.vo.CalculoVO;
 
 /**
@@ -17,12 +16,6 @@ public class CalculoTestConfig {
     @Primary
     public CalculoVO calculoVO(){
         return new CalculoVO();
-    }
-
-    @Bean
-    @Primary
-    public CalculoConverter calculoConverter(){
-        return new CalculoConverter();
     }
 
 }
