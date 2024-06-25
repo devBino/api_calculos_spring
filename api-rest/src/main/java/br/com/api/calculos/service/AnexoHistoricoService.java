@@ -38,7 +38,7 @@ public class AnexoHistoricoService {
     public Page<AnexoHistoricoVO> listar(final Pageable paginacao){
         return anexoHistRepository
             .findAll(paginacao)
-            .map(converter::toBo);
+            .map(converter::toVo);
     }
 
     public List<AnexoHistoricoVO> listarPorAnexoId(final Long id){
@@ -53,7 +53,7 @@ public class AnexoHistoricoService {
 
         return mAnexo.getHistoricos()
             .stream()
-            .map(converter::toBo)
+            .map(converter::toVo)
             .collect(Collectors.toList());
 
     }

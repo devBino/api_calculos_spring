@@ -13,6 +13,10 @@ import br.com.api.calculos.config.TestConfig;
 import br.com.api.calculos.vo.GenericParamIDVO;
 import br.com.api.calculos.vo.PaginateParansVO;
 
+/**
+ * Provê testes dos campos genéricos enviados nas requisições,
+ * tais como campos de id e paginação
+ */
 @SpringBootTest
 @ActiveProfiles("development")
 @ContextConfiguration(classes = {TestConfig.class})

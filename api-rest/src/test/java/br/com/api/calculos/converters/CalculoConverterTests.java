@@ -1,4 +1,4 @@
-package br.com.api.calculos.calculos;
+package br.com.api.calculos.converters;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,10 +18,13 @@ import br.com.api.calculos.converter.CalculoConverter;
 import br.com.api.calculos.model.MCalculo;
 import br.com.api.calculos.vo.CalculoVO;
 
+/**
+ * Provê testes para conversão entre VO e Model para Calculos
+ */
 @SpringBootTest
 @ActiveProfiles("development")
 @ContextConfiguration(classes = {TestConfig.class, CalculoTestConfig.class})
-public class CalculoTests {
+public class CalculoConverterTests {
     
     @Autowired
     private CalculoConverter converter;
@@ -40,7 +43,7 @@ public class CalculoTests {
         model.setNumero2(23.33);
         model.setSinal('+');
         model.setDescricao("Aguardando Processamento");
-        model.setResultado(0.0);
+        model.setResultado(model.getNumero1() + model.getNumero2());
         model.setEstado('A');
 
         vo = new CalculoVO();
@@ -51,7 +54,7 @@ public class CalculoTests {
         vo.setNumero2(23.33);
         vo.setSinal('+');
         vo.setDescricao("Aguardando Processamento");
-        vo.setResultado(0.0);
+        vo.setResultado(vo.getNumero1() + vo.getNumero2());
         vo.setEstado('A');
 
         mdConverted = converter.toModel(vo);
@@ -64,6 +67,14 @@ public class CalculoTests {
         assertTrue( 
             !Objects.isNull(mdConverted.getId()) &&
             !Objects.isNull(voConverted.getId())
+        );
+    }
+
+    @Test
+    public void checkIgualdadeId(){
+        assertTrue(
+            vo.getId().longValue() == mdConverted.getId().longValue() &&
+            model.getId().longValue() == voConverted.getId().longValue()
         );
     }
 
@@ -84,10 +95,26 @@ public class CalculoTests {
     }
 
     @Test
+    public void checkIgualdadeNumero1(){
+        assertTrue(
+            vo.getNumero1().equals( mdConverted.getNumero1() ) &&
+            model.getNumero1().equals( voConverted.getNumero1() )
+        );
+    }
+
+    @Test
     public void checkNumero2Convertido(){
         assertTrue( 
             !Objects.isNull(mdConverted.getNumero2()) &&
             !Objects.isNull(voConverted.getNumero2())
+        );
+    }
+
+    @Test
+    public void checkIgualdadeNumero2(){
+        assertTrue(
+            vo.getNumero2().equals( mdConverted.getNumero2() ) &&
+            model.getNumero2().equals( voConverted.getNumero2() )
         );
     }
 
@@ -100,10 +127,26 @@ public class CalculoTests {
     }
 
     @Test
+    public void checkIgualdadeSinal(){
+        assertTrue(
+            vo.getSinal().equals( mdConverted.getSinal() ) &&
+            model.getSinal().equals( voConverted.getSinal() )
+        );
+    }
+
+    @Test
     public void checkResultadoConvertido(){
         assertTrue( 
             !Objects.isNull(mdConverted.getResultado()) &&
             !Objects.isNull(voConverted.getResultado())
+        );
+    }
+
+    @Test
+    public void checkIgualdadeResultado(){
+        assertTrue(
+            vo.getResultado().equals( mdConverted.getResultado() ) &&
+            model.getResultado().equals( voConverted.getResultado() )
         );
     }
 
@@ -116,10 +159,26 @@ public class CalculoTests {
     }
 
     @Test
+    public void checkIgualdadeDescricao(){
+        assertTrue(
+            vo.getDescricao().equals( mdConverted.getDescricao() ) &&
+            model.getDescricao().equals( voConverted.getDescricao() )
+        );
+    }
+
+    @Test
     public void checkEstadoConvertido(){
         assertTrue( 
             !Objects.isNull(mdConverted.getEstado()) &&
             !Objects.isNull(voConverted.getEstado())
+        );
+    }
+
+    @Test
+    public void checkIgualdadeEstado(){
+        assertTrue(
+            vo.getEstado().equals( mdConverted.getEstado() ) &&
+            model.getEstado().equals( voConverted.getEstado() )
         );
     }
 
