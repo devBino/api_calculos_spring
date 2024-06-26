@@ -55,8 +55,14 @@ public class CalculoController {
      */
     @PostMapping(
         value = "/criar", 
-        consumes = MediaType.APPLICATION_JSON_VALUE, 
-        produces = MediaType.APPLICATION_JSON_VALUE
+        consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        },
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
     public ResponseEntity<?> criar(@RequestBody CalculoVO body){
         
@@ -78,8 +84,14 @@ public class CalculoController {
      */
     @PostMapping(
         value = "/criar-aws",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
+        consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        },
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
     public ResponseEntity<?> criarCalculoFilaAws(@RequestBody CalculoVO body){
         
@@ -100,8 +112,14 @@ public class CalculoController {
      */
     @PutMapping(
         value = "/atualizar", 
-        consumes = MediaType.APPLICATION_JSON_VALUE, 
-        produces = MediaType.APPLICATION_JSON_VALUE
+        consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        },
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
     public ResponseEntity<?> atualizar(@RequestBody CalculoVO body){
         
@@ -128,7 +146,10 @@ public class CalculoController {
      */
     @GetMapping(
         value = "/listar", 
-        produces = MediaType.APPLICATION_JSON_VALUE
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
     public ResponseEntity<?> listar(
         @RequestParam(value = "page") String page,
@@ -155,7 +176,13 @@ public class CalculoController {
      * @param sinal
      * @return
      */
-    @GetMapping(value = "/listar-por-sinal/{sinal}")
+    @GetMapping(
+        value = "/listar-por-sinal/{sinal}",
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
     public List<CalculoVO> listarPorSinal(@PathVariable(value = "sinal") Byte sinal){
         return service.listarPorSinal(sinal);
     }
@@ -165,7 +192,13 @@ public class CalculoController {
      * @param id
      * @return
      */
-    @GetMapping(value = "/detalhar/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/detalhar/{id}", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
     public ResponseEntity<?> detalhar(@PathVariable(value = "id") String id){
         
         GenericParamIDVO idVO = new GenericParamIDVO(id);
@@ -186,7 +219,13 @@ public class CalculoController {
      * @param calculoUU
      * @return
      */
-    @GetMapping(value = "/detalhar-calculo-aws/{calculoUU}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/detalhar-calculo-aws/{calculoUU}", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
     public ResponseEntity<?> detalharCalculoAWS(@PathVariable(value = "calculoUU") String calculoUU){
 
         if(Objects.isNull(calculoUU) || calculoUU.isEmpty() || calculoUU.isBlank()){

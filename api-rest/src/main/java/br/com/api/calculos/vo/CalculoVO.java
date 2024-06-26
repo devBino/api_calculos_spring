@@ -3,12 +3,14 @@ package br.com.api.calculos.vo;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import jakarta.validation.constraints.NotNull;
 
 /**
  * VO para encapsular dados da entidade calculo
  */
+@JacksonXmlRootElement(localName = "Calculo")
 @JsonPropertyOrder({
     "id",
     "numero1",

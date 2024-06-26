@@ -25,7 +25,10 @@ public class Auth {
 
     @GetMapping(
         value = "/token/{user}/{password}",
-        produces = MediaType.APPLICATION_JSON_VALUE
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
     public TokenVO gerarToken(
         @PathVariable(value = "user") String user,

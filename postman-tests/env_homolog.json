@@ -22,7 +22,7 @@
 		},
 		{
 			"key": "TIME_EXPIRE_TOKEN",
-			"value": "0",
+			"value": "10",
 			"type": "default",
 			"enabled": true
 		},
@@ -52,6 +52,6 @@
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2024-06-24T21:57:13.100Z",
-	"_postman_exported_using": "Postman/11.2.13"
+	"_postman_exported_at": "2024-06-26T16:06:57.636Z",
+	"_postman_exported_using": "Postman/11.2.24"
 }

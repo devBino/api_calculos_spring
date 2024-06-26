@@ -51,7 +51,13 @@ public class AnexoController {
      * @param limit
      * @return
      */
-    @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/listar", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
     public ResponseEntity<?> listar(
         @RequestParam(value = "page") String page,
         @RequestParam(value = "limit") String limit
@@ -77,7 +83,13 @@ public class AnexoController {
      * @param id
      * @return
      */
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/{id}", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
     public ResponseEntity<?> listarPorId(@PathVariable(value = "id") String id){
 
         GenericParamIDVO idVO = new GenericParamIDVO(id);
@@ -100,7 +112,10 @@ public class AnexoController {
      */
     @PostMapping(
         value = "/upload/csv",
-        produces = MediaType.APPLICATION_JSON_VALUE
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
     public ResponseEntity<?> uploadCsv(@RequestParam(value = "file") MultipartFile file){
         
