@@ -18,6 +18,7 @@ import br.com.api.calculos.model.MCalculo;
 import br.com.api.calculos.model.ifacejpa.CalculoRepository;
 import br.com.api.calculos.type.SinalCalculoType;
 import br.com.api.calculos.vo.CalculoVO;
+import br.com.api.calculos.vo.ListaCalculosVO;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 
 /**
@@ -91,13 +92,16 @@ public class CalculoService {
 
     }
 
-    public Page<CalculoVO> listar(final Pageable paginacao){
+    public ListaCalculosVO listar(final Pageable paginacao){
         
         final Page<CalculoVO> calculos = repository
             .findAll(paginacao)
             .map(converter::toVo);
 
-        return calculos;
+        final ListaCalculosVO lista = new ListaCalculosVO();
+        lista.setCalculos(calculos.getContent());
+
+        return lista;
 
     }
 

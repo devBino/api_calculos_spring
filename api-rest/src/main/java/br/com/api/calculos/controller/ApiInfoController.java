@@ -17,7 +17,13 @@ import br.com.api.calculos.vo.ApiInfoVO;
 @RequestMapping("/api-info")
 public class ApiInfoController {
     
-    @GetMapping(value = "/sobre", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/sobre", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
     public ApiInfoVO sobre(){
         return new ApiInfoVO();
     }
