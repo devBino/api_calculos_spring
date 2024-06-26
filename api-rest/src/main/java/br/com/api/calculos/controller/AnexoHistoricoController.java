@@ -50,7 +50,13 @@ public class AnexoHistoricoController {
      * @param limit
      * @return
      */
-    @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/listar", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }    
+    )
     public ResponseEntity<?> listar(
         @RequestParam(value = "page") String page,
         @RequestParam(value = "limit") String limit
@@ -78,7 +84,10 @@ public class AnexoHistoricoController {
      */
     @GetMapping(
         value = "/{idAnexo}", 
-        produces = MediaType.APPLICATION_JSON_VALUE
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
     public ResponseEntity<?> listarPorAnexoId(@PathVariable(value = "idAnexo") String idAnexo){
 

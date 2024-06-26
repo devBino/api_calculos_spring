@@ -2,9 +2,14 @@ package br.com.api.calculos.vo;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 /**
  * VO para encapsular dados da entidade calculo historico
  */
+@JacksonXmlRootElement(localName = "CalculoHistorico")
+@JsonRootName("CalculoHistorico")
 public class CalculoHistoricoVO implements Serializable {
     
     private static final long serialVersionUID = 1L;

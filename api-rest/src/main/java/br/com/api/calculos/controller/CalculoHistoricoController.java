@@ -49,7 +49,13 @@ public class CalculoHistoricoController {
      * @param limit
      * @return
      */
-    @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+        value = "/listar", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
     public ResponseEntity<?> listar(
         @RequestParam(value = "page") String page,
         @RequestParam(value = "limit") String limit
@@ -77,7 +83,10 @@ public class CalculoHistoricoController {
      */
     @GetMapping(
         value = "/{idCalculo}",
-        produces = MediaType.APPLICATION_JSON_VALUE
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
     public ResponseEntity<?> listarPorCalculoId(@PathVariable(value = "idCalculo") String idCalculo){
         
