@@ -19,8 +19,8 @@ services:
     networks:
       - calculos-microsservices
 
-  db-calculos:
-    image: devbino/db-calculos
+  ms-calculos:
+    image: devbino/ms-calculos:latest
     restart: always
     build: ./api-rest
     working_dir: /api-rest
@@ -37,8 +37,8 @@ services:
     networks:
       - calculos-microsservices
 
-  db-calculos-processor:
-    image: devbino/db-calculos-processor
+  ms-calculos-processor:
+    image: devbino/ms-calculos-processor:latest
     restart: always
     build: ./calculo-processor
     working_dir: /calculo-processor
