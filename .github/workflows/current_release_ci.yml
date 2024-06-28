@@ -39,5 +39,7 @@ jobs:
             - name: Enviando Imagens para o Docker Hub
               run: |
                 docker tag ${{ secrets.DOCKER_USERNAME }}/ms-calculos:latest ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
+                docker tag ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:latest ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
+                docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
 
