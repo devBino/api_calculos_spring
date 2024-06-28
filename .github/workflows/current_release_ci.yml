@@ -2,7 +2,7 @@ name: CI/CD Microsserviços Calculos
 
 on:
     push:
-        branches: [develop]
+        branches: [develop, master]
 
 jobs:
     build:
