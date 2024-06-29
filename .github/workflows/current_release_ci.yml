@@ -56,14 +56,4 @@ jobs:
                 docker tag ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:latest ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
-
-            - name: Setup SSH
-              uses: webfactory/ssh-agent@v0.5.3
-              with:
-                ssh-private-key: ${{ secrets.SSH_VPS }}
-
-            - name: Testando acesso SSH
-              run: |
-                ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}
-                "echo Hello from VPS"
-
+                
