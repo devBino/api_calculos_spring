@@ -61,7 +61,6 @@ jobs:
               uses: webfactory/ssh-agent@v0.5.3
               with:
                 ssh-private-key: ${{ secrets.SSH_VPS }}
-                ssh-passphrase: ${{ secrets.SSH_PALAVRAPASSE }}
 
             - name: Testando acesso SSH
               run: |
