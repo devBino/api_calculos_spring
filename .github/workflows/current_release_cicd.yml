@@ -69,5 +69,5 @@ jobs:
                   docker stop $(docker ps -aq)
                   cd ../sistema/stack
                   echo "TAG_VERSION=${{ github.run_id }}" >> .env
-                  docker composer up -d
+                  docker compose up -d
                   docker ps
