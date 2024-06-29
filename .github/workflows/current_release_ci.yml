@@ -57,3 +57,13 @@ jobs:
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
 
+            - name: SSH into VPS
+              uses: appleboy/ssh-action@master
+              with:
+                host: ${{ secrets.VPS_HOST }}
+                username: ${{ secrets.VPS_USER }}
+                key: ${{ secrets.SSH_VPS }}
+                port: ${{ secrets.VPS_PORT }}
+                script: |
+                  docker ps
+                  
