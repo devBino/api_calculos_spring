@@ -2,7 +2,7 @@ name: CI/CD Microsserviços Calculos
 
 on:
     push:
-        branches: [develop, master]
+        branches: [release/24.07]
 
 jobs:
     build:
@@ -16,6 +16,7 @@ jobs:
                 echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
                 echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
                 echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+                echo "TAG_VERSION=${{ github.run_id }}" >> .env
 
             - name: Baixando Codigos Fontes
               uses: actions/checkout@v3
@@ -57,7 +58,7 @@ jobs:
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
 
-            - name: Acesso SSH na VPS
+            - name: Realizando Deploy e Executando a Stack na VPS
               uses: appleboy/ssh-action@master
               with:
                 host: ${{ secrets.VPS_HOST }}
@@ -65,5 +66,8 @@ jobs:
                 key: ${{ secrets.SSH_VPS }}
                 port: ${{ secrets.VPS_PORT }}
                 script: |
+                  docker stop $(docker ps -aq)
+                  cd ../sistema/stack
+                  grep -q '^TAG_VERSION=' .env && sed -i 's/^TAG_VERSION=.*/TAG_VERSION=${{ github.run_id }}/' .env || echo 'TAG_VERSION=${{ github.run_id }}' >> .env
+                  docker compose up -d
                   docker ps
-                  
