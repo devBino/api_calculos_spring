@@ -16,6 +16,7 @@ jobs:
                 echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
                 echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
                 echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+                echo "TAG_VERSION=${{ github.run_id }}" >> .env
 
             - name: Baixando Codigos Fontes
               uses: actions/checkout@v3
@@ -57,7 +58,7 @@ jobs:
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
 
-            - name: Acesso SSH na VPS
+            - name: Removendo Stack Docker Compose Latest
               uses: appleboy/ssh-action@master
               with:
                 host: ${{ secrets.VPS_HOST }}
@@ -66,5 +67,7 @@ jobs:
                 port: ${{ secrets.VPS_PORT }}
                 script: |
                   docker stop $(docker ps -aq)
+                  cd ../sistema/stack
+                  echo "TAG_VERSION=${{ github.run_id }}" >> .env
+                  docker composer up -d
                   docker ps
-                  
