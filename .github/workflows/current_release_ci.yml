@@ -8,6 +8,15 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
+          
+            - name: Definindo Variaveis de Ambiente
+              working-directory: ./
+              run: |
+                echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+                echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
+                echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+                echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+
             - name: Baixando Codigos Fontes
               uses: actions/checkout@v3
 
@@ -35,6 +44,11 @@ jobs:
             - name: Gerando Imagens com Docker Compose
               working-directory: ./
               run: docker compose build
+              env:
+                MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+                MYSQL_USER: ${{ secrets.MYSQL_USER }}
+                MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+                MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
 
             - name: Enviando Imagens para o Docker Hub
               run: |
