@@ -69,5 +69,6 @@ jobs:
                   docker stop $(docker ps -aq)
                   cd ../sistema/stack
                   echo "TAG_VERSION=${{ github.run_id }}" >> .env
+                  grep -q '^TAG_VERSION=' .env && sed -i 's/^TAG_VERSION=.*/TAG_VERSION=${{ github.run_id }}/' .env || echo 'TAG_VERSION=${{ github.run_id }}' >> .env
                   docker compose up -d
                   docker ps
