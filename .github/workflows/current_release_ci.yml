@@ -57,16 +57,13 @@ jobs:
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
 
-            - name: Limpar Cache Host
-              run: ssh-keygen -R ${{ secrets.VPS_HOST }}
-  
-            - name: Setup SSH
-              uses: webfactory/ssh-agent@v0.9.0
+            - name: SSH into VPS
+              uses: appleboy/ssh-action@master
               with:
-                ssh-private-key: ${{ secrets.SSH_VPS }}
-
-            - name: Testando acesso SSH
-              run: |
-                ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}
-                "echo Hello from VPS"
-                
+                host: ${{ secrets.VPS_HOST }}
+                username: ${{ secrets.VPS_USER }}
+                key: ${{ secrets.SSH_VPS }}
+                port: 22
+                script: |
+                  echo "Hello from VPS"
+                  
