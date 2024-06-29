@@ -12,11 +12,13 @@ public class ApiInfoVO implements Serializable {
     private String autor;
     private String repositorio;
     private String versao;
+    private String descricao;
 
     public ApiInfoVO(){
         autor = "Fernando Bino Machado";
         repositorio = "https://github.com/devBino";
         versao = "1";
+        descricao = "Api Rest para Calculos";
     }
 
     public String getAutor() {
@@ -41,6 +43,14 @@ public class ApiInfoVO implements Serializable {
 
     public void setVersao(String versao) {
         this.versao = versao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
 }
