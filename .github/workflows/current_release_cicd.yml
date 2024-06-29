@@ -58,7 +58,7 @@ jobs:
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
 
-            - name: Removendo Stack Docker Compose Latest
+            - name: Realizando Deploy e Executando a Stack na VPS
               uses: appleboy/ssh-action@master
               with:
                 host: ${{ secrets.VPS_HOST }}
@@ -68,7 +68,6 @@ jobs:
                 script: |
                   docker stop $(docker ps -aq)
                   cd ../sistema/stack
-                  echo "TAG_VERSION=${{ github.run_id }}" >> .env
                   grep -q '^TAG_VERSION=' .env && sed -i 's/^TAG_VERSION=.*/TAG_VERSION=${{ github.run_id }}/' .env || echo 'TAG_VERSION=${{ github.run_id }}' >> .env
                   docker compose up -d
                   docker ps
