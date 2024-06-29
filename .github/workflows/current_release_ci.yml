@@ -65,5 +65,5 @@ jobs:
                 key: ${{ secrets.SSH_VPS }}
                 port: 22
                 script: |
-                  echo "Hello from VPS"
+                  docker ps
                   
