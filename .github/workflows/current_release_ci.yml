@@ -57,3 +57,8 @@ jobs:
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
 
+            - name: Testando acesso SSH
+              run: |
+                ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}
+                "echo Hello from VPS"
+
