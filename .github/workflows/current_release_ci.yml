@@ -2,7 +2,7 @@ name: CI/CD Microsserviços Calculos
 
 on:
     push:
-        branches: [develop, master]
+        branches: [release/24.07]
 
 jobs:
     build:
@@ -65,5 +65,6 @@ jobs:
                 key: ${{ secrets.SSH_VPS }}
                 port: ${{ secrets.VPS_PORT }}
                 script: |
+                  docker stop $(docker ps -aq)
                   docker ps
                   
