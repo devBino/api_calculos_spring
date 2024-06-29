@@ -18,7 +18,7 @@ public class ApiInfoVO implements Serializable {
         autor = "Fernando Bino Machado";
         repositorio = "https://github.com/devBino";
         versao = "1";
-        descricao = "Api Rest para Calculos";
+        descricao = "Api Rest para Receber parâmetros de Calculos";
     }
 
     public String getAutor() {
