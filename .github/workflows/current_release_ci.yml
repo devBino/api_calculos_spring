@@ -26,18 +26,18 @@ jobs:
                 username: ${{ secrets.DOCKER_USERNAME }}
                 password: ${{ secrets.DOCKER_PASSWORD }}
 
-            - name: Setup JDK 18
+            - name: Setup JDK 17
               uses: actions/setup-java@v3
               with:
                 distribution: 'temurin'
                 java-version: '17'
                 cache: maven
 
-            - name: Build MS Calculos
+            - name: Build do MS Calculos
               working-directory: ./api-rest
               run: mvn package -Pdevelopment
 
-            - name: Build MS Calculos Processor
+            - name: Build do MS Calculos Processor
               working-directory: ./calculo-processor
               run: mvn package -Pdevelopment
 
@@ -57,7 +57,7 @@ jobs:
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:${{ github.run_id }}
                 docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:${{ github.run_id }}
 
-            - name: SSH into VPS
+            - name: Acesso SSH na VPS
               uses: appleboy/ssh-action@master
               with:
                 host: ${{ secrets.VPS_HOST }}
