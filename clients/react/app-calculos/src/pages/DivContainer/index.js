@@ -49,7 +49,7 @@ export default function DivContainer({children, title, login}){
     }
 
     //caso não tenha logado e o componente atual seja a tela de login
-    if( !logado && login !== undefined && login == '1' ){
+    if( !logado && login !== undefined ){
         conteudoRoot = children;
     }
 
