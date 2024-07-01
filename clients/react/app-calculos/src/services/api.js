@@ -14,7 +14,7 @@ api.interceptors.request.use((config) => {
             config.headers.Authorization = `Bearer ${token}`;
         }
 
-        config.headers['Origin'] = `http://${hostname}`;
+        // config.headers['Origin'] = `http://${hostname}`;
 
         return config;
 

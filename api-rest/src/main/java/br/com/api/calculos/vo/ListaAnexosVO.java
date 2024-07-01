@@ -22,6 +22,9 @@ public class ListaAnexosVO implements Serializable {
     @JacksonXmlProperty(localName = "anexo")
     private List<AnexoVO> anexos;
 
+    private Long totalRegistros;
+    private int totalPaginas;
+
     public ListaAnexosVO(){}
 
     public List<AnexoVO> getAnexos() {
@@ -32,4 +35,20 @@ public class ListaAnexosVO implements Serializable {
         this.anexos = anexos;
     }
 
+    public Long getTotalRegistros() {
+        return totalRegistros;
+    }
+
+    public void setTotalRegistros(Long totalRegistros) {
+        this.totalRegistros = totalRegistros;
+    }
+
+    public int getTotalPaginas() {
+        return totalPaginas;
+    }
+
+    public void setTotalPaginas(int totalPaginas) {
+        this.totalPaginas = totalPaginas;
+    }
+    
 }

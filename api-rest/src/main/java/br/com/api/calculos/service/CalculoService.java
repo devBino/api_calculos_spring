@@ -99,8 +99,11 @@ public class CalculoService {
             .map(converter::toVo);
 
         final ListaCalculosVO lista = new ListaCalculosVO();
+        
         lista.setCalculos(calculos.getContent());
-
+        lista.setTotalPaginas(calculos.getTotalPages());
+        lista.setTotalRegistros(calculos.getTotalElements());
+        
         return lista;
 
     }
