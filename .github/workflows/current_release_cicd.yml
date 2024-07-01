@@ -27,6 +27,25 @@ jobs:
                 username: ${{ secrets.DOCKER_USERNAME }}
                 password: ${{ secrets.DOCKER_PASSWORD }}
 
+            - name: Setup NodeJS 20
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+
+            - name: Instalando Dependências do react-app-calculos
+              working-directory: ./clients/react/app-calculos
+              run: npm install --save-dev @babel/plugin-proposal-private-property-in-object
+
+            - name: Build react-app-calculos
+              working-directory: ./clients/react/app-calculos
+              run: npm run build
+
+            - name: Gerando Imagem da aplicação Front React
+              working-directory: ./clients/react/app-calculos
+              run: |
+                docker build -t ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:${{ github.run_id }} .
+                docker push ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:${{ github.run_id }}
+
             - name: Setup JDK 17
               uses: actions/setup-java@v3
               with:
@@ -42,7 +61,7 @@ jobs:
               working-directory: ./calculo-processor
               run: mvn package -Pdevelopment
 
-            - name: Gerando Imagens com Docker Compose
+            - name: Gerando Imagens dos Microsserviços
               working-directory: ./
               run: docker compose build
               env:
@@ -70,4 +89,5 @@ jobs:
                   cd ../sistema/stack
                   grep -q '^TAG_VERSION=' .env && sed -i 's/^TAG_VERSION=.*/TAG_VERSION=${{ github.run_id }}/' .env || echo 'TAG_VERSION=${{ github.run_id }}' >> .env
                   docker compose up -d
+                  docker run -d -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:${{ github.run_id }}
                   docker ps
