@@ -5,8 +5,6 @@ import api from '../../services/api';
 
 export default function Calculos(){
 
-    const token = localStorage.getItem('token');
-    
     const [calculos, setCalculos] = useState([]);
     const [pagina, setPagina] = useState(1);
     const [totalPaginas, setTotalPaginas] = useState(1);
@@ -36,6 +34,8 @@ export default function Calculos(){
                 });
         }
 
+        const token = localStorage.getItem('token');
+        
         let logado = token !== undefined && token !== null;
 
         if(logado){
