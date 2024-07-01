@@ -21,7 +21,7 @@ export default function Calculos(){
             await api
                 .get(`calculos/listar?page=${pPagina}&limit=10`)
                 .then(response => {
-                    
+
                     setTotalPaginas( response.data.totalPaginas );
                     setTotalRegistros( response.data.totalRegistros );
     
@@ -35,7 +35,7 @@ export default function Calculos(){
 
         getPage(pagina);
 
-    }, [pagina]);
+    }, [pagina, totalPaginas, totalRegistros]);
 
     function nextPage(ev){
         ev.preventDefault();
