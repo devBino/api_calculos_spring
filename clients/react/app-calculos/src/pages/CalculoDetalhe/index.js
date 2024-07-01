@@ -32,7 +32,7 @@ export default function CalculoDetalhe(){
         getCalculo();
         historicos();
 
-    }, [])
+    }, [id])
 
     async function deletarCalculo(ev){
         
