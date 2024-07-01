@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
 import DivContainer from '../DivContainer';
 import api from '../../services/api';
 
@@ -10,33 +9,33 @@ export default function Calculos(){
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [totalRegistros, setTotalRegistros] = useState(1);
     
-    const navigate = useNavigate();
-
     useEffect(()=>{
-        getPage(pagina);
-    }, [pagina]);
 
-    const getPage = async function(pPagina){
+        const getPage = async function(pPagina){
 
-        if( pPagina < 1 ){
-            setPagina(totalPaginas);
-            pPagina = totalPaginas;
+            if( pPagina < 1 ){
+                setPagina(totalPaginas);
+                pPagina = totalPaginas;
+            }
+    
+            await api
+                .get(`calculos/listar?page=${pPagina}&limit=10`)
+                .then(response => {
+                    
+                    setTotalPaginas( response.data.totalPaginas );
+                    setTotalRegistros( response.data.totalRegistros );
+    
+                    if( response.data.calculos !== undefined && response.data.calculos.length > 0 ){
+                        setCalculos(response.data.calculos);
+                    }else{
+                        setPagina(1);
+                    }
+                });
         }
 
-        await api
-            .get(`calculos/listar?page=${pPagina}&limit=10`)
-            .then(response => {
-                
-                setTotalPaginas( response.data.totalPaginas );
-                setTotalRegistros( response.data.totalRegistros );
+        getPage(pagina);
 
-                if( response.data.calculos !== undefined && response.data.calculos.length > 0 ){
-                    setCalculos(response.data.calculos);
-                }else{
-                    setPagina(1);
-                }
-            });
-    }
+    }, [pagina]);
 
     function nextPage(ev){
         ev.preventDefault();
@@ -92,14 +91,14 @@ export default function Calculos(){
                                 calculos.map(c => (
                                     <tr>    
                                         <th scope="row"></th>
-                                        <td scope="col">{c.id}</td>
-                                        <td scope="col">{c.calculoUU}</td>
-                                        <td scope="col">{c.numero1}</td>
-                                        <td scope="col">{c.numero2}</td>
-                                        <td scope="col">{c.sinal}</td>
-                                        <td scope="col">{c.resultado}</td>
-                                        <td scope="col">{c.descricao}</td>
-                                        <td scope="col">{c.estado}</td>
+                                        <td>{c.id}</td>
+                                        <td>{c.calculoUU}</td>
+                                        <td>{c.numero1}</td>
+                                        <td>{c.numero2}</td>
+                                        <td>{c.sinal}</td>
+                                        <td>{c.resultado}</td>
+                                        <td>{c.descricao}</td>
+                                        <td>{c.estado}</td>
                                     </tr>
                                 ))
                             }

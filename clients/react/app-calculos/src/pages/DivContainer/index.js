@@ -8,8 +8,7 @@ export default function DivContainer({children, title, login}){
     let conteudoRoot = '';
     
     let token = localStorage.getItem('token');
-    let username = localStorage.getItem('username');
-
+    
     let logado = token !== undefined && token !== null;
     
     //caso nao tenha logado não exibe menu superior
