@@ -91,7 +91,7 @@ export default function Cadastro(){
                     <div class="row p-2">
                         <div class="col-md-12">
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Acessar</button>
+                                <button type="submit" class="btn btn-primary">Salvar Cálculo</button>
                             </div>
                         </div>
                     </div>
