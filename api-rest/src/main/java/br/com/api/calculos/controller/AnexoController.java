@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,7 @@ import jakarta.validation.ConstraintViolation;
  * Camada de controller da entidade usuario, recebe as requisições 
  * e envia para camada de service do anexo
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/anexos")
 public class AnexoController {
