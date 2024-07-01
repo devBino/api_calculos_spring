@@ -34,7 +34,7 @@ jobs:
 
             - name: Instalando Dependências do react-app-calculos
               working-directory: ./clients/react/app-calculos
-              run: npm install
+              run: npm install --save-dev @babel/plugin-proposal-private-property-in-object
 
             - name: Build react-app-calculos
               working-directory: ./clients/react/app-calculos
