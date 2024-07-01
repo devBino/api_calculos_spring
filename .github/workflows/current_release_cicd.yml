@@ -89,5 +89,5 @@ jobs:
                   cd ../sistema/stack
                   grep -q '^TAG_VERSION=' .env && sed -i 's/^TAG_VERSION=.*/TAG_VERSION=${{ github.run_id }}/' .env || echo 'TAG_VERSION=${{ github.run_id }}' >> .env
                   docker compose up -d
-                  docker run -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:${{ github.run_id }}
+                  docker run -d -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:${{ github.run_id }}
                   docker ps
