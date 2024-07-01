@@ -30,8 +30,9 @@ body {
 #container .button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #bd93f9;
+    background-color: #6272a4;
     color: #f8f8f2;
+    border: 1px solid  #f8f8f2;
     text-decoration: none;
     border-radius: 5px;
     text-align: center;
@@ -81,4 +82,120 @@ body {
 
 #container .div-icon-titulo {
     background-color: #6272a4;
+}
+
+/*
+    Cards
+*/
+.card {
+    background-color: #282a36;
+    color: #f8f8f2;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.card h2, .card h3 {
+    font-size: 24px;
+    margin: 5px;
+    color: #f8f8f2;
+}
+
+.card p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #f8f8f2;
+}
+
+.card .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6272a4;
+    color: #f8f8f2;
+    border: 1px solid  #f8f8f2;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+/*
+    Forms
+*/
+.formulario {
+    background-color: #282a36;
+    color: #f8f8f2;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    width: 400px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #6272a4; 
+    background-color: #44475a; 
+    color: #f8f8f2;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #bd93f9; 
+}
+
+textarea.form-control {
+    min-height: 150px; 
+}
+
+select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #6272a4;
+    background-color: #44475a;
+    color: #f8f8f2;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+select:focus {
+    outline: none;
+    border-color: #bd93f9;
+}
+
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6272a4;
+    color: #f8f8f2;
+    border: 1px solid  #f8f8f2;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #ff79c6;
+}
+
+
+.card .button:hover {
+    background-color: #ff79c6;
 }
