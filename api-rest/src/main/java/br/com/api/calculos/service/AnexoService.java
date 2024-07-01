@@ -40,6 +40,8 @@ public class AnexoService {
         ListaAnexosVO lista = new ListaAnexosVO();
 
         lista.setAnexos(anexos.getContent());
+        lista.setTotalPaginas(anexos.getTotalPages());
+        lista.setTotalRegistros(anexos.getTotalElements());
 
         return lista;
 

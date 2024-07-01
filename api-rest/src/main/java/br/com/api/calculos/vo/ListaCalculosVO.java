@@ -22,6 +22,9 @@ public class ListaCalculosVO implements Serializable {
     @JacksonXmlProperty(localName = "calculo")
     private List<CalculoVO> calculos;
 
+    private Long totalRegistros;
+    private int totalPaginas;
+
     public ListaCalculosVO(){}
 
     public List<CalculoVO> getCalculos() {
@@ -30,6 +33,22 @@ public class ListaCalculosVO implements Serializable {
 
     public void setCalculos(List<CalculoVO> calculos) {
         this.calculos = calculos;
+    }
+
+    public Long getTotalRegistros() {
+        return totalRegistros;
+    }
+
+    public void setTotalRegistros(Long totalRegistros) {
+        this.totalRegistros = totalRegistros;
+    }
+
+    public int getTotalPaginas() {
+        return totalPaginas;
+    }
+
+    public void setTotalPaginas(int totalPaginas) {
+        this.totalPaginas = totalPaginas;
     }
 
 }
