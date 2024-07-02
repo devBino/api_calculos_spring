@@ -1,12 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
 import DivContainter from '../DivContainer';
 import api from '../../services/api';
 
 export default function CalculoDetalhe(){
     
-    const navigate = useNavigate();
-
     const [dadosCalculo, setDadosCalculo] = useState({});
     const [historicos, setHistoricos] = useState([]);
     const [numero1, setNumero1] = useState('');
@@ -18,7 +15,7 @@ export default function CalculoDetalhe(){
         let calculo_id = localStorage.getItem('calculo_id');
 
         if( calculo_id === undefined || calculo_id === null ){
-            navigate('/calculos');
+            window.location.href = '/calculos';
             return;
         }
 
@@ -55,7 +52,7 @@ export default function CalculoDetalhe(){
             await api.delete(`calculos/deletar/${calculo_id}`)
                 .then(response => {
                     alert('Calculo deletado com sucesso');
-                    navigate('/calculos');
+                    window.location.href = '/calculos';
                 });
         }catch(err){
             alert('Erro ao deletar o calculo');
@@ -83,7 +80,7 @@ export default function CalculoDetalhe(){
                     
                     if( status === 200 && response.data.id !== undefined ){
                         alert('Calculo Atualizado com Sucesso')
-                        navigate('/calculos');
+                        window.location.href = '/calculos';
                         return;
                     }
 
