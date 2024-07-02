@@ -69,4 +69,25 @@ public class CalculoTests {
         assertTrue( !model.getDescricao().equals("Aguardando Processamento") );
     }
 
+    @Test
+    public void divisaoPorZero(){
+        
+        model.setNumero1(0.0);
+        model.setNumero2(0.0);
+        model.setSinal('/');
+        model.setEstado('A');
+        
+        mensagens.clear();
+        
+        try{
+            calculoBusiness.aplicarCalculo(model, mensagens);
+        }catch(final Exception exception){
+            assertTrue(false);
+        }
+        
+        assertTrue(!Double.isNaN(model.getResultado()));
+        assertTrue(model.getEstado().charValue() == 'F');
+
+    }
+
 }

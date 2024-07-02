@@ -58,4 +58,23 @@ public class AnexoTests {
         assertTrue( !model.getDescricao().equals("Aguardando Processamento") );
     }
 
+    @Test
+    public void divisaoPorZero(){
+        
+        model.setNumero1(0.0);
+        model.setNumero2(0.0);
+        model.setSinal('/');
+        model.setEstado('A');
+        
+        try{
+            anexoBusiness.aplicarCalculo(model);
+        }catch(final Exception exception){
+            assertTrue(false);
+        }
+        
+        assertTrue(!Double.isNaN(model.getResultado()));
+        assertTrue(model.getEstado().charValue() == 'F');
+
+    }
+
 }
