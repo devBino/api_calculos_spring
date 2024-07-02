@@ -48,6 +48,7 @@ body {
     text-decoration: none;
     text-align: center;
     transition: background-color 0.3s ease;
+    font-weight: bold;
 }
 
 #container .button:hover {
@@ -118,6 +119,7 @@ body {
     border-radius: 5px;
     text-align: center;
     transition: background-color 0.3s ease;
+    font-weight: bold;
 }
 
 /*
@@ -189,6 +191,7 @@ select:focus {
     text-align: center;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .btn:hover {

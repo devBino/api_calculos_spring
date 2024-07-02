@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import DivContainer from '../DivContainer';
 import api from '../../services/api';
 
@@ -10,17 +10,22 @@ export default function Calculos(){
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [totalRegistros, setTotalRegistros] = useState(1);
     
+    const navigate = useNavigate();
+
     useEffect(()=>{
 
-        const getPage = async function(pPagina){
+        const token = localStorage.getItem('token');
+        
+        let logado = token !== undefined && token !== null;
 
-            if( pPagina < 1 ){
-                setPagina(totalPaginas);
-                pPagina = totalPaginas > 0 ? totalPaginas : 1;
-            }
-    
+        if( !logado ){
+            return;
+        }
+
+        const getPage = async function(){
+
             await api
-                .get(`calculos/listar?page=${pPagina}&limit=10`)
+                .get(`calculos/listar?page=${pagina}&limit=10`)
                 .then(response => {
 
                     setTotalPaginas( response.data.totalPaginas );
@@ -28,32 +33,30 @@ export default function Calculos(){
     
                     if( response.data.calculos !== undefined && response.data.calculos.length > 0 ){
                         setCalculos(response.data.calculos);
-                    }else{
-                        setPagina(1);
                     }
+                    
                 });
         }
 
-        const token = localStorage.getItem('token');
-        
-        let logado = token !== undefined && token !== null;
+        getPage();
 
-        if(logado){
-            getPage(pagina);
-        }
-
-    }, [pagina, totalPaginas, totalRegistros]);
+    }, [pagina]);
 
     function nextPage(ev){
         ev.preventDefault();
-        let pageAtual = pagina + 1;
-        setPagina(pageAtual)
+        let pageAtual = ((pagina + 1) <= totalPaginas) ? pagina + 1 : 1;
+        setPagina(pageAtual);
     }
 
     function prevPage(ev){
         ev.preventDefault();
-        let pageAtual = pagina - 1;
+        let pageAtual = ((pagina - 1) > 0) ? pagina - 1 : totalPaginas;
         setPagina(pageAtual)
+    }
+
+    function detalhesCalculo(pId){
+        localStorage.setItem('calculo_id', pId);
+        navigate(`/calculo-detalhe`);
     }
 
     return (
@@ -107,7 +110,7 @@ export default function Calculos(){
                                         <td>{c.resultado.toFixed(4)}</td>
                                         <td>{c.descricao}</td>
                                         <td>{c.estado}</td>
-                                        <td><Link className="button" class="button-sm" to={`/calculo-detalhe/${c.id}`}>Ver</Link></td>
+                                        <td><button className="button" class="button-sm" onClick={() => detalhesCalculo(c.id)} >Ver</button></td>
                                     </tr>
                                 ))
                             }

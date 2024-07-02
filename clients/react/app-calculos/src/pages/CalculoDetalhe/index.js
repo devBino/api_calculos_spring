@@ -1,12 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
 import DivContainter from '../DivContainer';
 import api from '../../services/api';
 
 export default function CalculoDetalhe(){
     
-    let {id} = useParams();
-
     const [dadosCalculo, setDadosCalculo] = useState({});
     const [historicos, setHistoricos] = useState([]);
     const [numero1, setNumero1] = useState('');
@@ -15,15 +12,22 @@ export default function CalculoDetalhe(){
 
     useEffect(()=>{
 
+        let calculo_id = localStorage.getItem('calculo_id');
+
+        if( calculo_id === undefined || calculo_id === null ){
+            window.location.href = '/calculos';
+            return;
+        }
+
         const getCalculo = async function(){
-            await api.get(`calculos/detalhar/${id}`)
+            await api.get(`calculos/detalhar/${calculo_id}`)
                 .then(response => {
                     setDadosCalculo(response.data);
                 });
         }
 
         const historicos = async function(){
-            await api.get(`calculo-historico/${id}`)
+            await api.get(`calculo-historico/${calculo_id}`)
                 .then(response => {
                     setHistoricos(response.data);
                 });
@@ -32,18 +36,20 @@ export default function CalculoDetalhe(){
         getCalculo();
         historicos();
 
-    }, [id])
+    }, [])
 
     async function deletarCalculo(ev){
         
         ev.preventDefault();
+        
+        let calculo_id = localStorage.getItem('calculo_id');
 
-        if( !window.confirm(`Deseja Realmente Deletar o Cálculo ${id}`) ){
+        if( !window.confirm(`Deseja Realmente Deletar o Cálculo ${calculo_id}`) ){
             return;
         }
         
         try{
-            await api.delete(`calculos/deletar/${id}`)
+            await api.delete(`calculos/deletar/${calculo_id}`)
                 .then(response => {
                     alert('Calculo deletado com sucesso');
                     window.location.href = '/calculos';
@@ -58,10 +64,12 @@ export default function CalculoDetalhe(){
             
         ev.preventDefault();
 
+        let calculo_id = localStorage.getItem('calculo_id');
+
         try{
 
             await api.put('calculos/atualizar', {
-                    id:id,
+                    id:calculo_id,
                     numero1:numero1,
                     numero2:numero2,
                     sinal:sinal
@@ -69,9 +77,8 @@ export default function CalculoDetalhe(){
                 .then(response => {
                     
                     let status = response.status;
-                    let id = response.data.id;
                     
-                    if( status === 200 && id !== undefined ){
+                    if( status === 200 && response.data.id !== undefined ){
                         alert('Calculo Atualizado com Sucesso')
                         window.location.href = '/calculos';
                         return;
