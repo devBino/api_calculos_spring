@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Primary;
 
 import br.com.calculo.processor.business.AnexoBusiness;
 import br.com.calculo.processor.business.CalculoBusiness;
+import br.com.calculo.processor.service.CalculoServiceFactory;
 
 /**
  * Configurações gerais para os testes
@@ -23,6 +24,12 @@ public class TestConfigs {
     @Primary
     public AnexoBusiness anexoBusiness(){
         return new AnexoBusiness();
+    }
+
+    @Bean
+    @Primary
+    public CalculoServiceFactory calculoServiceFactory(){
+        return new CalculoServiceFactory();
     }
 
 }
