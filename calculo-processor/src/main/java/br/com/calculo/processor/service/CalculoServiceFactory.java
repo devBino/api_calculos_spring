@@ -5,6 +5,10 @@ import java.util.function.Predicate;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * Factory para retornar operação de calculo de acordo
+ * com sinal recebido
+ */
 @Component
 public class CalculoServiceFactory{
 

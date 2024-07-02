@@ -27,6 +27,7 @@ public class TestConfigs {
     }
 
     @Bean
+    @Primary
     public CalculoServiceFactory calculoServiceFactory(){
         return new CalculoServiceFactory();
     }
