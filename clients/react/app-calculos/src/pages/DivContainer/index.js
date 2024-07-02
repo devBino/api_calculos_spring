@@ -18,14 +18,14 @@ export default function DivContainer({children, title, login}){
             <div class="row">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <Link className="button" class="navbar-brand" to="/home">Home</Link>
+                    <Link className="button" class="navbar-brand" to="/sistema">Home</Link>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <Link className="button" class="nav-link" to="/home">Home</Link>
+                            <Link className="button" class="nav-link" to="/sistema">Home</Link>
                         </li>
                         <li class="nav-item">
                             <Link className="button" class="nav-link" to="/cadastro">Cadastro</Link>
@@ -35,9 +35,6 @@ export default function DivContainer({children, title, login}){
                         </li>
                         <li class="nav-item">
                             <Link className="button" class="nav-link" to="/anexos">Anexos</Link>
-                        </li>
-                        <li class="nav-item">
-                            <Link className="button" class="nav-link" to="/historicos">Historicos</Link>
                         </li>
                         <li class="nav-item">
                             <Link className="button" class="nav-link" to="/login">Logout</Link>

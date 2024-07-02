@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import DivContainer from '../DivContainer';
 import api from '../../services/api';
 
@@ -15,7 +16,7 @@ export default function Calculos(){
 
             if( pPagina < 1 ){
                 setPagina(totalPaginas);
-                pPagina = totalPaginas;
+                pPagina = totalPaginas > 0 ? totalPaginas : 1;
             }
     
             await api
@@ -33,7 +34,13 @@ export default function Calculos(){
                 });
         }
 
-        getPage(pagina);
+        const token = localStorage.getItem('token');
+        
+        let logado = token !== undefined && token !== null;
+
+        if(logado){
+            getPage(pagina);
+        }
 
     }, [pagina, totalPaginas, totalRegistros]);
 
@@ -84,6 +91,7 @@ export default function Calculos(){
                                 <th scope="col">Resultado</th>
                                 <th scope="col">Descrição</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">-</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,9 +104,10 @@ export default function Calculos(){
                                         <td>{c.numero1}</td>
                                         <td>{c.numero2}</td>
                                         <td>{c.sinal}</td>
-                                        <td>{c.resultado}</td>
+                                        <td>{c.resultado.toFixed(4)}</td>
                                         <td>{c.descricao}</td>
                                         <td>{c.estado}</td>
+                                        <td><Link className="button" class="button-sm" to={`/calculo-detalhe/${c.id}`}>Ver</Link></td>
                                     </tr>
                                 ))
                             }
