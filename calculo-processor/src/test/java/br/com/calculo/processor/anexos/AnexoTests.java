@@ -2,6 +2,7 @@ package br.com.calculo.processor.anexos;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,7 @@ public class AnexoTests {
         model.setDescricao("Aguardando Processamento");
         model.setCalculoUU(UUID.randomUUID().toString());
 
-        anexoBusiness.aplicarCalculo(model);
+        anexoBusiness.aplicarCalculo(model, 10L);
 
     }
 
@@ -67,7 +68,7 @@ public class AnexoTests {
         model.setEstado('A');
         
         try{
-            anexoBusiness.aplicarCalculo(model);
+            anexoBusiness.aplicarCalculo(model, 10L);
         }catch(final Exception exception){
             assertTrue(false);
         }
@@ -75,6 +76,11 @@ public class AnexoTests {
         assertTrue(!Double.isNaN(model.getResultado()));
         assertTrue(model.getEstado().charValue() == 'F');
 
+    }
+
+    @Test
+    public void checkAnexoVinculado(){
+        assertTrue( Objects.nonNull( model.getAnexoId() ) );
     }
 
 }

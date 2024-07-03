@@ -51,6 +51,9 @@ public class MCalculo implements Serializable {
     @OneToMany(mappedBy = "calculo", cascade = CascadeType.ALL)
     private List<MCalculoHistorico> hisoricos;
 
+    @Column(name = "anexo_id")
+    private Long anexoId;
+
     public MCalculo(){
         if( calculoUU == null ){
             calculoUU = UUID.randomUUID().toString();
@@ -127,6 +130,14 @@ public class MCalculo implements Serializable {
 
     public List<MCalculoHistorico> getHisoricos() {
         return hisoricos;
+    }
+
+    public Long getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(Long anexoId) {
+        this.anexoId = anexoId;
     }
 
 }

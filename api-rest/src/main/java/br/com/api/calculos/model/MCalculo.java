@@ -48,6 +48,9 @@ public class MCalculo implements Serializable {
     @Column(name = "estado", nullable = false)
     private Character estado;
 
+    @Column(name = "anexo_id")
+    private Long anexoId;
+
     @OneToMany(mappedBy = "calculo", cascade = CascadeType.ALL)
     private List<MCalculoHistorico> historicos;
 
@@ -125,6 +128,14 @@ public class MCalculo implements Serializable {
 
     public List<MCalculoHistorico> getHistoricos() {
         return historicos;
+    }
+
+    public Long getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(Long anexoId) {
+        this.anexoId = anexoId;
     }
 
 }

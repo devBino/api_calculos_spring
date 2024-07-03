@@ -1,6 +1,5 @@
 package br.com.api.calculos.model.ifacejpa;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -20,6 +19,9 @@ public interface CalculoRepository extends JpaRepository<MCalculo, Long> {
 
     @Query("from MCalculo where sinal =:sinal")
     Page<MCalculo> findBySinal(@Param(value = "sinal") Character sinal, Pageable paginacao);
+
+    @Query("from MCalculo where anexoId =:anexoId")
+    Page<MCalculo> findByIdAnexo(@Param(value = "anexoId") Long anexoId, Pageable paginacao);
 
     @Query("from MCalculo where calculoUU =:calculoUU")
     Optional<MCalculo> findByCalculoUU(@Param(value = "calculoUU") String calculoUU);
