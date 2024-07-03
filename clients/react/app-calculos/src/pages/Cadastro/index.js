@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import DivContainer from "../DivContainer";
 import api from '../../services/api';
+import apiError from '../../services/apiError';
 
 export default function Cadastro(){
     
@@ -17,6 +18,24 @@ export default function Cadastro(){
 
         try{
 
+            if( numero1 === undefined || numero1 === null || numero1 === '' ){
+                alert('Campo Valor 1 deve ser informado...');
+                document.getElementById('numero1').focus();
+                return;
+            }
+
+            if( numero2 === undefined || numero2 === null || numero2 === '' ){
+                alert('Campo Valor 2 deve ser informado...');
+                document.getElementById('numero2').focus();
+                return;
+            }
+
+            if( sinal === undefined || sinal === null || sinal === '' ){
+                alert('Campo Sinal deve ser informado...');
+                document.getElementById('sinal').focus();
+                return;
+            }
+            
             let calculo = {
                 numero1: numero1,
                 numero2: numero2,
@@ -38,7 +57,7 @@ export default function Cadastro(){
             navigate('/cadastro');
 
         }catch(err){
-            alert('Ocorreu um erro ao tentar cadastrar o cálculo...');
+            apiError(err);
         }
 
     }
@@ -46,61 +65,66 @@ export default function Cadastro(){
     return (
         <DivContainer title="Cadastro de Novo Cálculo">
             
-            <div class="col-md-4">
+            <div class="row">
 
-            </div>
-            <div class="col-md-4">
-                <form class="form-control" onSubmit={cadastrar}>
+                <div class="col-md-4">
 
-                    <div class="row p-2">
-                        <div class="col-md-3 d-flex justify-content-end">
-                            <label for="numero1" class="form-label">Valor 1</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="number" id="numero1" name="numero1" step="0.01" class="form-control" aria-label="Primeiro Valor Numérico, inteiro ou decimal"
-                            value={numero1} onChange={e => setNumero1(e.target.value)}></input>
-                        </div>
-                    </div>
+                </div>
+                <div class="col-md-4">
+                    <form class="form-control" onSubmit={cadastrar}>
 
-                    <div class="row p-2">
-                        <div class="col-md-3 d-flex justify-content-end">
-                            <label for="numero2" class="form-label">Valor 2</label>
-                        </div>
-                        <div class="col-md-9">
-                            <input type="number" id="numero2" name="numero2" step="0.01" class="form-control" aria-label="Segundo Valor Numérico, inteiro ou decimal"
-                            value={numero2} onChange={e => setNumero2(e.target.value)}></input>
-                        </div>
-                    </div>
-
-                    <div class="row p-2">
-                        <div class="col-md-3 d-flex justify-content-end">
-                            <label for="sinal" class="form-label">Sinal</label>
-                        </div>
-                        <div class="col-md-9">
-                            <select id="sinal" name="sinal" class="form-select" aria-label="Sinal para o cálculo matemático"
-                            value={sinal} onChange={e => setSinal(e.target.value)}>
-                                <option></option>
-                                <option value="+">Adição</option>
-                                <option value="-">Subtração</option>
-                                <option value="*">Multiplicação</option>
-                                <option value="/">Divisão</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row p-2">
-                        <div class="col-md-12">
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Salvar Cálculo</button>
+                        <div class="row p-2">
+                            <div class="col-md-3 d-flex justify-content-end">
+                                <label for="numero1" class="form-label">Valor 1</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="number" id="numero1" name="numero1" step="0.01" class="form-control" aria-label="Primeiro Valor Numérico, inteiro ou decimal"
+                                value={numero1} onChange={e => setNumero1(e.target.value)}></input>
                             </div>
                         </div>
-                    </div>
 
-                </form>
-            </div>
-            <div class="col-md-4">
+                        <div class="row p-2">
+                            <div class="col-md-3 d-flex justify-content-end">
+                                <label for="numero2" class="form-label">Valor 2</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="number" id="numero2" name="numero2" step="0.01" class="form-control" aria-label="Segundo Valor Numérico, inteiro ou decimal"
+                                value={numero2} onChange={e => setNumero2(e.target.value)}></input>
+                            </div>
+                        </div>
 
+                        <div class="row p-2">
+                            <div class="col-md-3 d-flex justify-content-end">
+                                <label for="sinal" class="form-label">Sinal</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select id="sinal" name="sinal" class="form-select" aria-label="Sinal para o cálculo matemático"
+                                value={sinal} onChange={e => setSinal(e.target.value)}>
+                                    <option></option>
+                                    <option value="+">Adição</option>
+                                    <option value="-">Subtração</option>
+                                    <option value="*">Multiplicação</option>
+                                    <option value="/">Divisão</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row p-2">
+                            <div class="col-md-12">
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary">Salvar Cálculo</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                
             </div>
+
         </DivContainer>
     )
 }

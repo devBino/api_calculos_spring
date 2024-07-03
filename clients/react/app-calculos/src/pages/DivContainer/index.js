@@ -69,7 +69,9 @@ export default function DivContainer({children, title, login}){
             </div>
 
             <div class="row">
-                {conteudoRoot}
+                <div class="col-md-12">
+                    {conteudoRoot}
+                </div>
             </div>
         </div>
     );

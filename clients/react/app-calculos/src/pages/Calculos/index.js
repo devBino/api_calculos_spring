@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import DivContainer from '../DivContainer';
 import api from '../../services/api';
+import apiError from '../../services/apiError';
 
 export default function Calculos(){
 
@@ -41,9 +42,7 @@ export default function Calculos(){
                     
                 })
                 .catch(err => {
-                    if( err.response.status === 401 ){
-                        window.location.href = '/';
-                    }
+                    apiError(err);
                 });
         }
 
@@ -84,15 +83,23 @@ export default function Calculos(){
 
     }
 
+    function atualizar(){
+        localStorage.removeItem('sinal_calculo');
+        window.location.href = '/calculos';
+    }
+
     return (
         <DivContainer title='Listagem de Calculos'>
             
             <div class="row">
-                <div class="col-lg-8 col-md-7 col-sm-6 col-12">
+
+                <div class="col-md-1"></div>
+
+                <div class="col-lg-7 col-md-7 col-sm-6 col-12">
                     <h3>Página: {pagina} de {totalPaginas} - Registros: {totalRegistros}</h3>
                 </div>
                 
-                <div class="col-lg-4 col-md-5 col-sm-6 col-12 d-flex justify-content-end mb-2">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-12 d-flex justify-content-end mb-2">
 
                     <div class="btn-group justify-content-end" role="group">
                         <button type="button" class="button-sm sinal" id="sinalAdd" onClick={() => calculosPorSinal(1, 'sinalAdd')}>+</button>
@@ -101,12 +108,17 @@ export default function Calculos(){
                         <button type="button" class="button-sm sinal" id="sinalDiv" onClick={() => calculosPorSinal(4, 'sinalDiv')}>/</button>
                         <button type="button" class="button-sm" onClick={prevPage}>Prev</button>
                         <button type="button" class="button-sm" onClick={nextPage}>Next</button>
+                        <button type="button" class="button-sm" onClick={atualizar} >Atualizar</button>
                     </div>
 
                 </div>
 
+                <div class="col-md-1"></div>
+
             </div>
             
+            <hr/>
+
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
