@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import DivContainter from '../DivContainer';
 import api from '../../services/api';
+import apiError from '../../services/apiError';
 
 export default function CalculoDetalhe(){
     
@@ -23,6 +24,9 @@ export default function CalculoDetalhe(){
             await api.get(`calculos/detalhar/${calculo_id}`)
                 .then(response => {
                     setDadosCalculo(response.data);
+                })
+                .catch(err => {
+                    apiError(err);
                 });
         }
 
@@ -30,13 +34,17 @@ export default function CalculoDetalhe(){
             await api.get(`calculo-historico/${calculo_id}`)
                 .then(response => {
                     setHistoricos(response.data);
+                })
+                .catch(err => {
+                    apiError(err);
                 });
         }
 
+        
         getCalculo();
         historicos();
-
-    }, [])
+        
+    }, []);
 
     async function deletarCalculo(ev){
         
@@ -48,15 +56,14 @@ export default function CalculoDetalhe(){
             return;
         }
         
-        try{
-            await api.delete(`calculos/deletar/${calculo_id}`)
-                .then(response => {
-                    alert('Calculo deletado com sucesso');
-                    window.location.href = '/calculos';
-                });
-        }catch(err){
-            alert('Erro ao deletar o calculo');
-        }
+        await api.delete(`calculos/deletar/${calculo_id}`)
+            .then(response => {
+                alert('Calculo deletado com sucesso');
+                window.location.href = '/calculos';
+            })
+            .catch(err => {
+                apiError(err);
+            });
 
     }
 
@@ -66,31 +73,28 @@ export default function CalculoDetalhe(){
 
         let calculo_id = localStorage.getItem('calculo_id');
 
-        try{
+        await api.put('calculos/atualizar', {
+                id:calculo_id,
+                numero1:numero1,
+                numero2:numero2,
+                sinal:sinal
+            })
+            .then(response => {
+                
+                let status = response.status;
+                
+                if( status === 200 && response.data.id !== undefined ){
+                    alert('Calculo Atualizado com Sucesso')
+                    window.location.href = '/calculos';
+                    return;
+                }
 
-            await api.put('calculos/atualizar', {
-                    id:calculo_id,
-                    numero1:numero1,
-                    numero2:numero2,
-                    sinal:sinal
-                })
-                .then(response => {
-                    
-                    let status = response.status;
-                    
-                    if( status === 200 && response.data.id !== undefined ){
-                        alert('Calculo Atualizado com Sucesso')
-                        window.location.href = '/calculos';
-                        return;
-                    }
+                alert('Não foi possível concluir atualização do cálculo')
 
-                    alert('Não foi possível concluir atualização do cálculo')
-
-                })
-
-        }catch(err){
-            alert('Erro ao atualizar o calculo');
-        }
+            })
+            .catch(err => {
+                apiError(err);
+            });
 
     }
 
