@@ -18,6 +18,18 @@ export default function Login(){
         
         try{
             
+            if( username === undefined || username === null || username === '' ){
+                alert('Campo Usuário Obrigatório...');
+                document.getElementById('usuario').focus();
+                return;
+            }
+
+            if( password === undefined || password === null || password === '' ){
+                alert('Campo Password Obrigatório...');
+                document.getElementById('password').focus();
+                return;
+            }
+
             const response = await api.get(`auth/token/${username}/${password}`);
 
             localStorage.setItem('username', username);
@@ -40,29 +52,35 @@ export default function Login(){
 
     return (
         <DivContainer title="Login na Aplicação" login="1">
-            <div class="col-md-4">
+            
+            <div class="row">
+
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4">
+                    <form class="form-control mt-4" onSubmit={login}>
+                        <div class="mb-3">
+                            <label for="usuario" class="form-label">Usuário</label>
+                            <input type="text" class="form-control" id="usuario"
+                            value={username} onChange={e => setUsername(e.target.value)}></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password"
+                            value={password} onChange={e => setPassword(e.target.value)}></input>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Acessar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+
+                </div>
 
             </div>
-            <div class="col-md-4">
-                <form class="form-control mt-4" onSubmit={login}>
-                    <div class="mb-3">
-                        <label for="usuario" class="form-label">Usuário</label>
-                        <input type="text" class="form-control" id="usuario"
-                        value={username} onChange={e => setUsername(e.target.value)}></input>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password"
-                        value={password} onChange={e => setPassword(e.target.value)}></input>
-                    </div>
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Acessar</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-4">
-
-            </div>
+            
         </DivContainer>
     );
 }
