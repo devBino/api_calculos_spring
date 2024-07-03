@@ -153,7 +153,8 @@ public class CalculoController {
     )
     public ResponseEntity<?> listar(
         @RequestParam(value = "page") String page,
-        @RequestParam(value = "limit") String limit
+        @RequestParam(value = "limit") String limit,
+        @RequestParam(value = "sinal", defaultValue = "na") String sinal
     ){
         
         PaginateParansVO pagVO = new PaginateParansVO(page, limit);
@@ -167,24 +168,13 @@ public class CalculoController {
         Integer vPage = Integer.valueOf(page);
         
         Pageable paginacao = PageRequest.of(--vPage, Integer.valueOf(limit));
-        return ResponseEntity.ok(service.listar(paginacao));
 
-    }
-
-    /**
-     * Recebe requisição GET para listar calculos pelo sinal
-     * @param sinal
-     * @return
-     */
-    @GetMapping(
-        value = "/listar-por-sinal/{sinal}",
-        produces = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE
+        if( sinal.equals("na") ){
+            return ResponseEntity.ok(service.listar(paginacao));
         }
-    )
-    public List<CalculoVO> listarPorSinal(@PathVariable(value = "sinal") Byte sinal){
-        return service.listarPorSinal(sinal);
+
+        return ResponseEntity.ok( service.listarPorSinal(Byte.valueOf(sinal), paginacao) );
+
     }
 
     /**
