@@ -345,7 +345,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"numero1\":10.98,\n    \"numero2\":12.67,\n    \"sinal\":\"*\"\n}",
+									"raw": "{\n    \"numero1\":11.98,\n    \"numero2\":98.11,\n    \"sinal\":\"*\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -504,7 +504,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"id\": {{CALCULO_ID}},\n    \"numero1\": 100.99,\n    \"numero2\": 103.98,\n    \"sinal\": \"+\"\n}",
+									"raw": "{\n    \"id\": {{CALCULO_ID}},\n    \"numero1\": 399.99,\n    \"numero2\": 103.98,\n    \"sinal\": \"+\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1141,7 +1141,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"numero1\":10.98,\n    \"numero2\":12.67,\n    \"sinal\":\"*\"\n}\n",
+									"raw": "{\n    \"numero1\":109.98,\n    \"numero2\":15.67,\n    \"sinal\":\"/\"\n}\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1302,7 +1302,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"id\": {{CALCULO_ID}},\n    \"numero1\": 100.99,\n    \"numero2\": 103.98,\n    \"sinal\": \"+\"\n}",
+									"raw": "{\n    \"id\": {{CALCULO_ID}},\n    \"numero1\": 501.00,\n    \"numero2\": 2.5,\n    \"sinal\": \"/\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
