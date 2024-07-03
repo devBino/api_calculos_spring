@@ -3,6 +3,8 @@ package br.com.api.calculos.model.ifacejpa;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +19,7 @@ import br.com.api.calculos.model.MCalculo;
 public interface CalculoRepository extends JpaRepository<MCalculo, Long> {
 
     @Query("from MCalculo where sinal =:sinal")
-    List<MCalculo> findBySinal(@Param(value = "sinal") Character sinal);
+    Page<MCalculo> findBySinal(@Param(value = "sinal") Character sinal, Pageable paginacao);
 
     @Query("from MCalculo where calculoUU =:calculoUU")
     Optional<MCalculo> findByCalculoUU(@Param(value = "calculoUU") String calculoUU);
