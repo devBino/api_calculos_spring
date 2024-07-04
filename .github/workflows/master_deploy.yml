@@ -1,8 +1,8 @@
-name: CI/CD Microsserviços Calculos
+name: CI/CD dos Projetos Front/Back de Microsserviços Calculos
 
 on:
     push:
-        branches: [release/24.07]
+        branches: [master]
 
 jobs:
     build:

@@ -1,7 +1,12 @@
 package br.com.calculo.processor.business;
 
+import java.util.function.BiFunction;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import br.com.calculo.processor.service.CalculoServiceFactory;
+import br.com.calculo.processor.model.MAnexo;
 import br.com.calculo.processor.model.MCalculo;
 
 /**
@@ -11,17 +16,15 @@ import br.com.calculo.processor.model.MCalculo;
 @Component
 public class AnexoBusiness {
     
-    public void aplicarCalculo(final MCalculo pMCalculo){
+    @Autowired
+    private CalculoServiceFactory factory;
 
-        if( pMCalculo.getSinal() == '+' ){
-            pMCalculo.setResultado( pMCalculo.getNumero1() + pMCalculo.getNumero2() );
-        }else if( pMCalculo.getSinal() == '-' ){
-            pMCalculo.setResultado( pMCalculo.getNumero1() - pMCalculo.getNumero2() );
-        }else if( pMCalculo.getSinal() == '*' ){
-            pMCalculo.setResultado( pMCalculo.getNumero1() * pMCalculo.getNumero2() );
-        }else if( pMCalculo.getSinal() == '/' ){
-            pMCalculo.setResultado( pMCalculo.getNumero1() / pMCalculo.getNumero2() );
-        }
+    public void aplicarCalculo(final MCalculo pMCalculo, final Long pAnexoId){
+
+        final BiFunction<Double, Double, Double> fnCalc = factory.getOperation(pMCalculo.getSinal());
+
+        final Double resultado = fnCalc.apply(pMCalculo.getNumero1(), pMCalculo.getNumero2());
+        pMCalculo.setResultado(resultado);
 
         final StringBuilder sb = new StringBuilder()
                 .append(pMCalculo.getNumero1())
@@ -36,6 +39,7 @@ public class AnexoBusiness {
         pMCalculo.setDescricao(sb.toString());
         
         pMCalculo.setEstado('F');
+        pMCalculo.setAnexoId(pAnexoId);
 
     }
 

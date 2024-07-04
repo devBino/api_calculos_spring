@@ -1,5 +1,5 @@
 body {
-    background-color: #282a36;
+    background-color: #000000;
     color: #f8f8f2;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -48,6 +48,16 @@ body {
     text-decoration: none;
     text-align: center;
     transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+#container .button-sm-clicado {
+    border: 1px solid #8190c7;
+}
+
+#container .sinal {
+    font-size: 20pt;
+    width: 30pt;
 }
 
 #container .button:hover {
@@ -118,6 +128,7 @@ body {
     border-radius: 5px;
     text-align: center;
     transition: background-color 0.3s ease;
+    font-weight: bold;
 }
 
 /*
@@ -189,6 +200,7 @@ select:focus {
     text-align: center;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .btn:hover {

@@ -1,21 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import DivContainer from '../DivContainer';
 import api from '../../services/api';
 import apiError from '../../services/apiError';
+import DivContainer from '../DivContainer';
 
-export default function Calculos(){
+export default function CalculosAnexo(){
 
-    const [calculos, setCalculos] = useState([]);
+    const navigate = useNavigate();
+    
     const [pagina, setPagina] = useState(1);
-    const [sinal, setSinal] = useState(0);
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [totalRegistros, setTotalRegistros] = useState(1);
-    
-    const navigate = useNavigate();
+    const [calculos, setCalculos] = useState([]);
 
     useEffect(()=>{
-
+        
         const token = localStorage.getItem('token');
         
         let logado = token !== undefined && token !== null;
@@ -26,29 +25,25 @@ export default function Calculos(){
 
         const getPage = async function(){
 
-            let paramSinalCalculo = localStorage.getItem('sinal_calculo') !== undefined && localStorage.getItem('sinal_calculo') !== null 
-                ? `&sinal=${localStorage.getItem('sinal_calculo')}` : '';
-
-            await api
-                .get(`calculos/listar?page=${pagina}&limit=10${paramSinalCalculo}`)
+            await api.get(`calculos/listar-por-anexo?page=${pagina}&limit=10&anexoId=${ localStorage.getItem('anexo_id') }`)
                 .then(response => {
-
                     setTotalPaginas( response.data.totalPaginas );
                     setTotalRegistros( response.data.totalRegistros );
-    
+                
                     if( response.data.calculos !== undefined && response.data.calculos.length > 0 ){
                         setCalculos(response.data.calculos);
                     }
-                    
+
                 })
                 .catch(err => {
                     apiError(err);
                 });
+
         }
 
         getPage();
 
-    }, [pagina, sinal]);
+    }, [pagina]);
 
     function nextPage(ev){
         ev.preventDefault();
@@ -67,59 +62,34 @@ export default function Calculos(){
         navigate(`/calculo-detalhe`);
     }
 
-    function calculosPorSinal(pSinal, idBtn){
-        
-        localStorage.setItem('sinal_calculo', pSinal);
-        
-        setSinal(pSinal);
-        setPagina(1);
-
-        document.getElementById('sinalAdd').classList.remove('button-sm-clicado')
-        document.getElementById('sinalSub').classList.remove('button-sm-clicado')
-        document.getElementById('sinalMul').classList.remove('button-sm-clicado')
-        document.getElementById('sinalDiv').classList.remove('button-sm-clicado')
-
-        document.getElementById(idBtn).classList.add('button-sm-clicado')
-
-    }
-
-    function atualizar(){
-        localStorage.removeItem('sinal_calculo');
-        window.location.href = '/calculos';
-    }
-
     return (
-        <DivContainer title='Listagem de Calculos'>
-            
+
+        <DivContainer title={`Calculos do Anexo ${localStorage.getItem('nome_anexo')}`}>
+
             <div class="row">
 
                 <div class="col-md-1"></div>
 
-                <div class="col-lg-7 col-md-7 col-sm-6 col-12">
+                <div class="col-lg-8 col-md-8 col-sm-6 col-12">
                     <h3>Página: {pagina} de {totalPaginas} - Registros: {totalRegistros}</h3>
                 </div>
-                
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 d-flex justify-content-end mb-2">
+
+                <div class="col-lg-2 col-md-2 col-sm-6 col-12 d-flex justify-content-end mb-2">
 
                     <div class="btn-group justify-content-end" role="group">
-                        <button type="button" class="button-sm sinal" id="sinalAdd" onClick={() => calculosPorSinal(1, 'sinalAdd')}>+</button>
-                        <button type="button" class="button-sm sinal" id="sinalSub" onClick={() => calculosPorSinal(2, 'sinalSub')}>-</button>
-                        <button type="button" class="button-sm sinal" id="sinalMul" onClick={() => calculosPorSinal(3, 'sinalMul')}>*</button>
-                        <button type="button" class="button-sm sinal" id="sinalDiv" onClick={() => calculosPorSinal(4, 'sinalDiv')}>/</button>
                         <button type="button" class="button-sm" onClick={prevPage}>Prev</button>
                         <button type="button" class="button-sm" onClick={nextPage}>Next</button>
-                        <button type="button" class="button-sm" onClick={atualizar} >Atualizar</button>
                     </div>
 
                 </div>
 
                 <div class="col-md-1"></div>
 
-            </div>
-            
-            <hr/>
+                </div>
 
-            <div class="row">
+                <hr/>
+
+                <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
 
@@ -131,6 +101,7 @@ export default function Calculos(){
                                     <th scope="col">#</th>
                                     <th scope="col">ID</th>
                                     <th scope="col">UUID</th>
+                                    <th scope="col">Anexo ID</th>
                                     <th scope="col">Valor 1</th>
                                     <th scope="col">Valor 2</th>
                                     <th scope="col">Sinal</th>
@@ -147,6 +118,7 @@ export default function Calculos(){
                                             <th scope="row"></th>
                                             <td>{c.id}</td>
                                             <td>{c.calculoUU}</td>
+                                            <td>{c.anexoId}</td>
                                             <td>{c.numero1}</td>
                                             <td>{c.numero2}</td>
                                             <td>{c.sinal}</td>
@@ -163,8 +135,11 @@ export default function Calculos(){
                 </div>
 
                 <div class="col-md-1"></div>
+
             </div>
 
         </DivContainer>
+        
     );
+
 }

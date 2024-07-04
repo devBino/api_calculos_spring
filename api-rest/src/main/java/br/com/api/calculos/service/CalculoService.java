@@ -108,7 +108,7 @@ public class CalculoService {
 
     }
 
-    public List<CalculoVO> listarPorSinal(final Byte sinal){
+    public ListaCalculosVO listarPorSinal(final Byte sinal, final Pageable paginacao){
 
         SinalCalculoType sinalCalcType = SinalCalculoType.fromIndice(sinal);
 
@@ -116,11 +116,33 @@ public class CalculoService {
             sinalCalcType = SinalCalculoType.ADICAO;
         }
 
-        return repository
-            .findBySinal(sinalCalcType.getSinal())
-            .stream()
-            .map(converter::toVo)
-            .collect(Collectors.toList());
+        final Page<CalculoVO> calculos = repository
+            .findBySinal(sinalCalcType.getSinal(), paginacao)
+            .map(converter::toVo);
+
+        final ListaCalculosVO lista = new ListaCalculosVO();
+
+        lista.setCalculos(calculos.getContent());
+        lista.setTotalPaginas(calculos.getTotalPages());
+        lista.setTotalRegistros(calculos.getTotalElements());
+
+        return lista;
+
+    }
+
+    public ListaCalculosVO listarPorAnexo(final Long anexoId, final Pageable paginacao){
+
+        final Page<CalculoVO> calculos = repository
+            .findByIdAnexo(anexoId, paginacao)
+            .map(converter::toVo);
+
+        final ListaCalculosVO lista = new ListaCalculosVO();
+
+        lista.setCalculos(calculos.getContent());
+        lista.setTotalPaginas(calculos.getTotalPages());
+        lista.setTotalRegistros(calculos.getTotalElements());
+
+        return lista;
 
     }
 

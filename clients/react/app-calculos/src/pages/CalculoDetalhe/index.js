@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { useParams } from 'react-router-dom';
 import DivContainter from '../DivContainer';
 import api from '../../services/api';
+import apiError from '../../services/apiError';
 
 export default function CalculoDetalhe(){
     
-    let {id} = useParams();
-
     const [dadosCalculo, setDadosCalculo] = useState({});
     const [historicos, setHistoricos] = useState([]);
     const [numero1, setNumero1] = useState('');
@@ -15,42 +13,57 @@ export default function CalculoDetalhe(){
 
     useEffect(()=>{
 
+        let calculo_id = localStorage.getItem('calculo_id');
+
+        if( calculo_id === undefined || calculo_id === null ){
+            window.location.href = '/calculos';
+            return;
+        }
+
         const getCalculo = async function(){
-            await api.get(`calculos/detalhar/${id}`)
+            await api.get(`calculos/detalhar/${calculo_id}`)
                 .then(response => {
                     setDadosCalculo(response.data);
+                })
+                .catch(err => {
+                    apiError(err);
                 });
         }
 
         const historicos = async function(){
-            await api.get(`calculo-historico/${id}`)
+            await api.get(`calculo-historico/${calculo_id}`)
                 .then(response => {
                     setHistoricos(response.data);
+                })
+                .catch(err => {
+                    apiError(err);
                 });
         }
 
+        
         getCalculo();
         historicos();
-
-    }, [])
+        
+    }, []);
 
     async function deletarCalculo(ev){
         
         ev.preventDefault();
+        
+        let calculo_id = localStorage.getItem('calculo_id');
 
-        if( !window.confirm(`Deseja Realmente Deletar o Cálculo ${id}`) ){
+        if( !window.confirm(`Deseja Realmente Deletar o Cálculo ${calculo_id}`) ){
             return;
         }
         
-        try{
-            await api.delete(`calculos/deletar/${id}`)
-                .then(response => {
-                    alert('Calculo deletado com sucesso');
-                    window.location.href = '/calculos';
-                });
-        }catch(err){
-            alert('Erro ao deletar o calculo');
-        }
+        await api.delete(`calculos/deletar/${calculo_id}`)
+            .then(response => {
+                alert('Calculo deletado com sucesso');
+                window.location.href = '/calculos';
+            })
+            .catch(err => {
+                apiError(err);
+            });
 
     }
 
@@ -58,32 +71,30 @@ export default function CalculoDetalhe(){
             
         ev.preventDefault();
 
-        try{
+        let calculo_id = localStorage.getItem('calculo_id');
 
-            await api.put('calculos/atualizar', {
-                    id:id,
-                    numero1:numero1,
-                    numero2:numero2,
-                    sinal:sinal
-                })
-                .then(response => {
-                    
-                    let status = response.status;
-                    let id = response.data.id;
-                    
-                    if( status === 200 && id !== undefined ){
-                        alert('Calculo Atualizado com Sucesso')
-                        window.location.href = '/calculos';
-                        return;
-                    }
+        await api.put('calculos/atualizar', {
+                id:calculo_id,
+                numero1:numero1,
+                numero2:numero2,
+                sinal:sinal
+            })
+            .then(response => {
+                
+                let status = response.status;
+                
+                if( status === 200 && response.data.id !== undefined ){
+                    alert('Calculo Atualizado com Sucesso')
+                    window.location.href = '/calculos';
+                    return;
+                }
 
-                    alert('Não foi possível concluir atualização do cálculo')
+                alert('Não foi possível concluir atualização do cálculo')
 
-                })
-
-        }catch(err){
-            alert('Erro ao atualizar o calculo');
-        }
+            })
+            .catch(err => {
+                apiError(err);
+            });
 
     }
 
