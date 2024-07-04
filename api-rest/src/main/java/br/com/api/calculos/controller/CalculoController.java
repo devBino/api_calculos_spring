@@ -178,6 +178,42 @@ public class CalculoController {
     }
 
     /**
+     * Recebe requisição GET para para listagem paginada
+     * dos registros por id do anexo
+     * @param page
+     * @param limit
+     * @return
+     */
+    @GetMapping(
+        value = "/listar-por-anexo", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
+    public ResponseEntity<?> listarPorAnexo(
+        @RequestParam(value = "page") String page,
+        @RequestParam(value = "limit") String limit,
+        @RequestParam(value = "anexoId") String anexoId
+    ){
+        
+        PaginateParansVO pagVO = new PaginateParansVO(page, limit);
+
+        Set<ConstraintViolation<PaginateParansVO>> erros = validator.validate(pagVO);
+
+        if( !erros.isEmpty() ){
+            return calculoResponse.buildResponseErrosPaginacao(erros);
+        }
+
+        Integer vPage = Integer.valueOf(page);
+        
+        Pageable paginacao = PageRequest.of(--vPage, Integer.valueOf(limit));
+
+        return ResponseEntity.ok( service.listarPorAnexo(Long.valueOf(anexoId), paginacao) );
+
+    }
+
+    /**
      * Recebe requisição GET para detalhar um calculo
      * @param id
      * @return

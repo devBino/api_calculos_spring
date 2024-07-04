@@ -99,7 +99,7 @@ public class AnexoService implements RegistroService {
             mCalc.setNumero2(Double.valueOf(valoresCamposCsv[1]));
             mCalc.setSinal(valoresCamposCsv[2].charAt(0));
 
-            anexoBusiness.aplicarCalculo(mCalc);
+            anexoBusiness.aplicarCalculo(mCalc, anexo.getId());
 
             MCalculo calculoSalvo = calculoRepository.save(mCalc);
 

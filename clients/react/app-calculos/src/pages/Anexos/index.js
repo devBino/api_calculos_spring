@@ -69,6 +69,12 @@ export default function Anexos(){
             return;
         }
 
+        if( selectedFile.type !== 'text/csv' ){
+            alert('Por Favor, selecione um arquivo csv')
+            document.getElementById('arquivo').focus();
+            return;
+        }
+
         const data = new FormData();
         data.append('file', selectedFile);
     
@@ -95,6 +101,12 @@ export default function Anexos(){
 
     function atualizar(){
         window.location.href = '/anexos';
+    }
+
+    function calculosPorAnexo(pAnexoId, pNomeAnexo){
+        localStorage.setItem('anexo_id', pAnexoId);
+        localStorage.setItem('nome_anexo', pNomeAnexo);
+        window.location.href = '/calculos-anexo';
     }
 
     function submitForm(ev){
@@ -183,7 +195,7 @@ export default function Anexos(){
                                             <td>{a.contentType}</td>
                                             <td>{a.createdAt}</td>
                                             <td>{a.status}</td>
-                                            <td><button className="button" class="button-sm">Ver</button></td>
+                                            <td><button className="button" class="button-sm" onClick={()=>calculosPorAnexo(a.id, a.name)}>Ver</button></td>
                                         </tr>
                                      ))
                                 }
