@@ -38,6 +38,7 @@ public class CalculoConverterTests {
         model = new MCalculo();
 
         model.setId(123L);
+        model.setAnexoId(10L);
         model.setCalculoUU(UUID.randomUUID().toString());
         model.setNumero1(10.11);
         model.setNumero2(23.33);
@@ -49,6 +50,7 @@ public class CalculoConverterTests {
         vo = new CalculoVO();
 
         vo.setId(123L);
+        vo.setAnexoId(10L);
         vo.setCalculoUU(UUID.randomUUID().toString());
         vo.setNumero1(10.11);
         vo.setNumero2(23.33);
@@ -75,6 +77,22 @@ public class CalculoConverterTests {
         assertTrue(
             vo.getId().longValue() == mdConverted.getId().longValue() &&
             model.getId().longValue() == voConverted.getId().longValue()
+        );
+    }
+
+    @Test
+    public void checkIdAnexoConvertido(){
+        assertTrue( 
+            !Objects.isNull(mdConverted.getAnexoId()) &&
+            !Objects.isNull(voConverted.getAnexoId())
+        );
+    }
+
+    @Test
+    public void checkIgualdadeIdAnexo(){
+        assertTrue(
+            vo.getAnexoId().longValue() == mdConverted.getAnexoId().longValue() &&
+            model.getAnexoId().longValue() == voConverted.getAnexoId().longValue()
         );
     }
 

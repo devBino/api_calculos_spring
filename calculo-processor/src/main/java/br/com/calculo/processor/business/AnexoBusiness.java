@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.calculo.processor.service.CalculoServiceFactory;
+import br.com.calculo.processor.model.MAnexo;
 import br.com.calculo.processor.model.MCalculo;
 
 /**
@@ -18,7 +19,7 @@ public class AnexoBusiness {
     @Autowired
     private CalculoServiceFactory factory;
 
-    public void aplicarCalculo(final MCalculo pMCalculo){
+    public void aplicarCalculo(final MCalculo pMCalculo, final Long pAnexoId){
 
         final BiFunction<Double, Double, Double> fnCalc = factory.getOperation(pMCalculo.getSinal());
 
@@ -38,6 +39,7 @@ public class AnexoBusiness {
         pMCalculo.setDescricao(sb.toString());
         
         pMCalculo.setEstado('F');
+        pMCalculo.setAnexoId(pAnexoId);
 
     }
 

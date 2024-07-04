@@ -130,6 +130,22 @@ public class CalculoService {
 
     }
 
+    public ListaCalculosVO listarPorAnexo(final Long anexoId, final Pageable paginacao){
+
+        final Page<CalculoVO> calculos = repository
+            .findByIdAnexo(anexoId, paginacao)
+            .map(converter::toVo);
+
+        final ListaCalculosVO lista = new ListaCalculosVO();
+
+        lista.setCalculos(calculos.getContent());
+        lista.setTotalPaginas(calculos.getTotalPages());
+        lista.setTotalRegistros(calculos.getTotalElements());
+
+        return lista;
+
+    }
+
     public CalculoVO detalhar(final Long id){
         
         final Optional<MCalculo> mdCandidato = repository.findById(id);

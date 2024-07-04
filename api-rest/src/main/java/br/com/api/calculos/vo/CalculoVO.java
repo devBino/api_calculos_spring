@@ -13,6 +13,7 @@ import jakarta.validation.constraints.NotNull;
 @JacksonXmlRootElement(localName = "Calculo")
 @JsonPropertyOrder({
     "id",
+    "anexoId",
     "numero1",
     "numero2",
     "sinal",
@@ -25,6 +26,7 @@ public class CalculoVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+    private Long anexoId;
     private String calculoUU;
     private String descricao;
 
@@ -49,6 +51,14 @@ public class CalculoVO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getAnexoId() {
+        return anexoId;
+    }
+
+    public void setAnexoId(Long anexoId) {
+        this.anexoId = anexoId;
     }
 
     public String getCalculoUU() {
