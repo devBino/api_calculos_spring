@@ -8,6 +8,7 @@ import Sistema from './pages/Sistema';
 import Calculos from './pages/Calculos';
 import CalculoDetalhe from './pages/CalculoDetalhe';
 import Anexos from './pages/Anexos';
+import CalculosAnexo from './pages/CalculosAnexo';
 
 export default function RoutesApp(){
     return (
@@ -20,6 +21,7 @@ export default function RoutesApp(){
                 <Route path='/calculos' element={<Calculos/>} > </Route>
                 <Route path='/calculo-detalhe' element={<CalculoDetalhe/>} > </Route>
                 <Route path="/anexos" element={<Anexos/>} > </Route>
+                <Route path="/calculos-anexo" element={<CalculosAnexo/>} > </Route>
             </Routes>
         </Router>
     );  
