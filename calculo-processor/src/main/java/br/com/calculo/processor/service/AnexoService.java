@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import br.com.calculo.processor.business.AnexoBusiness;
 import br.com.calculo.processor.model.MAnexo;
 import br.com.calculo.processor.model.MAnexoHistorico;
 import br.com.calculo.processor.model.MCalculo;
@@ -33,6 +34,9 @@ public class AnexoService implements RegistroService {
 
     @Autowired
     private CalculoRepository calculoRepository;
+
+    @Autowired
+    private AnexoBusiness anexoBusiness;
 
     private List<MensagemProcessVO> mensagens;
 
@@ -95,7 +99,7 @@ public class AnexoService implements RegistroService {
             mCalc.setNumero2(Double.valueOf(valoresCamposCsv[1]));
             mCalc.setSinal(valoresCamposCsv[2].charAt(0));
 
-            aplicarCalculo(mCalc);
+            anexoBusiness.aplicarCalculo(mCalc, anexo.getId());
 
             MCalculo calculoSalvo = calculoRepository.save(mCalc);
 
@@ -109,34 +113,6 @@ public class AnexoService implements RegistroService {
 
         mensagens.add(new MensagemProcessVO(MensagemHistoricoType.INFO, 
             "Linhas do Anexo Processadas Com Sucesso", anexo.getId()));
-
-    }
-
-    private void aplicarCalculo(final MCalculo pMCalculo){
-
-        if( pMCalculo.getSinal() == '+' ){
-            pMCalculo.setResultado( pMCalculo.getNumero1() + pMCalculo.getNumero2() );
-        }else if( pMCalculo.getSinal() == '-' ){
-            pMCalculo.setResultado( pMCalculo.getNumero1() - pMCalculo.getNumero2() );
-        }else if( pMCalculo.getSinal() == '*' ){
-            pMCalculo.setResultado( pMCalculo.getNumero1() * pMCalculo.getNumero2() );
-        }else if( pMCalculo.getSinal() == '/' ){
-            pMCalculo.setResultado( pMCalculo.getNumero1() / pMCalculo.getNumero2() );
-        }
-
-        final StringBuilder sb = new StringBuilder()
-                .append(pMCalculo.getNumero1())
-                .append(" ")
-                .append(pMCalculo.getSinal())
-                .append(" ")
-                .append(pMCalculo.getNumero2())
-                .append(" = ")
-                .append(pMCalculo.getResultado());
-
-                
-        pMCalculo.setDescricao(sb.toString());
-        
-        pMCalculo.setEstado('F');
 
     }
 

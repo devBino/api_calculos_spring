@@ -1,0 +1,71 @@
+version: '3.9'
+services:
+  
+  db:
+    image: mysql:8.0.33
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      TZ: America/Sao_Paulo
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_TCP_PORT: 3308
+    ports:
+      - 3308:3308
+    expose:
+      - 3308
+    networks:
+      - calculos-microsservices
+
+  ms-calculos:
+    image: devbino/ms-calculos:latest
+    restart: always
+    build: ./api-rest
+    working_dir: /api-rest
+    environment:
+      TZ: America/Sao_Paulo
+      SPRING.DATASOURCE.URL: jdbc:mysql://db:3308/${MYSQL_DATABASE}
+      SPRING.DATASOURCE.USERNAME: ${MYSQL_USER}
+      SPRING.DATASOURCE.PASSWORD: ${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    command: mvn spring-boot:run
+    depends_on:
+      - db
+    networks:
+      - calculos-microsservices
+
+  ms-calculos-processor:
+    image: devbino/ms-calculos-processor:latest
+    restart: always
+    build: ./calculo-processor
+    working_dir: /calculo-processor
+    environment:
+      TZ: America/Sao_Paulo
+      SPRING.DATASOURCE.URL: jdbc:mysql://db:3308/${MYSQL_DATABASE}
+      SPRING.DATASOURCE.USERNAME: ${MYSQL_USER}
+      SPRING.DATASOURCE.PASSWORD: ${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - 8090:8090
+    command: mvn spring-boot:run
+    depends_on:
+      - db
+    networks:
+      - calculos-microsservices
+
+networks:
+  calculos-microsservices:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local

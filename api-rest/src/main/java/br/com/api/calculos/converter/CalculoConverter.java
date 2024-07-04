@@ -12,11 +12,12 @@ import br.com.api.calculos.vo.CalculoVO;
 @Component
 public class CalculoConverter {
  
-    public CalculoVO toBo(final MCalculo origin){
+    public CalculoVO toVo(final MCalculo origin){
 
         final CalculoVO dest = new CalculoVO();
 
         dest.setId( origin.getId() );
+        dest.setAnexoId( origin.getAnexoId() );
         dest.setCalculoUU( origin.getCalculoUU() );
         dest.setDescricao( origin.getDescricao() );
         dest.setNumero1( origin.getNumero1() );
@@ -34,6 +35,7 @@ public class CalculoConverter {
         final MCalculo dest = new MCalculo();
 
         dest.setId( origin.getId() );
+        dest.setAnexoId( origin.getAnexoId() );
         dest.setCalculoUU( origin.getCalculoUU() );
         dest.setDescricao( origin.getDescricao() );
         dest.setNumero1( origin.getNumero1() );

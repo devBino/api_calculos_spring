@@ -16,6 +16,7 @@ import br.com.api.calculos.converter.AnexoConverter;
 import br.com.api.calculos.model.MAnexo;
 import br.com.api.calculos.model.ifacejpa.AnexoRepository;
 import br.com.api.calculos.vo.AnexoVO;
+import br.com.api.calculos.vo.ListaAnexosVO;
 
 /**
  * Serve o consumidor da API respondendo as requisições da camada 
@@ -30,13 +31,19 @@ public class AnexoService {
     @Autowired
     private AnexoConverter converter;
 
-    public Page<AnexoVO> listar(final Pageable paginacao){
+    public ListaAnexosVO listar(final Pageable paginacao){
 
         final Page<AnexoVO> anexos = repository
             .findAll(paginacao)
             .map(converter::toVO);
 
-        return anexos;
+        ListaAnexosVO lista = new ListaAnexosVO();
+
+        lista.setAnexos(anexos.getContent());
+        lista.setTotalPaginas(anexos.getTotalPages());
+        lista.setTotalRegistros(anexos.getTotalElements());
+
+        return lista;
 
     }
 

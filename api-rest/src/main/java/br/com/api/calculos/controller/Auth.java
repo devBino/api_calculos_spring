@@ -15,7 +15,7 @@ import br.com.api.calculos.vo.TokenVO;
 /**
  * Controller para autenticar usuario e gerar token
  */
-@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8000","http://localhost:8080","http://localhost:8090"})
+@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 public class Auth {
@@ -25,7 +25,10 @@ public class Auth {
 
     @GetMapping(
         value = "/token/{user}/{password}",
-        produces = MediaType.APPLICATION_JSON_VALUE
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
     public TokenVO gerarToken(
         @PathVariable(value = "user") String user,

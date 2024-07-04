@@ -1,12 +1,16 @@
 package br.com.api.calculos.controller;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,48 +20,130 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.api.calculos.response.AnexoResponse;
 import br.com.api.calculos.service.AnexoService;
-import br.com.api.calculos.vo.AnexoVO;
+import br.com.api.calculos.vo.GenericParamIDVO;
+import br.com.api.calculos.vo.PaginateParansVO;
+import jakarta.validation.ConstraintViolation;
 
 /**
  * Camada de controller da entidade usuario, recebe as requisições 
  * e envia para camada de service do anexo
  */
-@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8000","http://localhost:8080","http://localhost:8090"})
+@CrossOrigin
 @RestController
 @RequestMapping("/anexos")
 public class AnexoController {
     
     @Autowired
+    private LocalValidatorFactoryBean validator;
+
+    @Autowired
+    private AnexoResponse anexoResponse;
+
+    @Autowired
     private AnexoService service;
 
-    @GetMapping(value = "/listar", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<AnexoVO>> listar(
-        @RequestParam(value = "page", defaultValue = "1") Integer page,
-        @RequestParam(value = "limit", defaultValue = "10") Integer limit
+    /**
+     * Recebe requisição GET para para listagem paginada
+     * dos registros
+     * @param page
+     * @param limit
+     * @return
+     */
+    @GetMapping(
+        value = "/listar", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
+    public ResponseEntity<?> listar(
+        @RequestParam(value = "page") String page,
+        @RequestParam(value = "limit") String limit
     ){
 
-        final Pageable paginacao = PageRequest.of(--page, limit);
+        PaginateParansVO pagVO = new PaginateParansVO(page, limit);
+
+        Set<ConstraintViolation<PaginateParansVO>> erros = validator.validate(pagVO);
+
+        if( !erros.isEmpty() ){
+            return anexoResponse.buildResponseErrosPaginacao(erros);
+        }
+
+        Integer vPage = Integer.valueOf(page);
+
+        final Pageable paginacao = PageRequest.of(--vPage, Integer.valueOf(limit));
         return ResponseEntity.ok(service.listar(paginacao));
 
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public AnexoVO listarPorId(@PathVariable(value = "id") String id){
-        return service.listarPorId(Long.valueOf(id));
+    /**
+     * Recebe requisição GET para detalhar um anexo
+     * @param id
+     * @return
+     */
+    @GetMapping(
+        value = "/{id}", 
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
+    )
+    public ResponseEntity<?> listarPorId(@PathVariable(value = "id") String id){
+
+        GenericParamIDVO idVO = new GenericParamIDVO(id);
+
+        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
+
+        if( !erros.isEmpty() ){
+            return anexoResponse.buildResponseErrosParamId(erros);
+        }
+
+        return ResponseEntity.ok( service.listarPorId(Long.valueOf(id)) );
+
     }
 
+    /**
+     * Recebe requisição POST para upload do arquivo csv
+     * contendo os calculos a serem processados
+     * @param file
+     * @return
+     */
     @PostMapping(
         value = "/upload/csv",
-        produces = MediaType.APPLICATION_JSON_VALUE
+        produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+        }
     )
-    public AnexoVO uploadCsv(@RequestParam(value = "file") MultipartFile file){
-        return service.uploadCsv(file);
+    public ResponseEntity<?> uploadCsv(@RequestParam(value = "file") MultipartFile file){
+        
+        if( !Objects.isNull(file.getContentType())
+            && !file.getContentType().equals("text/csv")  ){
+            return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "Era esperado um arquivo text/csv"));
+        }
+
+        return ResponseEntity.ok( service.uploadCsv(file) );
+
     }
 
+    /**
+     * Recebe requisição GET para baixar o conteúdo do arquivo csv
+     */
     @GetMapping(value = "/download/csv/{id}")
-    public ResponseEntity<ByteArrayResource> downloadCsv(@PathVariable(value = "id") Long id){
-        return service.downloadCsv(id);
+    public ResponseEntity<?> downloadCsv(@PathVariable(value = "id") String id){
+
+        GenericParamIDVO idVO = new GenericParamIDVO(id);
+
+        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
+
+        if( !erros.isEmpty() ){
+            return anexoResponse.buildResponseErrosParamId(erros);
+        }
+
+        return service.downloadCsv(Long.valueOf(id));
+
     }
 
 }

@@ -18,6 +18,7 @@ import br.com.api.calculos.model.MCalculo;
 import br.com.api.calculos.model.ifacejpa.CalculoRepository;
 import br.com.api.calculos.type.SinalCalculoType;
 import br.com.api.calculos.vo.CalculoVO;
+import br.com.api.calculos.vo.ListaCalculosVO;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 
 /**
@@ -44,7 +45,7 @@ public class CalculoService {
         mCalculo.setResultado(0.0);
         mCalculo.setEstado('A');
 
-        return converter.toBo((MCalculo) repository.save(mCalculo));
+        return converter.toVo((MCalculo) repository.save(mCalculo));
 
     }
 
@@ -87,21 +88,27 @@ public class CalculoService {
         mCalculo.setResultado(0.0);
         mCalculo.setEstado('A');
 
-        return converter.toBo((MCalculo) repository.save(mCalculo));
+        return converter.toVo((MCalculo) repository.save(mCalculo));
 
     }
 
-    public Page<CalculoVO> listar(final Pageable paginacao){
+    public ListaCalculosVO listar(final Pageable paginacao){
         
         final Page<CalculoVO> calculos = repository
             .findAll(paginacao)
-            .map(converter::toBo);
+            .map(converter::toVo);
 
-        return calculos;
+        final ListaCalculosVO lista = new ListaCalculosVO();
+        
+        lista.setCalculos(calculos.getContent());
+        lista.setTotalPaginas(calculos.getTotalPages());
+        lista.setTotalRegistros(calculos.getTotalElements());
+        
+        return lista;
 
     }
 
-    public List<CalculoVO> listarPorSinal(final Byte sinal){
+    public ListaCalculosVO listarPorSinal(final Byte sinal, final Pageable paginacao){
 
         SinalCalculoType sinalCalcType = SinalCalculoType.fromIndice(sinal);
 
@@ -109,11 +116,33 @@ public class CalculoService {
             sinalCalcType = SinalCalculoType.ADICAO;
         }
 
-        return repository
-            .findBySinal(sinalCalcType.getSinal())
-            .stream()
-            .map(converter::toBo)
-            .collect(Collectors.toList());
+        final Page<CalculoVO> calculos = repository
+            .findBySinal(sinalCalcType.getSinal(), paginacao)
+            .map(converter::toVo);
+
+        final ListaCalculosVO lista = new ListaCalculosVO();
+
+        lista.setCalculos(calculos.getContent());
+        lista.setTotalPaginas(calculos.getTotalPages());
+        lista.setTotalRegistros(calculos.getTotalElements());
+
+        return lista;
+
+    }
+
+    public ListaCalculosVO listarPorAnexo(final Long anexoId, final Pageable paginacao){
+
+        final Page<CalculoVO> calculos = repository
+            .findByIdAnexo(anexoId, paginacao)
+            .map(converter::toVo);
+
+        final ListaCalculosVO lista = new ListaCalculosVO();
+
+        lista.setCalculos(calculos.getContent());
+        lista.setTotalPaginas(calculos.getTotalPages());
+        lista.setTotalRegistros(calculos.getTotalElements());
+
+        return lista;
 
     }
 
@@ -125,7 +154,7 @@ public class CalculoService {
             return new CalculoVO();
         }
 
-        return converter.toBo(mdCandidato.get());
+        return converter.toVo(mdCandidato.get());
 
     }
 
@@ -137,7 +166,7 @@ public class CalculoService {
             return new CalculoVO();
         }
 
-        return converter.toBo(calculoCandidato.get());
+        return converter.toVo(calculoCandidato.get());
 
     }
 

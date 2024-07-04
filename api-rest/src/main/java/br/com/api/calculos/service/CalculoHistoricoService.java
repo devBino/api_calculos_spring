@@ -37,7 +37,7 @@ public class CalculoHistoricoService {
     public Page<CalculoHistoricoVO> listar(final Pageable paginacao){
         return repositoryCalcHist
             .findAll(paginacao)
-            .map(converter::toBo);
+            .map(converter::toVo);
     }
 
     public List<CalculoHistoricoVO> listarPorCalculoId(final Long id){
@@ -52,7 +52,7 @@ public class CalculoHistoricoService {
 
         return mCalculo.getHistoricos()
             .stream()
-            .map(converter::toBo)
+            .map(converter::toVo)
             .collect(Collectors.toList());
 
     }    

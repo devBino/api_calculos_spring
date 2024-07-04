@@ -3,9 +3,12 @@ package br.com.api.calculos.vo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 /**
  * VO para encapsular dados da entidade anexo
  */
+@JacksonXmlRootElement(localName = "Anexo")
 public class AnexoVO implements Serializable {
     
     public static final Long serialVersionUID = 1L;
