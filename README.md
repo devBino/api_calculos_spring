@@ -1,22 +1,37 @@
-<h1>Projeto para estudo de Caso com Spring Boot</h1>
+# Projeto para estudo de Caso sobre Desenvolvimento e Implantação de uma Solução de Software
 
-<h2>OBS</h2>
-<p>Não há necessidade da criação de um projeto robusto. Um projeto de escopo simples, mas que obrigue a criar um micro serviço, uma api rest e testes automatizados já é suficiente.</p>
+## Introdução
+<p style="text-align: justify;">
+O presente projeto consiste em um estudo de caso cujo objetivo é cientificamente contemplar de forma mais abrangente o ciclo de desenvolvimento de um software, desde a primeira linha de código até o deploy em ambiente produtivo.
+</p>
 
-<h2>Objetivos do Estudo de Caso</h2>
-<ul>
-  <li>Estruturação dos controllers para atender aos principais verbos Http</li>
-  <li>Implementar uma estrutura relativamente limpa, separando em camadas, BOs, Models, Controllers, Converters definindo responsabilidades a cada camada</li>
-  <li>Serialização do Json</li>
-  <li>Otimizar recursos da Api para reduzir trafégo de informações durante as requisições</li>
-  <li>Implementação de "Content-Negotiation" para devolver json ou xml de acordo com a vontade do client</li>
-  <li>Integração com Banco de Dados, usando Spring-Data</li>
-  <li>Recurso de Paginação em consultas ao banco</li>
-  <li>Atender ao modelo de maturidade de Richardson em Apis Rest</li>
-  <li>Manter um versionamento da Api em v1, v2, v3 e etc...</li>
-  <li>Simular um processamento dos cálculos após os métodos de Post e Update</li>
-  <li>Automatizar o principal fluxo no Postman para testes de Integração da Api</li>
-  <li>Validação de CrossOrigin</li>
-  <li>Json Web Token</li>
-  <li>Documentação da Api com Swagger</li>
-</ul>
+<p style="text-align: justify;">
+Para isso, não buscaremos criar uma aplicação robusta, pois esse não é o objetivo desse estudo. Então, o business será em torno de uma calculadora bem simples. Serão criados microsserviços distintos para receber os parâmetros dos cálculos, bem como processá-los. Além disso, será seprado um espaço no repositório para criação das aplicações Frontend que irão consumir esses microsserviços.
+</p>
+
+<p style="text-align: justify;">
+Para buscar contemplar o caráter mais abrangente nesse experimento, será configurado um pipeline de CICD, 100% automático. O objetivo desse pipeline é enviar automaticamente as novas features para a VPS, otimizando tempo e buscando manter o foco no desenvolvimento e na qualidade da solução.
+</p>
+
+<p style="text-align: justify;">
+Além disso, para ser mais abrangente no desenvolvimento da solução, buscaremos respeitar o que manda o <b>Gitflow</b>. Será considerada e levada muito a sério a hierarquia entre as branchs main(master), releases, develop e então features.
+</p>
+
+<p style="text-align: justify;">
+Tenho certeza que após o término do presente estudo, será apresentada aqui uma visão abrangente e muito profissional no que diz respeito a não só desenvolver uma solução, mas também sobre implantá-la e dar continuidade de maneira eficiente.
+</p>
+
+### Pipelines CI/CD
+|Release | Status |
+|--------|--------|
+|Release/24.07|![CI Release/24.07](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07) |
+|Release/24.07.2|![CI Release/24.07.2](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.2) |
+
+
+## 1 - Criação dos Microsserviços
+
+## 2 - Criação das Aplicações FrontEnd
+
+## 3 - Pipelines Automatizados de CI/CD
+
+## Conclusão
