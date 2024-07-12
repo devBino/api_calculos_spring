@@ -8,7 +8,7 @@ export default function Calculos(){
 
     const [calculos, setCalculos] = useState([]);
     const [pagina, setPagina] = useState(1);
-    const [sinal, setSinal] = useState(0);
+    const [sinal, setSinal] = useState('na');
     const [totalPaginas, setTotalPaginas] = useState(1);
     const [totalRegistros, setTotalRegistros] = useState(1);
     
@@ -102,10 +102,10 @@ export default function Calculos(){
                 <div class="col-lg-3 col-md-3 col-sm-6 col-12 d-flex justify-content-end mb-2">
 
                     <div class="btn-group justify-content-end" role="group">
-                        <button type="button" class="button-sm sinal" id="sinalAdd" onClick={() => calculosPorSinal(1, 'sinalAdd')}>+</button>
-                        <button type="button" class="button-sm sinal" id="sinalSub" onClick={() => calculosPorSinal(2, 'sinalSub')}>-</button>
-                        <button type="button" class="button-sm sinal" id="sinalMul" onClick={() => calculosPorSinal(3, 'sinalMul')}>*</button>
-                        <button type="button" class="button-sm sinal" id="sinalDiv" onClick={() => calculosPorSinal(4, 'sinalDiv')}>/</button>
+                        <button type="button" class="button-sm sinal" id="sinalAdd" onClick={() => calculosPorSinal('adi', 'sinalAdd')}>+</button>
+                        <button type="button" class="button-sm sinal" id="sinalSub" onClick={() => calculosPorSinal('sub', 'sinalSub')}>-</button>
+                        <button type="button" class="button-sm sinal" id="sinalMul" onClick={() => calculosPorSinal('mul', 'sinalMul')}>*</button>
+                        <button type="button" class="button-sm sinal" id="sinalDiv" onClick={() => calculosPorSinal('div', 'sinalDiv')}>/</button>
                         <button type="button" class="button-sm" onClick={prevPage}>Prev</button>
                         <button type="button" class="button-sm" onClick={nextPage}>Next</button>
                         <button type="button" class="button-sm" onClick={atualizar} >Atualizar</button>

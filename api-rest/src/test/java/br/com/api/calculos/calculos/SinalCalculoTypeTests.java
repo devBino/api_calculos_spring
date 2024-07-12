@@ -21,31 +21,31 @@ public class SinalCalculoTypeTests {
     
     @Test
     public void retornarValorDefaultSeSinalErrado(){
-        assertNull( recuperarSinal((byte)5) );
+        assertNull( recuperarSinal("##") );
     }
 
     @Test
     public void retornaValorSinalAdicao(){
-        assertNotNull( recuperarSinal((byte)1) );
+        assertNotNull( recuperarSinal("adi") );
     }
 
     @Test
     public void retornaValorSinalSubtracao(){
-        assertNotNull( recuperarSinal((byte)2) );
+        assertNotNull( recuperarSinal("sub") );
     }
 
     @Test
     public void retornaValorSinalMultiplicacao(){
-        assertNotNull( recuperarSinal((byte)3) );
+        assertNotNull( recuperarSinal("mul") );
     }
 
     @Test
     public void retornaValorSinalDivisao(){
-        assertNotNull( recuperarSinal((byte)4) );
+        assertNotNull( recuperarSinal("div") );
     }
 
-    private SinalCalculoType recuperarSinal(final byte sinal){
-        return SinalCalculoType.fromIndice(sinal);
+    private SinalCalculoType recuperarSinal(final String sinal){
+        return SinalCalculoType.fromCodigo(sinal);
     }
 
 }

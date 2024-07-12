@@ -9,25 +9,25 @@ import java.util.Optional;
  */
 public enum SinalCalculoType {
     
-    ADICAO( (byte)1 ){
+    ADICAO("adi"){
         @Override
         public char getSinal() {
             return '+';
         }
     },
-    SUBTRACAO( (byte)2 ){
+    SUBTRACAO("sub"){
         @Override
         public char getSinal() {
             return '-';
         }
     },
-    MULTIPLICACAO( (byte)3 ){
+    MULTIPLICACAO("mul"){
         @Override
         public char getSinal() {
             return '*';
         }
     },
-    DIVISAO( (byte)4 ){
+    DIVISAO("div"){
         @Override
         public char getSinal() {
             return '/';
@@ -35,22 +35,22 @@ public enum SinalCalculoType {
     };
 
     char sinal;
-    byte indiceSinal;
+    String codigoSinal;
     
-    SinalCalculoType(byte indiceSinal){
-        this.indiceSinal = indiceSinal;
+    SinalCalculoType(String codigoSinal){
+        this.codigoSinal = codigoSinal;
     }
 
-    public byte getIndiceSinal() {
-        return indiceSinal;
+    public String getCodigoSinal() {
+        return codigoSinal;
     }
 
     public abstract char getSinal();
 
-    public static SinalCalculoType fromIndice(byte indiceSinal){
+    public static SinalCalculoType fromCodigo(String codigoSinal){
 
         final Optional<SinalCalculoType> sinalCandidato = Arrays.stream(SinalCalculoType.values())
-            .filter(s -> s.getIndiceSinal() == indiceSinal)
+            .filter(s -> s.getCodigoSinal().equals( codigoSinal) )
             .findFirst();
 
         if( sinalCandidato.isPresent() ){
