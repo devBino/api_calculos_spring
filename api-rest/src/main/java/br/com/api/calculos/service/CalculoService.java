@@ -108,16 +108,10 @@ public class CalculoService {
 
     }
 
-    public ListaCalculosVO listarPorSinal(final Byte sinal, final Pageable paginacao){
-
-        SinalCalculoType sinalCalcType = SinalCalculoType.fromIndice(sinal);
-
-        if(Objects.isNull(sinalCalcType)){
-            sinalCalcType = SinalCalculoType.ADICAO;
-        }
+    public ListaCalculosVO listarPorSinal(final char sinal, final Pageable paginacao){
 
         final Page<CalculoVO> calculos = repository
-            .findBySinal(sinalCalcType.getSinal(), paginacao)
+            .findBySinal(sinal, paginacao)
             .map(converter::toVo);
 
         final ListaCalculosVO lista = new ListaCalculosVO();

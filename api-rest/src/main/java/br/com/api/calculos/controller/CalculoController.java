@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.calculos.response.CalculoResponse;
 import br.com.api.calculos.service.CalculoService;
+import br.com.api.calculos.type.SinalCalculoType;
 import br.com.api.calculos.vo.CalculoVO;
 import br.com.api.calculos.vo.GenericParamIDVO;
 import br.com.api.calculos.vo.PaginateParansVO;
@@ -173,7 +174,13 @@ public class CalculoController {
             return ResponseEntity.ok(service.listar(paginacao));
         }
 
-        return ResponseEntity.ok( service.listarPorSinal(Byte.valueOf(sinal), paginacao) );
+        SinalCalculoType sinalCalcType = SinalCalculoType.fromCodigo(sinal);
+
+        if(Objects.isNull(sinalCalcType)){
+            return calculoResponse.buildResponseErros(Map.of("Sinal", "Sinal inválido enviado, envie os sinais [adi, sub, mul, div]"));
+        }
+
+        return ResponseEntity.ok( service.listarPorSinal(sinalCalcType.getSinal(), paginacao) );
 
     }
 
@@ -203,6 +210,14 @@ public class CalculoController {
 
         if( !erros.isEmpty() ){
             return calculoResponse.buildResponseErrosPaginacao(erros);
+        }
+
+        GenericParamIDVO idVO = new GenericParamIDVO(anexoId);
+
+        Set<ConstraintViolation<GenericParamIDVO>> errosAnexoId = validator.validate(idVO);
+
+        if( !errosAnexoId.isEmpty() ){
+            return calculoResponse.buildResponseErrosParamId(errosAnexoId);
         }
 
         Integer vPage = Integer.valueOf(page);
