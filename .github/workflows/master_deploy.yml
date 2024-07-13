@@ -16,7 +16,7 @@ jobs:
                 echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
                 echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
                 echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
-                echo "TAG_VERSION=24072" >> .env
+                echo "TAG_VERSION=24073" >> .env
 
             - name: Baixando Codigos Fontes
               uses: actions/checkout@v3
@@ -43,8 +43,8 @@ jobs:
             - name: Gerando Imagem da aplicação Front React
               working-directory: ./clients/react/app-calculos
               run: |
-                docker build -t ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:24072 .
-                docker push ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:24072
+                docker build -t ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:24073 .
+                docker push ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:24073
 
             - name: Setup JDK 17
               uses: actions/setup-java@v3
@@ -72,10 +72,10 @@ jobs:
 
             - name: Enviando Imagens para o Docker Hub
               run: |
-                docker tag ${{ secrets.DOCKER_USERNAME }}/ms-calculos:latest ${{ secrets.DOCKER_USERNAME }}/ms-calculos:24072
-                docker tag ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:latest ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:24072
-                docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:24072
-                docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:24072
+                docker tag ${{ secrets.DOCKER_USERNAME }}/ms-calculos:latest ${{ secrets.DOCKER_USERNAME }}/ms-calculos:24073
+                docker tag ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:latest ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:24073
+                docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos:24073
+                docker push ${{ secrets.DOCKER_USERNAME }}/ms-calculos-processor:24073
 
             - name: Realizando Deploy e Executando a Stack na VPS
               uses: appleboy/ssh-action@master
@@ -87,7 +87,7 @@ jobs:
                 script: |
                   docker stop $(docker ps -aq)
                   cd ../sistema/stack
-                  grep -q '^TAG_VERSION=' .env && sed -i 's/^TAG_VERSION=.*/TAG_VERSION=24072/' .env || echo 'TAG_VERSION=24072' >> .env
+                  grep -q '^TAG_VERSION=' .env && sed -i 's/^TAG_VERSION=.*/TAG_VERSION=24073/' .env || echo 'TAG_VERSION=24073' >> .env
                   docker compose up -d
-                  docker run -d -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:24072
+                  docker run -d -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/ft-calculos-react:24073
                   docker ps
