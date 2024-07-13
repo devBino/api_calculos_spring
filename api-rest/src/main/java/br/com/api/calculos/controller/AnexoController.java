@@ -119,12 +119,27 @@ public class AnexoController {
     )
     public ResponseEntity<?> uploadCsv(@RequestParam(value = "file") MultipartFile file){
         
-        if( !Objects.isNull(file.getContentType())
-            && !file.getContentType().equals("text/csv")  ){
-            return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "Era esperado um arquivo text/csv"));
-        }
+        try{
 
-        return ResponseEntity.ok( service.uploadCsv(file) );
+            if( !Objects.isNull(file.getContentType())
+                && !file.getContentType().equals("text/csv")  ){
+                return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "Era esperado um arquivo text/csv"));
+            }
+
+            final String conteudoArquivo = new String( file.getBytes() );
+
+            int totalLinhas = conteudoArquivo.split("\n").length;
+
+            //valida total de 50 linhas mais a linha de cabeçalho
+            if(conteudoArquivo.isEmpty() || totalLinhas > 51){
+                return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "O arquivo deve ter no mínimo 1 linha e no máximo 50 linhas além da linha de cabeçalho"));
+            }
+
+            return ResponseEntity.ok( service.uploadCsv(file) );
+
+        }catch(final Exception exception){
+            return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "Por favor, revise o conteúdo do arquivo"));
+        }
 
     }
 
