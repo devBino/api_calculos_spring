@@ -87,6 +87,7 @@ export default function Anexos(){
             
             if( response.data.id !== undefined && response.data.id !== null ){
                 alert('Arquivo Enviado com sucesso');
+                atualizar();
                 return;
             }
 

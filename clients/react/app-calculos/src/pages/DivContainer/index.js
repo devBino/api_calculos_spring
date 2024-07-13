@@ -4,8 +4,33 @@ import './container.css';
 
 export default function DivContainer({children, title, login}){
     
+    function redirectLogin(){
+        window.location.href = '/login';
+    }
+
     let navBar = '';
-    let conteudoRoot = '';
+    let conteudoRoot = (
+                <div class="card">
+                            
+                            <h3 class="card-header">Se Autentique...</h3>
+
+                            <div class="card-body">
+                                
+                               <p>Realize login para acessar a funcionalidade...</p>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-md-11"></div>
+                                    <div class="col-md-1">
+                                        <button type="submit" class="btn btn-primary" onClick={redirectLogin}>Login</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+    )
     
     let token = localStorage.getItem('token');
     

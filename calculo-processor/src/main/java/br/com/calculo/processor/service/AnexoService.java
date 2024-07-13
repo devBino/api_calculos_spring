@@ -93,6 +93,10 @@ public class AnexoService implements RegistroService {
             
             String[] valoresCamposCsv = lin.split(";");
 
+            if( valoresCamposCsv.length < 3 ){
+                continue;
+            }
+
             MCalculo mCalc = new MCalculo();
             
             mCalc.setNumero1(Double.valueOf(valoresCamposCsv[0]));
