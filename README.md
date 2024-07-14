@@ -8,7 +8,8 @@
 |Release/24.07|![CI Release/24.07](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07) |
 |Release/24.07.1|![CI Release/24.07.1](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.1) |
 |Release/24.07.2|![CI Release/24.07.2](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.2) |
-|Release/24.07.3|![CI Release/24.07.4](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.4) |
+|Release/24.07.3|![CI Release/24.07.3](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.3) |
+|Release/24.07.4|![CI Release/24.07.4](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.4) |
 |Master|![Master](https://github.com/devBino/api_calculos_spring/actions/workflows/master_deploy.yml/badge.svg?branch=master) |
 
 ## Apresentação do Projeto
