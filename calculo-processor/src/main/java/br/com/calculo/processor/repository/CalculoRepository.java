@@ -1,4 +1,4 @@
-package br.com.calculo.processor.model.ifacejpa;
+package br.com.calculo.processor.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;

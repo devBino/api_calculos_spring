@@ -1,4 +1,4 @@
-package br.com.api.calculos.model.ifacejpa;
+package br.com.api.calculos.repository;
 
 import java.util.Optional;
 

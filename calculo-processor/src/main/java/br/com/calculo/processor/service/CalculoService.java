@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.calculo.processor.business.CalculoBusiness;
 import br.com.calculo.processor.model.MCalculo;
 import br.com.calculo.processor.model.MCalculoHistorico;
-import br.com.calculo.processor.model.ifacejpa.CalculoHistReporitory;
-import br.com.calculo.processor.model.ifacejpa.CalculoRepository;
+import br.com.calculo.processor.repository.CalculoHistReporitory;
+import br.com.calculo.processor.repository.CalculoRepository;
 import br.com.calculo.processor.type.MensagemHistoricoType;
 import br.com.calculo.processor.vo.MensagemProcessVO;
 

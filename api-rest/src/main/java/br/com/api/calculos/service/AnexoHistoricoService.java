@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.api.calculos.converter.AnexoHistoricoConverter;
 import br.com.api.calculos.model.MAnexo;
-import br.com.api.calculos.model.ifacejpa.AnexoHistRepository;
-import br.com.api.calculos.model.ifacejpa.AnexoRepository;
+import br.com.api.calculos.repository.AnexoHistRepository;
+import br.com.api.calculos.repository.AnexoRepository;
 import br.com.api.calculos.vo.AnexoHistoricoVO;
 
 /**
