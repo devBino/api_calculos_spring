@@ -2,11 +2,9 @@ package br.com.api.calculos.service;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,8 +13,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.api.calculos.converter.CalculoConverter;
 import br.com.api.calculos.model.MCalculo;
-import br.com.api.calculos.model.ifacejpa.CalculoRepository;
-import br.com.api.calculos.type.SinalCalculoType;
+import br.com.api.calculos.repository.CalculoRepository;
 import br.com.api.calculos.vo.CalculoVO;
 import br.com.api.calculos.vo.ListaCalculosVO;
 import io.awspring.cloud.sqs.operations.SqsTemplate;

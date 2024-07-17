@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import br.com.api.calculos.model.MUsuario;
-import br.com.api.calculos.model.ifacejpa.UsuarioRepository;
+import br.com.api.calculos.repository.UsuarioRepository;
 import br.com.api.calculos.provider.TokenProvider;
 import br.com.api.calculos.vo.TokenVO;
 

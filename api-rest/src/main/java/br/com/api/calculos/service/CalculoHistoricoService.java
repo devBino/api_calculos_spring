@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.api.calculos.converter.CalculoHistoricoConverter;
 import br.com.api.calculos.model.MCalculo;
-import br.com.api.calculos.model.ifacejpa.CalculoHistReporitory;
-import br.com.api.calculos.model.ifacejpa.CalculoRepository;
+import br.com.api.calculos.repository.CalculoHistReporitory;
+import br.com.api.calculos.repository.CalculoRepository;
 import br.com.api.calculos.vo.CalculoHistoricoVO;
 
 /**

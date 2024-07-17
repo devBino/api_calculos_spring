@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.api.calculos.converter.AnexoConverter;
 import br.com.api.calculos.model.MAnexo;
-import br.com.api.calculos.model.ifacejpa.AnexoRepository;
+import br.com.api.calculos.repository.AnexoRepository;
 import br.com.api.calculos.vo.AnexoVO;
 import br.com.api.calculos.vo.ListaAnexosVO;
 
