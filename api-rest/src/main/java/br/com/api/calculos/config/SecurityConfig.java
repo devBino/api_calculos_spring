@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import br.com.api.calculos.auth.AuthEntryPointJwt;
 import br.com.api.calculos.auth.RequestAuthFilter;
-import br.com.api.calculos.service.TokenUserDetailsService;
+import br.com.api.calculos.domain.service.TokenUserDetailsService;
 
 /**
  * Configuração do spring security

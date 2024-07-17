@@ -14,8 +14,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import br.com.api.calculos.domain.service.TokenUserDetailsService;
 import br.com.api.calculos.provider.TokenProvider;
-import br.com.api.calculos.service.TokenUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 
 /**

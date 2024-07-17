@@ -12,10 +12,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 import br.com.api.calculos.config.TestConfig;
-import br.com.api.calculos.converter.AnexoHistoricoConverter;
-import br.com.api.calculos.model.MAnexo;
-import br.com.api.calculos.model.MAnexoHistorico;
-import br.com.api.calculos.vo.AnexoHistoricoVO;
+import br.com.api.calculos.domain.converter.AnexoHistoricoConverter;
+import br.com.api.calculos.domain.model.MAnexo;
+import br.com.api.calculos.domain.model.MAnexoHistorico;
+import br.com.api.calculos.domain.vo.AnexoHistoricoVO;
 
 /**
  * Provê testes para conversão entre VO e Model para AnexosHistoricos
