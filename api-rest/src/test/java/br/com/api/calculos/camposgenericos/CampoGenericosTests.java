@@ -10,8 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import br.com.api.calculos.config.TestConfig;
-import br.com.api.calculos.vo.GenericParamIDVO;
-import br.com.api.calculos.vo.PaginateParansVO;
+import br.com.api.calculos.domain.vo.GenericParamIDVO;
+import br.com.api.calculos.domain.vo.PaginateParansVO;
 
 /**
  * Provê testes dos campos genéricos enviados nas requisições,

@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import br.com.api.calculos.converter.AnexoConverter;
-import br.com.api.calculos.converter.AnexoHistoricoConverter;
-import br.com.api.calculos.converter.CalculoConverter;
-import br.com.api.calculos.converter.CalculoHistoricoConverter;
+import br.com.api.calculos.domain.converter.AnexoConverter;
+import br.com.api.calculos.domain.converter.AnexoHistoricoConverter;
+import br.com.api.calculos.domain.converter.CalculoConverter;
+import br.com.api.calculos.domain.converter.CalculoHistoricoConverter;
 
 /**
  * Configurações gerais dos testes

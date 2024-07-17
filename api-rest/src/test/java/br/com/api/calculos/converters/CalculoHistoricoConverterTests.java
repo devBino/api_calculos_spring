@@ -12,10 +12,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 import br.com.api.calculos.config.TestConfig;
-import br.com.api.calculos.converter.CalculoHistoricoConverter;
-import br.com.api.calculos.model.MCalculo;
-import br.com.api.calculos.model.MCalculoHistorico;
-import br.com.api.calculos.vo.CalculoHistoricoVO;
+import br.com.api.calculos.domain.converter.CalculoHistoricoConverter;
+import br.com.api.calculos.domain.model.MCalculo;
+import br.com.api.calculos.domain.model.MCalculoHistorico;
+import br.com.api.calculos.domain.vo.CalculoHistoricoVO;
 
 /**
  * Provê testes para conversão entre VO e Model para CalculosHistoricos

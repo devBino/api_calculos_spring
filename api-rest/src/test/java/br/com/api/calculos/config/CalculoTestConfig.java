@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import br.com.api.calculos.vo.CalculoVO;
+import br.com.api.calculos.domain.vo.CalculoVO;
 
 /**
  * Configuração para validação dos parametros dos VOs durante os testes

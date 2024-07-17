@@ -14,9 +14,9 @@ import org.springframework.test.context.ContextConfiguration;
 
 import br.com.api.calculos.config.CalculoTestConfig;
 import br.com.api.calculos.config.TestConfig;
-import br.com.api.calculos.converter.CalculoConverter;
-import br.com.api.calculos.model.MCalculo;
-import br.com.api.calculos.vo.CalculoVO;
+import br.com.api.calculos.domain.converter.CalculoConverter;
+import br.com.api.calculos.domain.model.MCalculo;
+import br.com.api.calculos.domain.vo.CalculoVO;
 
 /**
  * Provê testes para conversão entre VO e Model para Calculos

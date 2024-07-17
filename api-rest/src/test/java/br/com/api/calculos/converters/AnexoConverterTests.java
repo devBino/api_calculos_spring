@@ -13,9 +13,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 import br.com.api.calculos.config.TestConfig;
-import br.com.api.calculos.converter.AnexoConverter;
-import br.com.api.calculos.model.MAnexo;
-import br.com.api.calculos.vo.AnexoVO;
+import br.com.api.calculos.domain.converter.AnexoConverter;
+import br.com.api.calculos.domain.model.MAnexo;
+import br.com.api.calculos.domain.vo.AnexoVO;
 
 /**
  * Provê testes para conversão entre VO e Model para Anexos

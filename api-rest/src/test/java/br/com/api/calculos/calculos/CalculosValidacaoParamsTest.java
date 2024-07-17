@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import br.com.api.calculos.config.CalculoTestConfig;
 import br.com.api.calculos.config.TestConfig;
-import br.com.api.calculos.vo.CalculoVO;
+import br.com.api.calculos.domain.vo.CalculoVO;
 
 @SpringBootTest
 @ActiveProfiles("development")
