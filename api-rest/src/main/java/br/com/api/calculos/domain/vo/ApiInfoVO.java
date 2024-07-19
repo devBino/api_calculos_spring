@@ -2,9 +2,14 @@ package br.com.api.calculos.domain.vo;
 
 import java.io.Serializable;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * VO para encapsular propriedades da entidade ApiInfo
  */
+@Getter
+@Setter
 public class ApiInfoVO implements Serializable {
     
     public static final Long serialVersionUID = 1L;
@@ -19,38 +24,6 @@ public class ApiInfoVO implements Serializable {
         repositorio = "https://github.com/devBino";
         versao = "1";
         descricao = "Api Rest para Receber parâmetros de Calculos";
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-    public String getRepositorio() {
-        return repositorio;
-    }
-
-    public void setRepositorio(String repositorio) {
-        this.repositorio = repositorio;
-    }
-
-    public String getVersao() {
-        return versao;
-    }
-
-    public void setVersao(String versao) {
-        this.versao = versao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
 }

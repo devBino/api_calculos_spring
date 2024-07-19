@@ -13,10 +13,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Entidade do banco de dados representando calculo
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "tb_calculos")
 public class MCalculo implements Serializable {
@@ -60,14 +64,6 @@ public class MCalculo implements Serializable {
         }
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getCalculoUU() {
         return calculoUU;
     }
@@ -76,66 +72,6 @@ public class MCalculo implements Serializable {
         if( this.calculoUU == null ){
             this.calculoUU = calculoUU;
         }
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Double getNumero1() {
-        return numero1;
-    }
-
-    public void setNumero1(Double numero1) {
-        this.numero1 = numero1;
-    }
-
-    public Double getNumero2() {
-        return numero2;
-    }
-
-    public void setNumero2(Double numero2) {
-        this.numero2 = numero2;
-    }
-
-    public Double getResultado() {
-        return resultado;
-    }
-
-    public void setResultado(Double resultado) {
-        this.resultado = resultado;
-    }
-
-    public Character getSinal() {
-        return sinal;
-    }
-
-    public void setSinal(Character sinal) {
-        this.sinal = sinal;
-    }
-
-    public Character getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Character estado) {
-        this.estado = estado;
-    }
-
-    public List<MCalculoHistorico> getHistoricos() {
-        return historicos;
-    }
-
-    public Long getAnexoId() {
-        return anexoId;
-    }
-
-    public void setAnexoId(Long anexoId) {
-        this.anexoId = anexoId;
     }
 
 }

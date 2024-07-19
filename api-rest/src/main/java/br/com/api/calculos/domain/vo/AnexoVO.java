@@ -5,9 +5,16 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * VO para encapsular dados da entidade anexo
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @JacksonXmlRootElement(localName = "Anexo")
 public class AnexoVO implements Serializable {
     
@@ -19,55 +26,5 @@ public class AnexoVO implements Serializable {
     private byte[] data;
     private LocalDateTime createdAt;
     private Character status;
-
-    public AnexoVO(){}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Character getStatus() {
-        return status;
-    }
-
-    public void setStatus(Character status) {
-        this.status = status;
-    }
 
 }

@@ -1,12 +1,16 @@
 package br.com.calculo.processor.vo;
 
 import br.com.calculo.processor.type.MensagemHistoricoType;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Encapsula dados das mensagem que devem 
  * ser criadas durante processamento de calculos individuais
  * ou anexos recebidos pela api
  */
+@Getter
+@Setter
 public class MensagemProcessVO {
     
     private byte codigoTipo;
@@ -17,30 +21,6 @@ public class MensagemProcessVO {
         final String mensagem, final long registroId){
         this.codigoTipo = histType.getCodigoTipoMensagem();
         this.mensagem = mensagem;
-        this.registroId = registroId;
-    }
-
-    public byte getCodigoTipo() {
-        return codigoTipo;
-    }
-
-    public void setCodigoTipo(MensagemHistoricoType histType) {
-        this.codigoTipo = histType.getCodigoTipoMensagem();
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-    
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
-    }
-
-    public long getRegistroId() {
-        return registroId;
-    }
-    
-    public void setRegistroId(int registroId) {
         this.registroId = registroId;
     }
 
