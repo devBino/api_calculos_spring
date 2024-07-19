@@ -5,9 +5,16 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * VO para encapsular dados da entidade calculo historico
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @JacksonXmlRootElement(localName = "CalculoHistorico")
 @JsonRootName("CalculoHistorico")
 public class CalculoHistoricoVO implements Serializable {
@@ -18,39 +25,5 @@ public class CalculoHistoricoVO implements Serializable {
     private Long calculoId;
     private String descricao;
     private Byte tipo;
-
-    public CalculoHistoricoVO(){}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCalculoId() {
-        return calculoId;
-    }
-
-    public void setCalculoId(Long calculoId) {
-        this.calculoId = calculoId;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Byte getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(Byte tipo) {
-        this.tipo = tipo;
-    }
     
 }

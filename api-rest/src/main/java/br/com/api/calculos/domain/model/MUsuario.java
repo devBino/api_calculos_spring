@@ -8,10 +8,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Entidade do banco de dados representando usuarios
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "tb_usuarios")
 public class MUsuario implements Serializable {
@@ -35,47 +41,5 @@ public class MUsuario implements Serializable {
     private String password;
 
     private int ativo;
-
-    public MUsuario(){}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(int ativo) {
-        this.ativo = ativo;
-    }
 
 }

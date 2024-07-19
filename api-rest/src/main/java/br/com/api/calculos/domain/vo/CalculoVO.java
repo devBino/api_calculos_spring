@@ -6,10 +6,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * VO para encapsular dados da entidade calculo
  */
+@Getter
+@Setter
+@NoArgsConstructor
 @JacksonXmlRootElement(localName = "Calculo")
 @JsonPropertyOrder({
     "id",
@@ -42,79 +48,5 @@ public class CalculoVO implements Serializable {
     private Character sinal;
 
     private Character estado;
-
-    public CalculoVO(){}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getAnexoId() {
-        return anexoId;
-    }
-
-    public void setAnexoId(Long anexoId) {
-        this.anexoId = anexoId;
-    }
-
-    public String getCalculoUU() {
-        return calculoUU;
-    }
-
-    public void setCalculoUU(String calculoUU) {
-        this.calculoUU = calculoUU;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Double getNumero1() {
-        return numero1;
-    }
-
-    public void setNumero1(Double numero1) {
-        this.numero1 = numero1;
-    }
-
-    public Double getNumero2() {
-        return numero2;
-    }
-
-    public void setNumero2(Double numero2) {
-        this.numero2 = numero2;
-    }
-
-    public Double getResultado() {
-        return resultado;
-    }
-
-    public void setResultado(Double resultado) {
-        this.resultado = resultado;
-    }
-
-    public Character getSinal() {
-        return sinal;
-    }
-
-    public void setSinal(Character sinal) {
-        this.sinal = sinal;
-    }
-
-    public Character getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Character estado) {
-        this.estado = estado;
-    }
 
 }
