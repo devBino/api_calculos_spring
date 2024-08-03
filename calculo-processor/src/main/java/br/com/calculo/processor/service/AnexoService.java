@@ -11,9 +11,9 @@ import br.com.calculo.processor.business.AnexoBusiness;
 import br.com.calculo.processor.model.MAnexo;
 import br.com.calculo.processor.model.MAnexoHistorico;
 import br.com.calculo.processor.model.MCalculo;
-import br.com.calculo.processor.model.ifacejpa.AnexoHistRepository;
-import br.com.calculo.processor.model.ifacejpa.AnexoRepository;
-import br.com.calculo.processor.model.ifacejpa.CalculoRepository;
+import br.com.calculo.processor.repository.AnexoHistRepository;
+import br.com.calculo.processor.repository.AnexoRepository;
+import br.com.calculo.processor.repository.CalculoRepository;
 import br.com.calculo.processor.type.MensagemHistoricoType;
 import br.com.calculo.processor.vo.MensagemProcessVO;
 

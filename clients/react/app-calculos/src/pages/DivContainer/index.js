@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from 'react-router-dom';
 import './container.css';
 
-export default function DivContainer({children, title, login}){
+export default function DivContainer({children, title, login, pageNotFound}){
     
     function redirectLogin(){
         window.location.href = '/login';
@@ -76,7 +76,7 @@ export default function DivContainer({children, title, login}){
     }
 
     //caso não tenha logado e o componente atual seja a tela de login
-    if( !logado && login !== undefined ){
+    if( !logado && (login !== undefined || pageNotFound !== undefined) ){
         conteudoRoot = children;
     }
 
