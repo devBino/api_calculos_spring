@@ -1,15 +1,14 @@
 <h1><center>Estudo de Caso sobre Desenvolvimento e Implantação de uma Solução baseada em Microsserviços</center></h1>
 
-<b>OBS!!! </b> <br> Documento em evolução, apresentamos de forma genérica o projeto, no entanto, aos poucos vamos aprofundar o que foi apresentado. A ultima atualização ocorreu na issue https://github.com/devBino/api_calculos_spring/issues/186
-
 ## Pipelines CI/CD
-|Release | Status |
-|--------|--------|
+|Release | Status | Milestone |
+|--------|--------|--------|
 |Release/24.07|![CI Release/24.07](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07) |
-|Release/24.07.1|![CI Release/24.07.1](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.1) |
+|Release/24.07.1|![CI Release/24.07.1](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.1) | 
 |Release/24.07.2|![CI Release/24.07.2](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.2) |
 |Release/24.07.3|![CI Release/24.07.3](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.3) |
 |Release/24.07.4|![CI Release/24.07.4](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.07.4) |
+|Release/24.08.0|![CI Release/24.08.0](https://github.com/devBino/api_calculos_spring/actions/workflows/current_release_ci.yml/badge.svg?branch=release/24.08.0) |
 |Master|![Master](https://github.com/devBino/api_calculos_spring/actions/workflows/master_deploy.yml/badge.svg?branch=master) |
 
 ## Apresentação do Projeto

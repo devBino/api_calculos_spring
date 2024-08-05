@@ -2,7 +2,7 @@ name: CI dos Projetos Front/Back de Microsserviços Calculos
 
 on:
     push:
-        branches: [develop, release/24.07.4]
+        branches: [develop, release/24.08.0]
 
 jobs:
     build:
