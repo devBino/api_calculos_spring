@@ -67,9 +67,10 @@ public class SecurityConfig {
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> 
                 auth
-                    .requestMatchers("/auth/token").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/auth/token/**").permitAll()
-                    .requestMatchers("/api-info/sobre").permitAll()
+                    .requestMatchers("/api/auth/token").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/auth/token/**").permitAll()
+                    .requestMatchers("/api/api-info/sobre").permitAll()
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                     .anyRequest().authenticated()
             );
 

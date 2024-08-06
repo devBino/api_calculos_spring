@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "f98d13f1-0169-4c48-b840-00f39d484bdb",
+		"_postman_id": "786120d0-13bd-4afc-a3df-a7cf7c4627b1",
 		"name": "Automated Tests - Calc Api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "9798213",
-		"_collection_link": "https://dark-desert-264124.postman.co/workspace/Team-Workspace~d813b2c8-9a3f-49fc-8c7f-0883411800f1/collection/9798213-f98d13f1-0169-4c48-b840-00f39d484bdb?action=share&source=collection_link&creator=9798213"
+		"_collection_link": "https://dark-desert-264124.postman.co/workspace/Team-Workspace~d813b2c8-9a3f-49fc-8c7f-0883411800f1/collection/9798213-786120d0-13bd-4afc-a3df-a7cf7c4627b1?action=share&source=collection_link&creator=9798213"
 	},
 	"item": [
 		{
@@ -66,7 +66,7 @@
 									"    utils.getUrlValidaToken = function getUrlValidaToken(){",
 									"    ",
 									"        let url = `${pm.environment.get('HOST')}:${pm.environment.get('PORT')}`;",
-									"        url = `${url}/auth/teste-token`",
+									"        url = `${url}/api/auth/teste-token`",
 									"",
 									"        return url;",
 									"",
@@ -75,7 +75,7 @@
 									"    utils.getUrlAutenticar = function getUrlAutenticar(){",
 									"    ",
 									"        let url = `${pm.environment.get('HOST')}:${pm.environment.get('PORT')}`;",
-									"        url = `${url}/auth/token`;",
+									"        url = `${url}/api/auth/token`;",
 									"        url = `${url}/${pm.environment.get('USER')}`",
 									"        url = `${url}/${pm.environment.get('PASSWORD')}`",
 									"",
@@ -2822,6 +2822,9 @@
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
+					"//ajuste temporário durante issue#44",
+					"pm.request.url.path.unshift('api')",
+					"",
 					"preRequestRotinasDefault();",
 					"",
 					"function preRequestRotinasDefault(){",
