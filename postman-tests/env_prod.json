@@ -1,5 +1,5 @@
 {
-	"id": "d46f7b0c-400b-4f9b-a4a8-806e8159eb34",
+	"id": "7538aaa3-0087-44a6-bc5d-5638cc9af9ee",
 	"name": "env_prod",
 	"values": [
 		{
@@ -52,6 +52,6 @@
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2024-07-03T12:25:35.372Z",
-	"_postman_exported_using": "Postman/11.2.27"
+	"_postman_exported_at": "2024-08-06T01:55:14.071Z",
+	"_postman_exported_using": "Postman/11.5.1"
 }

@@ -47,7 +47,7 @@ public class AnexoService {
 
     }
 
-    public AnexoVO listarPorId(final Long id){
+    public AnexoVO detalhar(final Long id){
         
         AnexoVO anexoVO = new AnexoVO();
 

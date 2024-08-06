@@ -1,6 +1,5 @@
 package br.com.api.calculos.controllers;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,11 +25,16 @@ import br.com.api.calculos.domain.response.CalculoResponse;
 import br.com.api.calculos.domain.service.CalculoService;
 import br.com.api.calculos.domain.vo.CalculoVO;
 import br.com.api.calculos.domain.vo.GenericParamIDVO;
+import br.com.api.calculos.domain.vo.ListaCalculosVO;
 import br.com.api.calculos.domain.vo.PaginateParansVO;
 import br.com.api.calculos.type.SinalCalculoType;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.ConstraintViolation;
-
-import org.springframework.web.bind.annotation.PutMapping;
 
 /**
  * Camada de controller da entidade calculo, recebe as requisições 
@@ -37,7 +42,8 @@ import org.springframework.web.bind.annotation.PutMapping;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/calculos")
+@RequestMapping("/api/calculos")
+@Tag(name = "Calculo", description = "Endpoints para Gerenciar Calculos")
 public class CalculoController {
     
     @Autowired
@@ -63,6 +69,30 @@ public class CalculoController {
         produces = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE
+        }
+    )
+    @Operation(
+        summary = "Cria um Novo Calculo",
+        description = "Cria um Novo Calculo",
+        tags = {"Calculo"},
+        responses = {
+            @ApiResponse(
+                description = "Success", responseCode = "201",
+                content = {
+                    @Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = @Schema(implementation = CalculoVO.class)
+                    ),
+                    @Content(
+                        mediaType = MediaType.APPLICATION_XML_VALUE,
+                        schema = @Schema(implementation = CalculoVO.class)
+                    )
+                }
+            ),
+            @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
         }
     )
     public ResponseEntity<?> criar(@RequestBody CalculoVO body){
@@ -94,6 +124,7 @@ public class CalculoController {
             MediaType.APPLICATION_XML_VALUE
         }
     )
+    @Hidden
     public ResponseEntity<?> criarCalculoFilaAws(@RequestBody CalculoVO body){
         
         Set<ConstraintViolation<CalculoVO>> erros = validator.validate(body);
@@ -120,6 +151,30 @@ public class CalculoController {
         produces = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE
+        }
+    )
+    @Operation(
+        summary = "Atualiza um Calculo Existente",
+        description = "Atualiza um Calculo Existente",
+        tags = {"Calculo"},
+        responses = {
+            @ApiResponse(
+                description = "Success", responseCode = "200",
+                content = {
+                    @Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = @Schema(implementation = CalculoVO.class)
+                    ),
+                    @Content(
+                        mediaType = MediaType.APPLICATION_XML_VALUE,
+                        schema = @Schema(implementation = CalculoVO.class)
+                    )
+                }
+            ),
+            @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
         }
     )
     public ResponseEntity<?> atualizar(@RequestBody CalculoVO body){
@@ -150,6 +205,30 @@ public class CalculoController {
         produces = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE
+        }
+    )
+    @Operation(
+        summary = "Listagem paginada dos Calculos por sinal",
+        description = "Listagem paginada dos Calculos por sinal",
+        tags = {"Calculo"},
+        responses = {
+            @ApiResponse(
+                description = "Success", responseCode = "200",
+                content = {
+                    @Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = @Schema(implementation = ListaCalculosVO.class)
+                    ),
+                    @Content(
+                        mediaType = MediaType.APPLICATION_XML_VALUE,
+                        schema = @Schema(implementation = ListaCalculosVO.class)
+                    )
+                }
+            ),
+            @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
         }
     )
     public ResponseEntity<?> listar(
@@ -198,6 +277,30 @@ public class CalculoController {
             MediaType.APPLICATION_XML_VALUE
         }
     )
+    @Operation(
+        summary = "Listagem paginada dos Calculos por anexo id",
+        description = "Listagem paginada dos Calculos por anexo id",
+        tags = {"Calculo"},
+        responses = {
+            @ApiResponse(
+                description = "Success", responseCode = "200",
+                content = {
+                    @Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = @Schema(implementation = ListaCalculosVO.class)
+                    ),
+                    @Content(
+                        mediaType = MediaType.APPLICATION_XML_VALUE,
+                        schema = @Schema(implementation = ListaCalculosVO.class)
+                    )
+                }
+            ),
+            @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+        }
+    )
     public ResponseEntity<?> listarPorAnexo(
         @RequestParam(value = "page") String page,
         @RequestParam(value = "limit") String limit,
@@ -240,6 +343,30 @@ public class CalculoController {
             MediaType.APPLICATION_XML_VALUE
         }
     )
+    @Operation(
+        summary = "Detalhar Calculo pelo ID",
+        description = "Detalhar Calculo pelo ID",
+        tags = {"Calculo"},
+        responses = {
+            @ApiResponse(
+                description = "Success", responseCode = "200",
+                content = {
+                    @Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        schema = @Schema(implementation = CalculoVO.class)
+                    ),
+                    @Content(
+                        mediaType = MediaType.APPLICATION_XML_VALUE,
+                        schema = @Schema(implementation = CalculoVO.class)
+                    )
+                }
+            ),
+            @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+        }
+    )
     public ResponseEntity<?> detalhar(@PathVariable(value = "id") String id){
         
         GenericParamIDVO idVO = new GenericParamIDVO(id);
@@ -267,6 +394,7 @@ public class CalculoController {
             MediaType.APPLICATION_XML_VALUE
         }
     )
+    @Hidden
     public ResponseEntity<?> detalharCalculoAWS(@PathVariable(value = "calculoUU") String calculoUU){
 
         if(Objects.isNull(calculoUU) || calculoUU.isEmpty() || calculoUU.isBlank()){
@@ -283,6 +411,23 @@ public class CalculoController {
      * @return
      */
     @DeleteMapping(value = "/deletar/{id}")
+    @Operation(
+        summary = "Deleta um Calculo pelo seu ID",
+        description = "Deleta um Calculo pelo seu ID",
+        tags = {"Calculo"},
+        responses = {
+            @ApiResponse(
+                description = "No Content", responseCode = "204",
+                content = @Content(
+                    mediaType = "application/json"
+                )
+            ),
+            @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
+        }
+    )
     public ResponseEntity<?> deletar(@PathVariable(value = "id") String id){
         
         GenericParamIDVO idVO = new GenericParamIDVO(id);
