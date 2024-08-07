@@ -19,9 +19,26 @@ public class MensagemProcessVO {
 
     public MensagemProcessVO(final MensagemHistoricoType histType, 
         final String mensagem, final long registroId){
+    	
         this.codigoTipo = histType.getCodigoTipoMensagem();
         this.mensagem = mensagem;
         this.registroId = registroId;
+        
     }
+    
+    @Override
+	public String toString() {
+		
+    	return new StringBuilder()
+    			.append("MensagemProcessVO[codigoTipo=")
+    			.append(codigoTipo)
+    			.append(", mensagem=")
+    			.append(mensagem)
+    			.append(", registroId=")
+    			.append(registroId)
+    			.append("]")
+    			.toString();
+    	
+	}
 
 }
