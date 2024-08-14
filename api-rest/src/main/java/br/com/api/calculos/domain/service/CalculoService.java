@@ -1,22 +1,31 @@
 package br.com.api.calculos.domain.service;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import br.com.api.calculos.domain.converter.CalculoConverter;
 import br.com.api.calculos.domain.model.MCalculo;
 import br.com.api.calculos.domain.repository.CalculoRepository;
+import br.com.api.calculos.domain.response.CalculoResponse;
 import br.com.api.calculos.domain.vo.CalculoVO;
+import br.com.api.calculos.domain.vo.GenericParamIDVO;
 import br.com.api.calculos.domain.vo.ListaCalculosVO;
+import br.com.api.calculos.domain.vo.PaginateParansVO;
+import br.com.api.calculos.type.SinalCalculoType;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
+import jakarta.validation.ConstraintViolation;
 
 /**
  * Serve o consumidor da API respondendo as requisições da camada 
@@ -33,8 +42,20 @@ public class CalculoService {
 
     @Autowired
     private SqsTemplate sqsTemplate;
+    
+    @Autowired
+    private CalculoResponse calculoResponse;
+    
+    @Autowired
+    private LocalValidatorFactoryBean validator;
 
-    public CalculoVO criar(CalculoVO body){
+    public ResponseEntity<?> criar(CalculoVO body){
+
+    	Set<ConstraintViolation<CalculoVO>> erros = validator.validate(body);
+
+        if( !erros.isEmpty() ){
+            return calculoResponse.buildResponseErros(erros);
+        }
 
         MCalculo mCalculo = converter.toModel(body);
 
@@ -42,12 +63,19 @@ public class CalculoService {
         mCalculo.setResultado(0.0);
         mCalculo.setEstado('A');
 
-        return converter.toVo((MCalculo) repository.save(mCalculo));
+        return ResponseEntity.ok( 
+        		converter.toVo((MCalculo) repository.save(mCalculo)) );
 
     }
 
-    public CalculoVO criarCalculoAws(CalculoVO body){
+    public ResponseEntity<?> criarCalculoAws(CalculoVO body){
         
+    	Set<ConstraintViolation<CalculoVO>> erros = validator.validate(body);
+
+        if( !erros.isEmpty() ){
+            return calculoResponse.buildResponseErros(erros);
+        }
+
         final String calculoUU = UUID.randomUUID().toString();
         
         body.setCalculoUU(calculoUU);
@@ -63,16 +91,26 @@ public class CalculoService {
         
         sqsTemplate.send(SQS, params);
 
-        return body;
+        return ResponseEntity.ok( body );
 
     }
 
-    public CalculoVO atualizar(CalculoVO body){
+    public ResponseEntity<?> atualizar(CalculoVO body){
+
+    	if( Objects.isNull(body.getId()) ){
+            return calculoResponse.buildResponseErros(Map.of("id", "campo obrigatório"));
+        }
+
+        Set<ConstraintViolation<CalculoVO>> erros = validator.validate(body);
+
+        if( !erros.isEmpty() ){
+            return calculoResponse.buildResponseErros(erros);
+        }
 
         final Optional<MCalculo> mdCandidato = repository.findById(body.getId());
 
         if( !mdCandidato.isPresent() ){
-            return new CalculoVO();
+            return ResponseEntity.ok( new CalculoVO() );
         }
 
         final MCalculo mCalculo = mdCandidato.get();
@@ -85,12 +123,24 @@ public class CalculoService {
         mCalculo.setResultado(0.0);
         mCalculo.setEstado('A');
 
-        return converter.toVo((MCalculo) repository.save(mCalculo));
+        return ResponseEntity.ok( 
+        		converter.toVo((MCalculo) repository.save(mCalculo)) );
 
     }
 
-    public ListaCalculosVO listar(final Pageable paginacao){
+    public ResponseEntity<?> listar(final PaginateParansVO paramsVO) {
+    	
+        Set<ConstraintViolation<PaginateParansVO>> erros = validator.validate(paramsVO);
+
+        if( !erros.isEmpty() ){
+            return calculoResponse.buildResponseErrosPaginacao(erros);
+        }
+
+        Integer vPage = Integer.valueOf(paramsVO.getPage());
         
+        Pageable paginacao = PageRequest.of(
+        		--vPage, Integer.valueOf( paramsVO.getLimite() ));
+
         final Page<CalculoVO> calculos = repository
             .findAll(paginacao)
             .map(converter::toVo);
@@ -101,68 +151,128 @@ public class CalculoService {
         lista.setTotalPaginas(calculos.getTotalPages());
         lista.setTotalRegistros(calculos.getTotalElements());
         
-        return lista;
+        return ResponseEntity.ok( lista );
 
     }
 
-    public ListaCalculosVO listarPorSinal(final char sinal, final Pageable paginacao){
+    public ResponseEntity<?> listarPorSinal(final String sinal, final PaginateParansVO paramsVO){
 
-        final Page<CalculoVO> calculos = repository
-            .findBySinal(sinal, paginacao)
-            .map(converter::toVo);
+    	Set<ConstraintViolation<PaginateParansVO>> erros = validator.validate(paramsVO);
 
-        final ListaCalculosVO lista = new ListaCalculosVO();
-
-        lista.setCalculos(calculos.getContent());
-        lista.setTotalPaginas(calculos.getTotalPages());
-        lista.setTotalRegistros(calculos.getTotalElements());
-
-        return lista;
-
-    }
-
-    public ListaCalculosVO listarPorAnexo(final Long anexoId, final Pageable paginacao){
-
-        final Page<CalculoVO> calculos = repository
-            .findByIdAnexo(anexoId, paginacao)
-            .map(converter::toVo);
-
-        final ListaCalculosVO lista = new ListaCalculosVO();
-
-        lista.setCalculos(calculos.getContent());
-        lista.setTotalPaginas(calculos.getTotalPages());
-        lista.setTotalRegistros(calculos.getTotalElements());
-
-        return lista;
-
-    }
-
-    public CalculoVO detalhar(final Long id){
+        if( !erros.isEmpty() ){
+            return calculoResponse.buildResponseErrosPaginacao(erros);
+        }
         
-        final Optional<MCalculo> mdCandidato = repository.findById(id);
+        SinalCalculoType sinalCalcType = SinalCalculoType.fromCodigo(sinal);
 
-        if( !mdCandidato.isPresent() ){
-            return new CalculoVO();
+        if(Objects.isNull(sinalCalcType)){
+            return calculoResponse.buildResponseErros(Map.of("Sinal", "Sinal inválido enviado, envie os sinais [adi, sub, mul, div]"));
         }
 
-        return converter.toVo(mdCandidato.get());
+        Integer vPage = Integer.valueOf(paramsVO.getPage());
+        
+        Pageable paginacao = PageRequest.of(
+        		--vPage, Integer.valueOf( paramsVO.getLimite() ));
+        
+        final Page<CalculoVO> calculos = repository
+            .findBySinal(sinalCalcType.getSinal(), paginacao)
+            .map(converter::toVo);
+
+        final ListaCalculosVO lista = new ListaCalculosVO();
+
+        lista.setCalculos(calculos.getContent());
+        lista.setTotalPaginas(calculos.getTotalPages());
+        lista.setTotalRegistros(calculos.getTotalElements());
+
+        return ResponseEntity.ok( lista );
 
     }
 
-    public CalculoVO detalharCalculoAws(final String calculoUU){
+    public ResponseEntity<?> listarPorAnexo(final String anexoId, final PaginateParansVO pagVO){
+
+        Set<ConstraintViolation<PaginateParansVO>> erros = validator.validate(pagVO);
+
+        if( !erros.isEmpty() ){
+            return calculoResponse.buildResponseErrosPaginacao(erros);
+        }
+
+        GenericParamIDVO idVO = new GenericParamIDVO(anexoId);
+
+        Set<ConstraintViolation<GenericParamIDVO>> errosAnexoId = validator.validate(idVO);
+
+        if( !errosAnexoId.isEmpty() ){
+            return calculoResponse.buildResponseErrosParamId(errosAnexoId);
+        }
+
+        Integer vPage = Integer.valueOf(pagVO.getPage());
         
+        Pageable paginacao = PageRequest.of(
+        		--vPage, Integer.valueOf( pagVO.getLimite() ));
+
+        final Page<CalculoVO> calculos = repository
+            .findByIdAnexo(Long.valueOf(anexoId), paginacao)
+            .map(converter::toVo);
+
+        final ListaCalculosVO lista = new ListaCalculosVO();
+
+        lista.setCalculos(calculos.getContent());
+        lista.setTotalPaginas(calculos.getTotalPages());
+        lista.setTotalRegistros(calculos.getTotalElements());
+
+        return ResponseEntity.ok( lista );
+
+    }
+
+    public ResponseEntity<?> detalhar(final String id){
+        
+    	GenericParamIDVO idVO = new GenericParamIDVO(id);
+
+        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
+
+        if( !erros.isEmpty() ){
+            return calculoResponse.buildResponseErrosParamId(erros);
+        }
+        
+        final Optional<MCalculo> mdCandidato = repository.findById( Long.valueOf(id) );
+
+        if( !mdCandidato.isPresent() ){
+            return ResponseEntity.ok( new CalculoVO() );
+        }
+
+        return ResponseEntity.ok( converter.toVo(mdCandidato.get()) );
+
+    }
+
+    public ResponseEntity<?> detalharCalculoAws(final String calculoUU){
+        
+    	if(Objects.isNull(calculoUU) || calculoUU.isEmpty() || calculoUU.isBlank()){
+            return calculoResponse.buildResponseErros(Map.of("CalculoUU", "Campo Obrigatório e deve conter valor"));
+        }
+    	
         final Optional<MCalculo> calculoCandidato = repository.findByCalculoUU(calculoUU);
 
         if( !calculoCandidato.isPresent() ){
-            return new CalculoVO();
+            return ResponseEntity.ok( new CalculoVO() );
         }
 
-        return converter.toVo(calculoCandidato.get());
+        return ResponseEntity.ok( converter.toVo(calculoCandidato.get()) );
 
     }
 
-    public void deletar(Long id){
-        repository.deleteById(id);
+    public ResponseEntity<?> deletar(String id){
+
+        GenericParamIDVO idVO = new GenericParamIDVO(id);
+
+        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
+
+        if( !erros.isEmpty() ){
+            return calculoResponse.buildResponseErrosParamId(erros);
+        }
+        
+        repository.deleteById(Long.valueOf(id));
+        
+        return ResponseEntity.noContent().build();
+        
     }
 
 }

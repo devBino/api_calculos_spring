@@ -1,22 +1,31 @@
 package br.com.api.calculos.domain.service;
 
 import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.api.calculos.domain.converter.AnexoConverter;
 import br.com.api.calculos.domain.model.MAnexo;
 import br.com.api.calculos.domain.repository.AnexoRepository;
+import br.com.api.calculos.domain.response.AnexoResponse;
 import br.com.api.calculos.domain.vo.AnexoVO;
+import br.com.api.calculos.domain.vo.GenericParamIDVO;
 import br.com.api.calculos.domain.vo.ListaAnexosVO;
+import br.com.api.calculos.domain.vo.PaginateParansVO;
+import jakarta.validation.ConstraintViolation;
 
 /**
  * Serve o consumidor da API respondendo as requisições da camada 
@@ -27,12 +36,29 @@ public class AnexoService {
     
     @Autowired
     private AnexoRepository repository;
+    
+    @Autowired
+    private LocalValidatorFactoryBean validator;
+
+    @Autowired
+    private AnexoResponse anexoResponse;
 
     @Autowired
     private AnexoConverter converter;
 
-    public ListaAnexosVO listar(final Pageable paginacao){
+    public ResponseEntity<?> listar(final PaginateParansVO pagVO){
 
+        Set<ConstraintViolation<PaginateParansVO>> erros = validator.validate(pagVO);
+
+        if( !erros.isEmpty() ){
+            return anexoResponse.buildResponseErrosPaginacao(erros);
+        }
+
+        Integer vPage = Integer.valueOf(pagVO.getPage());
+
+        final Pageable paginacao = PageRequest.of(
+        		--vPage, Integer.valueOf( pagVO.getLimite() ));
+        
         final Page<AnexoVO> anexos = repository
             .findAll(paginacao)
             .map(converter::toVO);
@@ -43,30 +69,53 @@ public class AnexoService {
         lista.setTotalPaginas(anexos.getTotalPages());
         lista.setTotalRegistros(anexos.getTotalElements());
 
-        return lista;
+        return ResponseEntity.ok( lista );
 
     }
 
-    public AnexoVO detalhar(final Long id){
-        
+    public ResponseEntity<?> detalhar(final String id){
+    	
+    	GenericParamIDVO idVO = new GenericParamIDVO(id);
+
+        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
+
+        if( !erros.isEmpty() ){
+            return anexoResponse.buildResponseErrosParamId(erros);
+        }
+
         AnexoVO anexoVO = new AnexoVO();
 
-        Optional<MAnexo> anexCandidato =  repository.findById(id);
+        Optional<MAnexo> anexCandidato =  repository.findById(Long.valueOf(id));
 
         if( anexCandidato.isPresent() ){
             anexoVO = converter.toVO(anexCandidato.get());
         }
 
-        return anexoVO;
+        return ResponseEntity.ok( anexoVO );
 
     }
 
-    public AnexoVO uploadCsv(final MultipartFile file){
+    public ResponseEntity<?> uploadCsv(final MultipartFile file)
+    	throws Exception {
         
         final MAnexo mAnexo = new MAnexo();
 
         try{
             
+        	if( !Objects.isNull(file.getContentType())
+                && !file.getContentType().equals("text/csv")  ){
+                return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "Era esperado um arquivo text/csv"));
+            }
+        	
+        	final String conteudoArquivo = new String( file.getBytes() );
+
+            int totalLinhas = conteudoArquivo.split("\n").length;
+
+            //valida total de 50 linhas mais a linha de cabeçalho
+            if(conteudoArquivo.isEmpty() || totalLinhas > 51){
+                return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "O arquivo deve ter no mínimo 1 linha e no máximo 50 linhas além da linha de cabeçalho"));
+            }
+        	
             mAnexo.setName(LocalDateTime.now().getNano() + "_" + file.getOriginalFilename());
             mAnexo.setContentType(file.getContentType());
             mAnexo.setData(file.getBytes());
@@ -75,17 +124,25 @@ public class AnexoService {
 
             repository.save(mAnexo);
 
-            return converter.toVO(mAnexo);
+            return ResponseEntity.ok( converter.toVO(mAnexo) );
 
         }catch(final Exception exception){
-            return new AnexoVO();
+        	throw exception;
         }
 
     }
 
-    public ResponseEntity<ByteArrayResource> downloadCsv(final Long id){
+    public ResponseEntity<?> downloadCsv(final String id){
 
-        final Optional<MAnexo> anexoCandidato = repository.findById(id);
+    	GenericParamIDVO idVO = new GenericParamIDVO(id);
+
+        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
+
+        if( !erros.isEmpty() ){
+            return anexoResponse.buildResponseErrosParamId(erros);
+        }
+        
+        final Optional<MAnexo> anexoCandidato = repository.findById( Long.valueOf(id) );
 
         if( !anexoCandidato.isPresent() ){
             byte[] emptyBytes = new byte[0];
