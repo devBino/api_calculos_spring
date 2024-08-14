@@ -1,13 +1,8 @@
 package br.com.api.calculos.controllers;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.calculos.domain.response.AnexoHistoricoResponse;
 import br.com.api.calculos.domain.service.AnexoHistoricoService;
 import br.com.api.calculos.domain.vo.AnexoHistoricoVO;
-import br.com.api.calculos.domain.vo.GenericParamIDVO;
 import br.com.api.calculos.domain.vo.PaginateParansVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -26,7 +19,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.ConstraintViolation;
 
 /**
  * Camada de controller da entidade anexo historico, recebe as requisições 
@@ -42,12 +34,6 @@ import jakarta.validation.ConstraintViolation;
 @Tag(name = "AnexoHistorico", description = "Endpoints para Gerenciar Historicos de Anexos")
 public class AnexoHistoricoController {
   
-    @Autowired
-    private LocalValidatorFactoryBean validator;
-
-    @Autowired
-    private AnexoHistoricoResponse anexoHistoricoResponse;
-
     @Autowired
     private AnexoHistoricoService service;
 
@@ -93,20 +79,10 @@ public class AnexoHistoricoController {
         @RequestParam(value = "page") String page,
         @RequestParam(value = "limit") String limit
     ){
-
-        PaginateParansVO pagVO = new PaginateParansVO(page, limit);
-
-        Set<ConstraintViolation<PaginateParansVO>> erros = validator.validate(pagVO);
-
-        if( !erros.isEmpty() ){
-            return anexoHistoricoResponse.buildResponseErrosPaginacao(erros);
-        }
-
-        Integer vPage = Integer.valueOf(page);
-
-        final Pageable paginacao = PageRequest.of(--vPage, Integer.valueOf(limit));
-        return ResponseEntity.ok(service.listar(paginacao));
-
+    	
+    	PaginateParansVO pagVO = new PaginateParansVO(page, limit);
+        return service.listar(pagVO);
+        
     }
 
     /**
@@ -146,17 +122,7 @@ public class AnexoHistoricoController {
         }
     )
     public ResponseEntity<?> listarPorAnexoId(@PathVariable(value = "idAnexo") String idAnexo){
-
-        GenericParamIDVO idVO = new GenericParamIDVO(idAnexo);
-
-        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
-
-        if( !erros.isEmpty() ){
-            return anexoHistoricoResponse.buildResponseErrosParamId(erros);
-        }
-
-        return ResponseEntity.ok( service.listarPorAnexoId(Long.valueOf(idAnexo)) );
-
+        return service.listarPorAnexoId(idAnexo);
     }
 
 }

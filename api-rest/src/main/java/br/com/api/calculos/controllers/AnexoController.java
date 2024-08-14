@@ -1,15 +1,10 @@
 package br.com.api.calculos.controllers;
 
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.api.calculos.domain.response.AnexoResponse;
 import br.com.api.calculos.domain.service.AnexoService;
 import br.com.api.calculos.domain.vo.AnexoVO;
-import br.com.api.calculos.domain.vo.GenericParamIDVO;
 import br.com.api.calculos.domain.vo.ListaAnexosVO;
 import br.com.api.calculos.domain.vo.PaginateParansVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +24,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.ConstraintViolation;
 
 /**
  * Camada de controller da entidade usuario, recebe as requisições 
@@ -42,9 +35,6 @@ import jakarta.validation.ConstraintViolation;
 @Tag(name = "Anexo", description = "Endpoints para Gerenciar Anexos")
 public class AnexoController {
     
-    @Autowired
-    private LocalValidatorFactoryBean validator;
-
     @Autowired
     private AnexoResponse anexoResponse;
 
@@ -95,17 +85,7 @@ public class AnexoController {
     ){
 
         PaginateParansVO pagVO = new PaginateParansVO(page, limit);
-
-        Set<ConstraintViolation<PaginateParansVO>> erros = validator.validate(pagVO);
-
-        if( !erros.isEmpty() ){
-            return anexoResponse.buildResponseErrosPaginacao(erros);
-        }
-
-        Integer vPage = Integer.valueOf(page);
-
-        final Pageable paginacao = PageRequest.of(--vPage, Integer.valueOf(limit));
-        return ResponseEntity.ok(service.listar(paginacao));
+        return service.listar(pagVO);
 
     }
 
@@ -146,17 +126,7 @@ public class AnexoController {
         }
     )
     public ResponseEntity<?> detalhar(@PathVariable(value = "id") String id){
-
-        GenericParamIDVO idVO = new GenericParamIDVO(id);
-
-        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
-
-        if( !erros.isEmpty() ){
-            return anexoResponse.buildResponseErrosParamId(erros);
-        }
-
-        return ResponseEntity.ok( service.detalhar(Long.valueOf(id)) );
-
+    	return service.detalhar(id);
     }
 
     /**
@@ -197,29 +167,11 @@ public class AnexoController {
         }
     )
     public ResponseEntity<?> uploadCsv(@RequestParam(value = "file") MultipartFile file){
-        
         try{
-
-            if( !Objects.isNull(file.getContentType())
-                && !file.getContentType().equals("text/csv")  ){
-                return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "Era esperado um arquivo text/csv"));
-            }
-
-            final String conteudoArquivo = new String( file.getBytes() );
-
-            int totalLinhas = conteudoArquivo.split("\n").length;
-
-            //valida total de 50 linhas mais a linha de cabeçalho
-            if(conteudoArquivo.isEmpty() || totalLinhas > 51){
-                return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "O arquivo deve ter no mínimo 1 linha e no máximo 50 linhas além da linha de cabeçalho"));
-            }
-
-            return ResponseEntity.ok( service.uploadCsv(file) );
-
+            return service.uploadCsv(file);
         }catch(final Exception exception){
             return anexoResponse.buildResponseErros(Map.of("conteudoArquivo", "Por favor, revise o conteúdo do arquivo"));
         }
-
     }
 
     /**
@@ -251,17 +203,7 @@ public class AnexoController {
         }
     )
     public ResponseEntity<?> downloadCsv(@PathVariable(value = "id") String id){
-
-        GenericParamIDVO idVO = new GenericParamIDVO(id);
-
-        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
-
-        if( !erros.isEmpty() ){
-            return anexoResponse.buildResponseErrosParamId(erros);
-        }
-
-        return service.downloadCsv(Long.valueOf(id));
-
+        return service.downloadCsv(id);
     }
 
 }

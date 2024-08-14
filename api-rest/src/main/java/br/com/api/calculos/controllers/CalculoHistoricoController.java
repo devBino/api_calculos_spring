@@ -1,13 +1,8 @@
 package br.com.api.calculos.controllers;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.calculos.domain.response.CalculoHistoricoResponse;
 import br.com.api.calculos.domain.service.CalculoHistoricoService;
 import br.com.api.calculos.domain.vo.AnexoHistoricoVO;
 import br.com.api.calculos.domain.vo.CalculoHistoricoVO;
-import br.com.api.calculos.domain.vo.GenericParamIDVO;
 import br.com.api.calculos.domain.vo.PaginateParansVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -27,7 +20,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.ConstraintViolation;
 
 /**
  * Camada de controller da entidade calculo historico, recebe as requisições 
@@ -42,12 +34,6 @@ import jakarta.validation.ConstraintViolation;
 @Tag(name = "CalculoHistorico", description = "Endpoints para Gerenciar Historicos dos Calculos")
 public class CalculoHistoricoController {
     
-    @Autowired
-    private LocalValidatorFactoryBean validator;
-
-    @Autowired
-    private CalculoHistoricoResponse calculoHistoricoResponse;
-
     @Autowired
     private CalculoHistoricoService service;
 
@@ -95,17 +81,7 @@ public class CalculoHistoricoController {
     ){
         
         PaginateParansVO pagVO = new PaginateParansVO(page, limit);
-
-        Set<ConstraintViolation<PaginateParansVO>> erros = validator.validate(pagVO);
-
-        if( !erros.isEmpty() ){
-            return calculoHistoricoResponse.buildResponseErrosPaginacao(erros);
-        }
-
-        Integer vPage = Integer.valueOf(page);
-
-        final Pageable paginacao = PageRequest.of(--vPage, Integer.valueOf(limit));
-        return ResponseEntity.ok(service.listar(paginacao));
+        return service.listar(pagVO);
 
     }
 
@@ -146,17 +122,7 @@ public class CalculoHistoricoController {
         }
     )
     public ResponseEntity<?> listarPorCalculoId(@PathVariable(value = "idCalculo") String idCalculo){
-        
-        GenericParamIDVO idVO = new GenericParamIDVO(idCalculo);
-
-        Set<ConstraintViolation<GenericParamIDVO>> erros = validator.validate(idVO);
-
-        if( !erros.isEmpty() ){
-            return calculoHistoricoResponse.buildResponseErrosParamId(erros);
-        }
-
-        return ResponseEntity.ok( service.listarPorCalculoId(Long.valueOf(idCalculo)) );
-
+        return service.listarPorCalculoId(idCalculo);
     }
 
 }
